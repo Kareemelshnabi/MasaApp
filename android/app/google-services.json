@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115383617408",
+    "project_id": "untiteld-13a78",
+    "storage_bucket": "untiteld-13a78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115383617408:android:37c3bf13dfd6d128116365",
+        "android_client_info": {
+          "package_name": "com.masApp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHa0E68ptyTu9UuIoGLCrwVA6qDY2oS80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

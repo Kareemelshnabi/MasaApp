@@ -1,0 +1,483 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mas_app/controller/profile/profile_controller.dart';
+import 'package:mas_app/core/class/status_request.dart';
+import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/main.dart';
+import 'package:mas_app/view/screens/home/home.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
+
+class EditProfile extends StatelessWidget {
+  const EditProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Get.put(ProfileController());
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: GetBuilder<ProfileController>(
+          builder: (controller) => controller.statuesRequest ==
+                  StatuesRequest.loading
+              ? SizedBox(
+                  height: 88.h,
+                  width: 100.w,
+                  child: const Center(child: CircularProgressIndicator()))
+              : Column(
+                  children: [
+                    appBarProfile(),
+                    GetBuilder<ProfileController>(
+                      builder: (controller) => topOfProfile(
+                          controller.image == null
+                              ? (sharedPreferences!.getString("img") == ""
+                                  ? Container(
+                                      padding: EdgeInsets.all(1.w),
+                                      margin: EdgeInsets.only(
+                                          top: 5.w, bottom: 5.w),
+                                      width: 20.w,
+                                      height: 20.w,
+                                      decoration: BoxDecoration(
+                                          color: LightMode.registerButtonBorder,
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              ImagesLink.noProfileImage,
+                                            ),
+                                            fit: BoxFit.fill,
+                                          )),
+                                    )
+                                  : Container(
+                                      padding: EdgeInsets.all(1.w),
+                                      margin: EdgeInsets.only(
+                                          top: 5.w, bottom: 5.w),
+                                      width: 20.w,
+                                      height: 20.w,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            image: CachedNetworkImageProvider(
+                                                sharedPreferences!
+                                                    .getString("img")!),
+                                            fit: BoxFit.fill,
+                                          )),
+                                    ))
+                              : Container(
+                                  padding: EdgeInsets.all(1.w),
+                                  margin:
+                                      EdgeInsets.only(top: 5.w, bottom: 5.w),
+                                  width: 20.w,
+                                  height: 20.w,
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: LightMode.splash),
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: FileImage(
+                                            controller.image!,
+                                          ),
+                                          fit: BoxFit.fill)),
+                                ), () {
+                        print("jjjjjjjjjjjjjj");
+                        controller.canEdit();
+
+                        controller.showMessageUpdateImage(context);
+                      }),
+                    ),
+                    GetBuilder<ProfileController>(
+                      builder: (controller) => Container(
+                        margin: EdgeInsets.only(
+                            top: 2.w, bottom: 2.w, right: 4.w, left: 4.w),
+                        child: Form(
+                          key: controller.profileGlobalKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              rowTitle(() {
+                                controller.canEdit();
+                              }, "المعلومات الشخصية", controller.edit),
+                              field("الاسم", controller.englishNameController,
+                                  "الاسم الأخير", controller.edit, (val) {
+                                return controller.nameValidate(val!);
+                              }, false, null, null, false),
+                              SizedBox(
+                                height: 3.w,
+                              ),
+                              field(
+                                  "البريد الإلكتروني",
+                                  controller.emailController,
+                                  "البريد الإلكتروني",
+                                  controller.edit, (val) {
+                                return controller.emailValidate(val!);
+                              }, false, null, null, false),
+                              SizedBox(
+                                height: 3.w,
+                              ),
+                              field("رقم الهاتف", controller.phoneController,
+                                  "رقم الهاتف", false, (val) {
+                                return null;
+                              }, false, null, null, false),
+                              SizedBox(
+                                height: 3.w,
+                              ),
+                              field("العنوان", controller.addressController,
+                                  "العنوان", controller.edit, (val) {
+                                return controller.addressValidate(val!);
+                              }, false, null, null, false),
+                              SizedBox(
+                                height: 3.w,
+                              ),
+                              field("الدولة", controller.countryController,
+                                  "الدولة", false, (val) {
+                                return null;
+                              }, false, null, null, false),
+                              SizedBox(
+                                height: 3.w,
+                              ),
+                              Text(
+                                "المحافظة",
+                                style: GoogleFonts.tajawal(
+                                    fontSize: 3.w, fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(
+                                height: 2.w,
+                              ),
+                              textFieldChooseGovernate(
+                                  controller.edit == true
+                                      ? () {
+                                          controller.showDialogGovernate();
+                                        }
+                                      : () {},
+                                  controller.governorateController),
+                              rowTitle(() {
+                                controller.canEdit();
+                              }, "معلومات الحساب", controller.edit),
+                              field(
+                                  "كلمة المرور الحالية",
+                                  controller.currentPasswordController,
+                                  "كلمة المرور الحالية",
+                                  controller.edit,
+                                  (val) {
+                                    return null;
+                                  },
+                                  controller.showPass1,
+                                  controller.showPass1 == false
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  () {
+                                    controller.showPassword1();
+                                  },
+                                  true),
+                              SizedBox(
+                                height: 3.w,
+                              ),
+                              field(
+                                  "كلمة المرور الجديدة",
+                                  controller.newPasswordController,
+                                  "كلمة المرور الجديدة",
+                                  controller.edit,
+                                  (val) {
+                                    return null;
+                                  },
+                                  controller.showPass3,
+                                  controller.showPass3 == false
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  () {
+                                    controller.showPassword3();
+                                  },
+                                  true),
+                              SizedBox(
+                                height: 3.w,
+                              ),
+                              field(
+                                  "تأكيد كلمة المرور",
+                                  controller.passwordConfirmationController,
+                                  "تأكيد كلمة المرور",
+                                  controller.edit,
+                                  (val) {
+                                    return controller
+                                        .passwordConfirmationValidate(val!);
+                                  },
+                                  controller.showPass2,
+                                  controller.showPass2 == false
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  () {
+                                    controller.showPassword2();
+                                  },
+                                  true),
+                              SizedBox(
+                                height: 5.w,
+                              ),
+                              controller.edit == true
+                                  ? onBtnClickSave("حفظ التغييرات", () async {
+                                      controller.canEdit();
+                                      await controller.updateProfile();
+                                      if (controller.succsess == true) {
+                                        controller.showSuccsessUpdate();
+                                        Timer(
+                                          const Duration(milliseconds: 2000),
+                                          () {
+                                            Get.offAll(() => const Home());
+                                          },
+                                        );
+                                      } else {}
+                                    })
+                                  : const SizedBox(),
+                              SizedBox(
+                                height: 5.w,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget textFieldChooseGovernate(onPress, governateController) {
+  return InkWell(
+    onTap: onPress,
+    child: Container(
+      margin: EdgeInsets.only(bottom: 5.w),
+      width: 90.w,
+      height: 9.h,
+      child: TextFormField(
+        style: GoogleFonts.tajawal(
+            color: LightMode.splash,
+            fontSize: 4.w,
+            fontWeight: FontWeight.w500),
+        controller: governateController,
+        decoration: InputDecoration(
+          enabled: false,
+          hintStyle: GoogleFonts.tajawal(
+              color: LightMode.splash,
+              fontSize: 4.w,
+              fontWeight: FontWeight.w500),
+          hintText: "اضغط لاختيار المحافظة",
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: LightMode.splash,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: LightMode.splash,
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: LightMode.splash,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget appBarProfile() {
+  return SizedBox(
+    width: 100.w,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: EdgeInsets.only(top: 7.w),
+            child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.arrow_back_ios)),
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: Container(
+            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 17.w),
+            child: Text(
+              "تعديل البروفايل ",
+              style: GoogleFonts.tajawal(
+                fontSize: 5.w,
+                fontWeight: FontWeight.bold,
+                color: LightMode.registerButtonBorder,
+              ),
+            ),
+          ),
+        ),
+        Expanded(flex: 1, child: Container()),
+      ],
+    ),
+  );
+}
+
+Widget topOfProfile(img, onPress) {
+  return Container(
+    padding: EdgeInsets.all(5.w),
+    width: 65.w,
+    height: 28.5.h,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(3.w),
+      border: Border.all(color: LightMode.splash, width: 2),
+    ),
+    child: Column(
+      children: [
+        Text(
+          "صورة",
+          style: GoogleFonts.tajawal(
+              fontSize: 3.w,
+              fontWeight: FontWeight.w700,
+              color: LightMode.splash),
+        ),
+        img,
+        onBtnClick("تغيير الصورة", onPress)
+      ],
+    ),
+  );
+}
+
+Widget onBtnClick(text, onPress) {
+  return SizedBox(
+    width: 30.w,
+    height: 3.h,
+    child: ElevatedButton(
+        style:
+            ElevatedButton.styleFrom(backgroundColor: LightMode.typeUserButton),
+        onPressed: onPress,
+        child: Text(
+          text,
+          style: GoogleFonts.tajawal(
+              color: LightMode.onBoardOneText,
+              fontSize: 3.w,
+              fontWeight: FontWeight.w500),
+        )),
+  );
+}
+
+Widget onBtnClickSave(text, onPress) {
+  return SizedBox(
+    width: 100.w,
+    height: 6.h,
+    child: ElevatedButton(
+        style: ElevatedButton.styleFrom(backgroundColor: LightMode.splash),
+        onPressed: onPress,
+        child: Text(
+          text,
+          style: GoogleFonts.tajawal(
+              color: LightMode.registerText,
+              fontSize: 4.w,
+              fontWeight: FontWeight.w500),
+        )),
+  );
+}
+
+Widget field(title, controller, hintText, edit,
+    String? Function(String?)? onValidate, obscure, icon, onPressShow, pass) {
+  return SizedBox(
+    width: 100.w,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style:
+              GoogleFonts.tajawal(fontSize: 3.w, fontWeight: FontWeight.w500),
+        ),
+        SizedBox(
+          height: 3.w,
+        ),
+        textField(controller, hintText, edit, onValidate, obscure, icon,
+            onPressShow, pass)
+      ],
+    ),
+  );
+}
+
+Widget textField(controller, text, edit, String? Function(String?)? onValidate,
+    obscure, icon, onPressShow, pass) {
+  return SizedBox(
+    height: 9.h,
+    child: TextFormField(
+      obscureText: obscure == true ? true : false,
+      style: GoogleFonts.tajawal(
+          color: LightMode.splash, fontSize: 3.w, fontWeight: FontWeight.w500),
+      validator: onValidate,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      controller: controller,
+      decoration: InputDecoration(
+        suffixIcon: pass == true
+            ? InkWell(
+                onTap: onPressShow,
+                child: Icon(
+                  icon,
+                  color: LightMode.splash,
+                ))
+            : null,
+        contentPadding: EdgeInsets.only(top: 1.w, right: 2.w),
+        hintStyle: GoogleFonts.tajawal(
+            color: LightMode.splash,
+            fontSize: 3.w,
+            fontWeight: FontWeight.w500),
+        hintText: text,
+        enabled: edit,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(2.w),
+          borderSide: BorderSide(
+            color: LightMode.splash,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(2.w),
+          borderSide: BorderSide(
+            color: LightMode.splash,
+          ),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(2.w),
+          borderSide: BorderSide(
+            color: LightMode.splash,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget rowTitle(onPress, text, edit) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        text,
+        style: GoogleFonts.tajawal(
+          fontSize: 4.w,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      TextButton(
+          onPressed: onPress,
+          child: Text(
+            edit == true ? "" : "تعديل",
+            style: GoogleFonts.tajawal(
+              color: LightMode.splash,
+              fontSize: 3.w,
+              fontWeight: FontWeight.w700,
+            ),
+          ))
+    ],
+  );
+}
