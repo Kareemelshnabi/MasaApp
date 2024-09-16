@@ -16,7 +16,7 @@ import '../../data/data source/register.dart';
 
 class ForgetPasswordController extends GetxController {
   GlobalKey<FormState> addNewPassGlobalKey = GlobalKey();
- // GlobalKey<FormState> forgetPassGlobalKey = GlobalKey();
+  // GlobalKey<FormState> forgetPassGlobalKey = GlobalKey();
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -48,7 +48,7 @@ class ForgetPasswordController extends GetxController {
     }
   }
 
-  passwordValidate(String val,context) {
+  passwordValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPass_1;
     } else if (val.length < 8) {
@@ -60,7 +60,7 @@ class ForgetPasswordController extends GetxController {
     }
   }
 
-  passwordConfirmationValidate(String val,context) {
+  passwordConfirmationValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
     } else if (passwordController.text != passwordConfirmationController.text) {
@@ -76,14 +76,19 @@ class ForgetPasswordController extends GetxController {
     return regExp.hasMatch(phoneNumber);
   }
 
-  phoneValidate(String val,context) {
+  phoneValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
-    } else if (!val.isPhoneNumber) {
-      return S.of(context).errorPhone_2;
-    } else if (!isValidPhoneNumber(val)) {
-      return S.of(context).errorPhone_3;
-    } else if (isValidPhoneNumber(val)) {
+  //  } else if (!val.isPhoneNumber) {
+    //  return S.of(context).errorPhone_2;
+    } else if (val.length < 8 || val.length > 8) {
+      return "رقم الهاتف المدخل خطأ";
+    }
+    //  else if (!isValidPhoneNumber(val)) {
+    //   return S.of(context).errorPhone_3;
+    // }
+    else {
+      // if (isValidPhoneNumber(val)) {
       return null;
     }
   }
@@ -92,10 +97,9 @@ class ForgetPasswordController extends GetxController {
     if (addNewPassGlobalKey.currentState!.validate()) {
       statuesRequest = StatuesRequest.loading;
       update();
-      
+
       var response = await registerRemoteData.forgetPassword(
-         phoneController.text,
-          passwordController.text);
+          phoneController.text, passwordController.text);
       print(response);
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
@@ -168,7 +172,7 @@ class ForgetPasswordController extends GetxController {
   //   update();
   // }
 
-   messageHandleException(message, context) {
+  messageHandleException(message, context) {
     Get.defaultDialog(
         title: S.of(context).error,
         content: Column(

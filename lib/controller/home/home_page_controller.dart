@@ -8,11 +8,14 @@ import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/function/handling_data.dart';
 import 'package:mas_app/data/data%20source/orders.dart';
+import 'package:mas_app/data/data%20source/register.dart';
 import 'package:mas_app/data/data%20source/search.dart';
 import 'package:mas_app/data/data%20source/services.dart';
+import 'package:mas_app/data/model/country_model.dart';
 import 'package:mas_app/data/model/product_model.dart';
 import 'package:mas_app/data/model/service_model.dart';
 import 'package:mas_app/data/model/store_order_model.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/main_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -20,6 +23,11 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 class HomePageController extends GetxController {
   SpeechToText speechToText = SpeechToText();
+  RegisterRemoteData registerRemoteData = RegisterRemoteData(Get.put(Api()));
+
+  CountryMoodel? countryMoodel;
+  String governorateId = '';
+  String governorateName = '';
 
   bool speechEnabled = false;
   // String wordsSpoken = "";
@@ -321,12 +329,221 @@ class HomePageController extends GetxController {
         ));
   }
 
+  getCountries(context) async {
+    var response = await registerRemoteData.getCountry();
+    print(response);
+
+    statuesRequest = handlingData(response);
+    if (statuesRequest == StatuesRequest.success) {
+      Map<String, dynamic> responseBody = response['data'][0];
+      print("response :: $responseBody");
+      countryMoodel = CountryMoodel.fromJson(responseBody);
+    } else if (statuesRequest == StatuesRequest.unprocessableException) {
+      messageHandleException(
+        "خطأ",
+      );
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(
+        S.of(context).noInternetApi,
+      );
+    } else if (statuesRequest == StatuesRequest.serverException) {
+      messageHandleException(
+        S.of(context).serverException,
+      );
+    } else if (statuesRequest == StatuesRequest.unExpectedException) {
+      messageHandleException(
+        S.of(context).unExcepectedException,
+      );
+    } else if (statuesRequest == StatuesRequest.defaultException) {
+      messageHandleException(
+        S.of(context).errorPhoneUseBeforeApi,
+      );
+    } else if (statuesRequest == StatuesRequest.serverError) {
+      messageHandleException(
+        S.of(context).serverError,
+      );
+    } else if (statuesRequest == StatuesRequest.timeoutException) {
+      messageHandleException(
+        S.of(context).timeOutException,
+      );
+    } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+      messageHandleException(
+        S.of(context).passwordNotCorrect,
+      );
+    }
+
+    update();
+  }
+
+  showDialogGovernate() {
+    return showDialog(
+      context: Get.context!,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: SizedBox(
+          width: 80.w,
+          height: 50.h,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(right: 5.w),
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(2.w),
+                      topRight: Radius.circular(2.w)),
+                  color: LightMode.splash,
+                ),
+                width: 80.w,
+                height: 8.h,
+                child: Text(
+                  "اختار محافظتك",
+                  style: GoogleFonts.tajawal(
+                      fontSize: 5.w,
+                      color: LightMode.registerText,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              SizedBox(
+                width: 80.w,
+                height: 42.h,
+                child: ListView.separated(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            governorateId = countryMoodel!
+                                .governorates![index].id
+                                .toString();
+                            governorateName =
+                                countryMoodel!.governorates![index].name!;
+
+                            Get.back();
+                            update();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(top: 3.w, right: 5.w),
+                            height: 6.h,
+                            width: 80.w,
+                            child: Text(
+                              countryMoodel!.governorates![index].name!,
+                              style: GoogleFonts.tajawal(
+                                  fontSize: 4.w,
+                                  color: LightMode.registerButtonBorder,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ),
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: countryMoodel!.governorates!.length),
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  messageAddressDelivery(onPressConfirm) {
+    Get.defaultDialog(
+        title: "تأكيد العنوان",
+        titleStyle: GoogleFonts.tajawal(
+            fontSize: 5.w,
+            color: LightMode.registerButtonBorder,
+            fontWeight: FontWeight.w500),
+        content: Container(
+          margin: EdgeInsets.only(right: 3.w, left: 3.w, bottom: 3.w),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () async {
+                  await showDialogGovernate();
+                  Get.back();
+                  messageAddressDelivery(onPressConfirm);
+                },
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  width: 70.w,
+                  height: 6.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3.w),
+                      border: Border.all(color: LightMode.splash)),
+                  child: Text(
+                    governorateName,
+                    style: GoogleFonts.tajawal(
+                        fontSize: 4.w,
+                        color: LightMode.splash,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 4.w,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: onPressConfirm,
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 30.w,
+                      height: 5.h,
+                      decoration: BoxDecoration(
+                          color: LightMode.splash,
+                          borderRadius: BorderRadius.circular(4.w),
+                          border:
+                              Border.all(color: LightMode.splash, width: 2)),
+                      child: Text(
+                        "تأكيد",
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.registerText,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 30.w,
+                      height: 5.h,
+                      decoration: BoxDecoration(
+                          color: LightMode.registerText,
+                          borderRadius: BorderRadius.circular(4.w),
+                          border:
+                              Border.all(color: LightMode.splash, width: 2)),
+                      child: Text(
+                        "إلغاء",
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.splash,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ));
+  }
+
   @override
   void onInit() {
-    // sharedPreferences!.clear();
+    governorateName = sharedPreferences!.getString("governorate") == null
+        ? ""
+        : sharedPreferences!.getString("governorate")!;
+    governorateId = sharedPreferences!.getString("governorateId") == null
+        ? ""
+        : sharedPreferences!.getString("governorateId")!;
+    print("  >>>>>>>>  $governorateName");
     initSpeech();
-
-    // getLocation();
+    getCountries(Get.context);
     getServices();
 
     super.onInit();

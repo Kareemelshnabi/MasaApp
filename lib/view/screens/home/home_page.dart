@@ -137,35 +137,40 @@ class HomePage extends StatelessWidget {
                                                       controller.message(
                                                           "الرجاء تسجيل الخول أو انشاء حساب");
                                                     } else {
-                                                      await controller
-                                                          .storeOrder(
-                                                              controller
-                                                                  .searchItems[
-                                                                      index]
-                                                                  .id,
-                                                              "product",
-                                                              "1");
+                                                      controller
+                                                          .messageAddressDelivery(
+                                                              () async {
+                                                        await controller
+                                                            .storeOrder(
+                                                                controller
+                                                                    .searchItems[
+                                                                        index]
+                                                                    .id,
+                                                                "product",
+                                                                "1");
 
-                                                      if (controller.succsess ==
-                                                          true) {
-                                                        Get.to(
-                                                            () =>
-                                                                const ChatPage(),
-                                                            arguments: {
-                                                              "chatId": controller
-                                                                  .storeOrderModel!
-                                                                  .id,
-                                                              "imageUser":
-                                                                  controller
-                                                                      .storeOrderModel!
-                                                                      .client!
-                                                                      .image,
-                                                              "nameOfOrder":
-                                                                  controller
-                                                                      .storeOrderModel!
-                                                                      .name
-                                                            });
-                                                      }
+                                                        if (controller
+                                                                .succsess ==
+                                                            true) {
+                                                          Get.to(
+                                                              () =>
+                                                                  const ChatPage(),
+                                                              arguments: {
+                                                                "chatId": controller
+                                                                    .storeOrderModel!
+                                                                    .id,
+                                                                "imageUser":
+                                                                    controller
+                                                                        .storeOrderModel!
+                                                                        .client!
+                                                                        .image,
+                                                                "nameOfOrder":
+                                                                    controller
+                                                                        .storeOrderModel!
+                                                                        .name
+                                                              });
+                                                        }
+                                                      });
                                                     }
                                                   },
                                                   controller
@@ -238,7 +243,9 @@ class HomePage extends StatelessWidget {
                                               controller.message(
                                                   "الرجاء تسجيل الدخول أو انشاء حساب");
                                             } else {
-                                              await controller.storeOrder(
+                                              controller.messageAddressDelivery(
+                                                  ()async {
+await controller.storeOrder(
                                                   controller.services[index].id,
                                                   "service",
                                                   "1");
@@ -255,6 +262,8 @@ class HomePage extends StatelessWidget {
                                                           .storeOrderModel!.name
                                                     });
                                               }
+                                                  });
+                                              
                                             }
                                           } else {
                                             Get.to(() => const CategoriesPage(),

@@ -90,25 +90,28 @@ class ItemInfo extends StatelessWidget {
                                             controller.message(
                                                 "الرجاء تسجيل الدخول أو انشاء حساب");
                                           } else {
-                                            await controller.storeOrder(
-                                                controller
-                                                    .searchItems[index].id,
-                                                "product",
-                                                "1");
+                                            controller.messageAddressDelivery(
+                                                () async {
+                                              await controller.storeOrder(
+                                                  controller
+                                                      .searchItems[index].id,
+                                                  "product",
+                                                  "1");
 
-                                            if (controller.succsess == true) {
-                                              Get.to(() => const ChatPage(),
-                                                  arguments: {
-                                                    "chatId": controller
-                                                        .storeOrderModel!.id,
-                                                    "imageUser": controller
-                                                        .storeOrderModel!
-                                                        .client!
-                                                        .image,
-                                                    "nameOfOrder": controller
-                                                        .storeOrderModel!.name
-                                                  });
-                                            }
+                                              if (controller.succsess == true) {
+                                                Get.to(() => const ChatPage(),
+                                                    arguments: {
+                                                      "chatId": controller
+                                                          .storeOrderModel!.id,
+                                                      "imageUser": controller
+                                                          .storeOrderModel!
+                                                          .client!
+                                                          .image,
+                                                      "nameOfOrder": controller
+                                                          .storeOrderModel!.name
+                                                    });
+                                              }
+                                            });
                                           }
                                         },
                                         controller.searchItems[index].price,
@@ -316,26 +319,30 @@ class ItemInfo extends StatelessWidget {
                               controller.message(
                                   "الرجاء  تسجيل الدخول أو انشاء حساب");
                             } else {
-                              controller.index == null
-                                  ? await controller.storeOrder(
-                                      controller.productInfo!.id.toString(),
-                                      "product",
-                                      controller.quantity.toString())
-                                  : controller.storeOrder(
-                                      controller.productInfo!
-                                          .specifications![controller.index!].id
-                                          .toString(),
-                                      "product_specifications",
-                                      controller.quantity.toString());
-                              if (controller.succsess == true) {
-                                Get.to(() => const ChatPage(), arguments: {
-                                  "chatId": controller.storeOrderModel!.id,
-                                  "imageUser":
-                                      controller.storeOrderModel!.client!.image,
-                                  "nameOfOrder":
-                                      controller.storeOrderModel!.name
-                                });
-                              }
+                              controller.messageAddressDelivery(() async {
+                                controller.index == null
+                                    ? await controller.storeOrder(
+                                        controller.productInfo!.id.toString(),
+                                        "product",
+                                        controller.quantity.toString())
+                                    : controller.storeOrder(
+                                        controller
+                                            .productInfo!
+                                            .specifications![controller.index!]
+                                            .id
+                                            .toString(),
+                                        "product_specifications",
+                                        controller.quantity.toString());
+                                if (controller.succsess == true) {
+                                  Get.to(() => const ChatPage(), arguments: {
+                                    "chatId": controller.storeOrderModel!.id,
+                                    "imageUser": controller
+                                        .storeOrderModel!.client!.image,
+                                    "nameOfOrder":
+                                        controller.storeOrderModel!.name
+                                  });
+                                }
+                              });
                             }
                           } else {
                             controller.showMessageWarning();

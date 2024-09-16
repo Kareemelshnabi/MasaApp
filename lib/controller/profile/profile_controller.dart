@@ -331,7 +331,7 @@ class ProfileController extends GetxController {
               : governorateId);
       print(response);
       print(
-          " ${newPasswordController.text} ${currentPasswordController.text == "" ? "null" : currentPasswordController.text.toString()} ${englishNameController.text}  ${emailController.text}  ${phoneController.text}  ${addressController.text}  ${countryController.text}");
+          "${governorateController.text} ${newPasswordController.text} ${currentPasswordController.text == "" ? "null" : currentPasswordController.text.toString()} ${englishNameController.text}  ${emailController.text}  ${phoneController.text}  ${addressController.text}  ${countryController.text}");
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
         Map responseBody = response['data'];
@@ -345,7 +345,7 @@ class ProfileController extends GetxController {
 
         sharedPreferences!
             .setString("governorate", "${responseBody['governorate_name']}");
-
+        print(sharedPreferences!.getString("governorate"));
         sharedPreferences!.setString("pageStart", "Home");
         succsess = true;
       } else if (statuesRequest == StatuesRequest.badRequestException) {

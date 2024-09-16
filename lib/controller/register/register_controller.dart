@@ -39,38 +39,6 @@ class RegisterController extends GetxController {
   CountryMoodel? countryMoodel;
   String governorateId = '';
 
-  Future<void> verifyPhoneNumber() async {
-    print("mmmmmm  mmmm  mmm");
-    FirebaseAuth.instance.setLanguageCode('en'); // Set locale for SMS messages
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      // phoneNumber: phoneController.text, // Example: +1234567890
-      phoneNumber: "+201281265373",
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        print("phoneeeeeeeee");
-        // Automatically sign in when the verification is completed (optional)
-        await FirebaseAuth.instance.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        // Handle the error
-        print('Phone number verification failed: ${e.message}');
-      },
-      codeSent: (String verifyId, int? resendToken) {
-        // Save the verification ID to verify later
-
-        verificationId = verifyId;
-        update();
-      },
-      codeAutoRetrievalTimeout: (String verifyId) {
-        print("jjjjjjjjjjj");
-        verificationId = verifyId;
-        update();
-      },
-      timeout: const Duration(seconds: 120),
-      forceResendingToken: null,
-    );
-  }
-
   showDialogGovernate() {
     return showDialog(
       context: Get.context!,
@@ -204,11 +172,16 @@ class RegisterController extends GetxController {
   phoneValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
-    } else if (!val.isPhoneNumber) {
-      return S.of(context).errorPhone_2;
-    } else if (!isValidPhoneNumber(val)) {
-      return S.of(context).errorPhone_3;
-    } else if (isValidPhoneNumber(val)) {
+      //} else if (!val.isPhoneNumber) {
+      //   return S.of(context).errorPhone_2;
+    } else if (val.length < 8 || val.length > 8) {
+      return "رقم الهاتف المدخل خطأ";
+    }
+    //  else if (!isValidPhoneNumber(val)) {
+    //   return S.of(context).errorPhone_3;
+    // }
+    else {
+      // if (isValidPhoneNumber(val)) {
       return null;
     }
   }
@@ -302,7 +275,6 @@ class RegisterController extends GetxController {
 
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
-        await verifyPhoneNumber();
         Map responseBody = response['data'];
         print("response :: $responseBody");
 
@@ -322,7 +294,7 @@ class RegisterController extends GetxController {
 
         sharedPreferences!
             .setString("governorate", "${responseBody['governorate']['name']}");
-
+        print(sharedPreferences!.getString("governorate"));
         sharedPreferences!.setString("pageStart", "verifyRegister");
         Get.to(() => const VerifyCodeRegister());
       } else if (statuesRequest == StatuesRequest.unprocessableException) {

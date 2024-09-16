@@ -10,19 +10,16 @@ class RegisterRemoteData {
   signUp(String nameEn, String email, String phone, String address, String lat,
       String lng, String password, governorateId) async {
     var response = await api.postData(AppLinks.registerLink, {
-      // "Accept": "application/json",
+      //"Accept": "application/json",
     }, {
       "name": nameEn.toString(),
       "email": email.toString(),
       "password": password.toString(),
       "phone": phone.toString(),
-      "image": "",
       "address": address.toString(),
       "country": "Kuwait",
-      "lat": lat == "null" ? "" : lat,
-      "lng": lng == "null" ? "" : lng,
       "country_id": "1",
-      "governorate_id": governorateId
+      "governorate_id": governorateId.toString()
     });
     return response.fold((l) => l, (r) => r);
   }
@@ -95,11 +92,8 @@ class RegisterRemoteData {
 
   //getCountries
   getCountry() async {
-    var response = await api.getData(AppLinks.getCountries, {
-      "Accept": "application/json",
-      "Accept-Language":
-          sharedPreferences!.getString("local") == "ar" ? "ar" : "en"
-    });
+    var response = await api.getData(AppLinks.getCountries,
+        {"Accept": "application/json", "Accept-Language": "ar"});
     return response.fold((l) => l, (r) => r);
   }
 }

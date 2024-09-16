@@ -98,31 +98,39 @@ class ItemsPage extends StatelessWidget {
                                                       controller.message(
                                                           "الرجاء تسجيل الدخول أو انشاء الحساب");
                                                     } else {
-                                                      await controller.storeOrder(
-                                                          controller
-                                                              .searchItems[index]
-                                                              .id,
-                                                          "product",
-                                                          "1");
-                                                      if (controller.succsess ==
-                                                          true) {
-                                                        Get.to(
-                                                            () =>
-                                                                const ChatPage(),
-                                                            arguments: {
-                                                              "chatId": controller
-                                                                  .storeOrderModel!
-                                                                  .id,
-                                                              "imageUser": controller
-                                                                  .storeOrderModel!
-                                                                  .client!
-                                                                  .image,
-                                                              "nameOfOrder":
-                                                                  controller
-                                                                      .storeOrderModel!
-                                                                      .name
-                                                            });
-                                                      }
+                                                      controller
+                                                          .messageAddressDelivery(
+                                                              () async {
+                                                        await controller
+                                                            .storeOrder(
+                                                                controller
+                                                                    .searchItems[
+                                                                        index]
+                                                                    .id,
+                                                                "product",
+                                                                "1");
+                                                        if (controller
+                                                                .succsess ==
+                                                            true) {
+                                                          Get.to(
+                                                              () =>
+                                                                  const ChatPage(),
+                                                              arguments: {
+                                                                "chatId": controller
+                                                                    .storeOrderModel!
+                                                                    .id,
+                                                                "imageUser":
+                                                                    controller
+                                                                        .storeOrderModel!
+                                                                        .client!
+                                                                        .image,
+                                                                "nameOfOrder":
+                                                                    controller
+                                                                        .storeOrderModel!
+                                                                        .name
+                                                              });
+                                                        }
+                                                      });
                                                     }
                                                   },
                                                   controller
@@ -143,14 +151,16 @@ class ItemsPage extends StatelessWidget {
                                                         )
                                                       : CachedNetworkImage(
                                                           imageUrl: controller
-                                                              .searchItems[index]
+                                                              .searchItems[
+                                                                  index]
                                                               .images![0],
                                                           width: 15.w,
                                                           height: 15.w,
                                                           fit: BoxFit.fill,
                                                         ),
                                                   () {
-                                                    Get.to(() => const ItemInfo(),
+                                                    Get.to(
+                                                        () => const ItemInfo(),
                                                         arguments: {
                                                           "productInfo":
                                                               controller
@@ -159,8 +169,8 @@ class ItemsPage extends StatelessWidget {
                                                                   .toJson()
                                                         });
                                                   },
-                                                  controller
-                                                      .searchItems[index].rating),
+                                                  controller.searchItems[index]
+                                                      .rating),
                                           itemCount:
                                               controller.searchItems.length,
                                           padding: EdgeInsets.only(top: 4.w),
@@ -186,11 +196,33 @@ class ItemsPage extends StatelessWidget {
                                               controller.message(
                                                   "الرجاء تسجيل الدخول أو انشاء حساب");
                                             } else {
+                                              controller.messageAddressDelivery(
+                                                  ()async {
+await controller.storeOrder(
+                                                  controller.products[index].id,
+                                                  "product",
+                                                  "1");
+
+                                              if (controller.succsess == true) {
+                                                Get.to(() => const ChatPage(),
+                                                    arguments: {
+                                                      "chatId": controller
+                                                          .storeOrderModel!.id,
+                                                      "imageUser": controller
+                                                          .storeOrderModel!
+                                                          .client!
+                                                          .image,
+                                                      "nameOfOrder": controller
+                                                          .storeOrderModel!.name
+                                                    });
+                                              }
+                                                  });
+
                                               await controller.storeOrder(
                                                   controller.products[index].id,
                                                   "product",
                                                   "1");
-              
+
                                               if (controller.succsess == true) {
                                                 Get.to(() => const ChatPage(),
                                                     arguments: {
@@ -207,12 +239,13 @@ class ItemsPage extends StatelessWidget {
                                             }
                                           },
                                           controller.products[index].price,
+                                          controller.products[index]
+                                              .priceAfterDiscount,
                                           controller
-                                              .products[index].priceAfterDiscount,
-                                          controller.products[index].description,
+                                              .products[index].description,
                                           controller.products[index].name,
-                                          controller
-                                                  .products[index].images!.isEmpty
+                                          controller.products[index].images!
+                                                  .isEmpty
                                               ? Image.asset(
                                                   ImagesLink.noImage,
                                                   width: 15.w,
@@ -221,7 +254,8 @@ class ItemsPage extends StatelessWidget {
                                                 )
                                               : CachedNetworkImage(
                                                   imageUrl: controller
-                                                      .products[index].images![0],
+                                                      .products[index]
+                                                      .images![0],
                                                   width: 15.w,
                                                   height: 15.w,
                                                   fit: BoxFit.fill,

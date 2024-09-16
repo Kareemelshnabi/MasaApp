@@ -34,20 +34,25 @@ class LoginController extends GetxController {
     }
   }
 
-  bool isValidPhoneNumber(String phoneNumber) {
-    String p = r'^(?:\+965)?[5692]\d{7}$';
-    RegExp regExp = RegExp(p);
-    return regExp.hasMatch(phoneNumber);
-  }
+  // bool isValidPhoneNumber(String phoneNumber) {
+  //   String p = r'^(?:\+965)?[5692]\d{7}$';
+  //   RegExp regExp = RegExp(p);
+  //   return regExp.hasMatch(phoneNumber);
+  // }
 
   phoneValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
-    } else if (!val.isPhoneNumber) {
-      return S.of(context).errorPhone_2;
-    } else if (!isValidPhoneNumber(val)) {
-      return S.of(context).errorPhone_3;
-    } else if (isValidPhoneNumber(val)) {
+      // } else if (!val.isPhoneNumber) {
+      // return S.of(context).errorPhone_2;
+    } else if (val.length < 8 || val.length > 8) {
+      return "رقم الهاتف المدخل خطأ";
+    }
+    //  else if (!isValidPhoneNumber(val)) {
+    //   return S.of(context).errorPhone_3;
+    // }
+    else {
+      // if (isValidPhoneNumber(val)) {
       return null;
     }
   }
@@ -64,38 +69,6 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> verifyPhoneNumber() async {
-    print("mmmmmmmmmmmmm");
-    FirebaseAuth.instance.setLanguageCode('en'); // Set locale for SMS messages
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      // phoneNumber: phoneController.text, // Example: +1234567890
-      phoneNumber: "+201281265373",
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        print("phoneeeeeeeee");
-        // Automatically sign in when the verification is completed (optional)
-        await FirebaseAuth.instance.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        // Handle the error
-        print('Phone number verification failed: ${e.message}');
-      },
-      codeSent: (String verifyId, int? resendToken) {
-        // Save the verification ID to verify later
-
-        verificationId = verifyId;
-        update();
-      },
-      codeAutoRetrievalTimeout: (String verifyId) {
-        print("jjjjjjjjjjj");
-        verificationId = verifyId;
-        update();
-      },
-      timeout: const Duration(seconds: 120),
-      forceResendingToken: null,
-    );
-  }
-
   login(context) async {
     if (loginGlobalKey.currentState!.validate()) {
       print("nnn");
@@ -106,7 +79,6 @@ class LoginController extends GetxController {
       print(response);
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
-        await verifyPhoneNumber();
         Map responseBody = response['data'];
         print("response :: $responseBody");
         print("response :: ${responseBody['name']}");
@@ -129,7 +101,8 @@ class LoginController extends GetxController {
         print(sharedPreferences!.getString("governorate"));
         sharedPreferences!
             .setString("governorateId", "${responseBody['governorate']['id']}");
-
+        String text = responseBody['governorate']['name'];
+        print(text);
         sharedPreferences!.setString("pageStart", "verifyLogin");
         Get.to(() => const VerifyCodeLogin());
       } else if (statuesRequest == StatuesRequest.socketException) {
