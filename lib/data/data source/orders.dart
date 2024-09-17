@@ -6,7 +6,7 @@ import '../../core/class/api.dart';
 class OrdersRemoteData {
   Api api;
   OrdersRemoteData(this.api);
-  storeOrder(token,orderId,orderType,quantity,lat,lng) async {
+  storeOrder(token,orderId,orderType,quantity,governorateId,lat,lng) async {
     var response = await api.postData(AppLinks.storeOrder, {
       "authorization": "Bearer $token",
        "Accept": "application/json", "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
@@ -14,6 +14,7 @@ class OrdersRemoteData {
       "orderable_id":orderId,
       "orderable_type":orderType,
       "quantity":quantity,
+      "governorate_id":governorateId,
       "user_lat":lat,
       "user_lng":lng
     });

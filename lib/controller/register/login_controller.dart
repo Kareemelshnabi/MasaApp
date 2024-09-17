@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +23,11 @@ class LoginController extends GetxController {
   RegisterRemoteData registerRemoteData = RegisterRemoteData(Get.put(Api()));
   bool showPass = true;
   String verificationId = '';
+  String? tokenDevice;
+  getToken() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    tokenDevice = await messaging.getToken();
+  }
 
   showPassword() {
     if (showPass == false) {
@@ -75,7 +80,7 @@ class LoginController extends GetxController {
       statuesRequest = StatuesRequest.loading;
       update();
       var response = await registerRemoteData.login(
-          phoneController.text, passwordController.text);
+          phoneController.text, passwordController.text,tokenDevice);
       print(response);
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
@@ -160,5 +165,11 @@ class LoginController extends GetxController {
             ),
           ],
         ));
+  }
+
+  @override
+  void onInit() {
+    getToken();
+    super.onInit();
   }
 }

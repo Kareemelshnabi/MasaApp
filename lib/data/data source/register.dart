@@ -8,7 +8,7 @@ class RegisterRemoteData {
   Api api;
   RegisterRemoteData(this.api);
   signUp(String nameEn, String email, String phone, String address, String lat,
-      String lng, String password, governorateId) async {
+      String lng, String password, governorateId,tokenDevice) async {
     var response = await api.postData(AppLinks.registerLink, {
       //"Accept": "application/json",
     }, {
@@ -19,14 +19,16 @@ class RegisterRemoteData {
       "address": address.toString(),
       "country": "Kuwait",
       "country_id": "1",
-      "governorate_id": governorateId.toString()
+      "governorate_id": governorateId.toString(),
+      "fcm_token":tokenDevice,
+      
     });
     return response.fold((l) => l, (r) => r);
   }
 
   //login
 
-  login(String phone, String password) async {
+  login(String phone, String password,tokenDevice) async {
     var response = await api.postData(AppLinks.loginLink, {
       // "Accept": "application/json",
       // "Accept-Language":
@@ -34,6 +36,7 @@ class RegisterRemoteData {
     }, {
       "phone": phone.toString(),
       "password": password.toString(),
+       "fcm_token":tokenDevice,
     });
     return response.fold((l) => l, (r) => r);
   }

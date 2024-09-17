@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,6 +38,11 @@ class RegisterController extends GetxController {
   String verificationId = '';
   CountryMoodel? countryMoodel;
   String governorateId = '';
+  String? tokenDevice;
+  getToken() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    tokenDevice = await messaging.getToken();
+  }
 
   showDialogGovernate() {
     return showDialog(
@@ -268,7 +273,8 @@ class RegisterController extends GetxController {
           "",
           "",
           passwordController.value.text,
-          governorateId);
+          governorateId,
+          tokenDevice);
       print(response);
 
       print(phoneController.text);
@@ -368,6 +374,7 @@ class RegisterController extends GetxController {
 
   @override
   void onInit() {
+    getToken();
     getCountries(Get.context);
     // getLocation(context);
     super.onInit();

@@ -116,6 +116,7 @@ class ItemsInfoController extends GetxController {
       orderId.toString(),
       orderType.toString(),
       orderQuantity.toString(),
+      governorateId,
       sharedPreferences!.getString("lat"),
       sharedPreferences!.getString("lng"),
     );
