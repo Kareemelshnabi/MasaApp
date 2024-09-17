@@ -29,6 +29,9 @@ void main() async {
   );
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
