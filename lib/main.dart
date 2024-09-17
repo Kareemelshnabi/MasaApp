@@ -23,7 +23,7 @@ void main() async {
   );
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode, // Enable in debug mode only
+      enabled: false, // Enable in debug mode only
       builder: (context) => const MyApp(), // Your app widget
     ),
   );
