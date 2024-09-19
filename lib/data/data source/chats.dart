@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:mas_app/core/constant/api_linkes.dart';
 import 'package:mas_app/main.dart';
 
@@ -32,12 +34,22 @@ class ChatsRemoteData {
         });
     return response.fold((l) => l, (r) => r);
   }
-  sendMessageFile(token, id,message,file) async {
-    var response = await api.postRequestwithfile(
+  sendMessageFile(token, id,File file) async {
+    var response = await api.postfileToChat(
         "${AppLinks.getChatById}$id",{
-          "content":message,
 
           "type":"file",
+      
+
+        },file,token);
+    return response.fold((l) => l, (r) => r);
+  }
+
+   sendMessageVoice(token, id, file) async {
+    var response = await api.postVoiceToChat(
+        "${AppLinks.getChatById}$id",{
+
+          "type":"voice",
       
 
         },file,token);

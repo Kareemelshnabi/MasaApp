@@ -218,9 +218,10 @@ class MyOrderInfo extends StatelessWidget {
             //           ],
             //         ),
             //       ),
-           if (controller.page=="chat")    btnOrderLocation(() {
-              Get.back();
-            }),
+            if (controller.page == "chat")
+              btnOrderLocation(() {
+                Get.back();
+              }),
             SizedBox(
               height: 4.w,
             ),

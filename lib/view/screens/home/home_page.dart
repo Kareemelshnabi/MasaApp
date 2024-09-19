@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
     Get.put(HomePageController());
     Get.put(OnBoardingController());
     return Container(
+      height: 100.h,
       color: LightMode.registerText,
       child: SingleChildScrollView(
         child: GetBuilder<HomePageController>(
@@ -244,26 +245,29 @@ class HomePage extends StatelessWidget {
                                                   "الرجاء تسجيل الدخول أو انشاء حساب");
                                             } else {
                                               controller.messageAddressDelivery(
-                                                  ()async {
-await controller.storeOrder(
-                                                  controller.services[index].id,
-                                                  "service",
-                                                  "1");
-                                              if (controller.succsess == true) {
-                                                Get.to(() => const ChatPage(),
-                                                    arguments: {
-                                                      "chatId": controller
-                                                          .storeOrderModel!.id,
-                                                      "imageUser": controller
-                                                          .storeOrderModel!
-                                                          .client!
-                                                          .image,
-                                                      "nameOfOrder": controller
-                                                          .storeOrderModel!.name
-                                                    });
-                                              }
-                                                  });
-                                              
+                                                  () async {
+                                                await controller.storeOrder(
+                                                    controller
+                                                        .services[index].id,
+                                                    "service",
+                                                    "1");
+                                                if (controller.succsess ==
+                                                    true) {
+                                                  Get.to(() => const ChatPage(),
+                                                      arguments: {
+                                                        "chatId": controller
+                                                            .storeOrderModel!
+                                                            .id,
+                                                        "imageUser": controller
+                                                            .storeOrderModel!
+                                                            .client!
+                                                            .image,
+                                                        "nameOfOrder": controller
+                                                            .storeOrderModel!
+                                                            .name
+                                                      });
+                                                }
+                                              });
                                             }
                                           } else {
                                             Get.to(() => const CategoriesPage(),

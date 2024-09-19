@@ -80,7 +80,7 @@ class LoginController extends GetxController {
       statuesRequest = StatuesRequest.loading;
       update();
       var response = await registerRemoteData.login(
-          phoneController.text, passwordController.text,tokenDevice);
+          phoneController.text, passwordController.text, tokenDevice);
       print(response);
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
@@ -110,6 +110,8 @@ class LoginController extends GetxController {
         print(text);
         sharedPreferences!.setString("pageStart", "verifyLogin");
         Get.to(() => const VerifyCodeLogin());
+      } else if (statuesRequest == StatuesRequest.forbiddenException) {
+        messageHandleException(" لم يتم التحقق من الحساب", context);
       } else if (statuesRequest == StatuesRequest.socketException) {
         messageHandleException(S.of(context).noInternetApi, context);
       } else if (statuesRequest == StatuesRequest.serverException) {

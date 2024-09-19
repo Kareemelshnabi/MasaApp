@@ -19,7 +19,7 @@ class MyOrderInfoController extends GetxController {
   bool showInfo = false;
   bool showAddress = false;
   int? typeIndex;
-  String ?page;
+  String? page;
   Map<String, dynamic> order = {};
   OrderModel? orderModel;
   changeShow(show) {
@@ -146,7 +146,7 @@ class MyOrderInfoController extends GetxController {
 
   @override
   void onInit() {
-    page=-Get.arguments['page'];
+    page = Get.arguments['page'];
     controllerArea.text = sharedPreferences!.getString("country")!;
     controllerArea.text = "الكويت";
     controllerBloc.text = sharedPreferences!.getString("address")!;

@@ -17,35 +17,12 @@ class MyOrdersChat extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(MyOrdersChatController());
     return Scaffold(
+      backgroundColor: LightMode.registerText,
       body: GetBuilder<MyOrdersChatController>(
         builder: (controller) => SingleChildScrollView(
           child: Column(
             children: [
               appBarMyOrders(context),
-              // rowOfTitles(
-              //     () {
-              //       controller.changIndex(0);
-              //     },
-              //     "الحالية",
-              //     controller.index == 0
-              //         ? LightMode.splash
-              //         : LightMode.registerButtonBorder,
-              //     () {
-              //       controller.changIndex(1);
-              //     },
-              //     "السابقة",
-              //     controller.index == 1
-              //         ? LightMode.splash
-              //         : LightMode.registerButtonBorder,
-              //     () {
-              //       controller.changIndex(2);
-              //     },
-              //     "الملغاة",
-              //     controller.index == 2
-              //         ? LightMode.splash
-              //         : LightMode.registerButtonBorder),
-              // divider(),
-              //  if (controller.index == 0)
               controller.statuesRequest == StatuesRequest.loading
                   ? SizedBox(
                       height: 88.h,
@@ -69,61 +46,21 @@ class MyOrdersChat extends StatelessWidget {
                                 },
                                 child: chat(
                                     controller.chats[index].name,
-                                    controller.chats[index].lastMessage!
-                                                .sender ==
-                                            "merchant"
-                                        ? controller
-                                            .chats[index].lastMessage!.content
-                                        : "أنت : ${controller.chats[index].lastMessage!.content}",
+                                    controller
+                                        .chats[index].lastMessage!.content,
                                     controller
                                         .chats[index].lastMessage!.createdAt!
                                         .substring(
                                             0,
                                             controller.chats[index].lastMessage!
                                                 .createdAt!
-                                                .indexOf(" ")))),
+                                                .indexOf(" ")),
+                                    controller.chats[index].lastMessage!.sender,
+                                    controller.chats[index].lastMessage!.type)),
                             itemCount: controller.chats.length,
                             shrinkWrap: true,
                           ),
                         ),
-              // if (controller.index == 1)
-              //   SizedBox(
-              //     width: 100.w,
-              //     height: 78.h,
-              //     child: ListView.builder(
-              //       padding: EdgeInsets.only(top: 4.w),
-              //       itemBuilder: (context, index) => InkWell(
-              //           onTap: () {
-              //             Get.to(() => const ChatPage(),
-              //                 arguments: {"type": controller.index});
-              //           },
-              //           child: chat(
-              //               "ختم",
-              //               "أنت : مرحبا أريد أن أسأل عن ختم الدول العربية",
-              //               "19/7/2024")),
-              //       itemCount: 8,
-              //       shrinkWrap: true,
-              //     ),
-              //   ),
-              // if (controller.index == 2)
-              //   SizedBox(
-              //     width: 100.w,
-              //     height: 78.h,
-              //     child: ListView.builder(
-              //       padding: EdgeInsets.only(top: 4.w),
-              //       itemBuilder: (context, index) => InkWell(
-              //           onTap: () {
-              //             Get.to(() => const ChatPage(),
-              //                 arguments: {"type": controller.index});
-              //           },
-              //           child: chat(
-              //               "ختم",
-              //               "أنت : مرحبا أريد أن أسأل عن ختم الدول العربية",
-              //               "19/7/2024")),
-              //       itemCount: 8,
-              //       shrinkWrap: true,
-              //     ),
-              //   ),
             ],
           ),
         ),
@@ -132,7 +69,7 @@ class MyOrdersChat extends StatelessWidget {
   }
 }
 
-Widget chat(name, message, date) {
+Widget chat(name, message, date, sender, type) {
   return Container(
     width: 100.w,
     margin: EdgeInsets.only(top: 5.w, right: 5.w, left: 5.w),
@@ -163,15 +100,56 @@ Widget chat(name, message, date) {
                 style: GoogleFonts.tajawal(
                     fontSize: 3.5.w, fontWeight: FontWeight.bold),
               ),
-              Text(
-                message,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.tajawal(
-                  fontSize: 3.w,
-                  fontWeight: FontWeight.w500,
+              if (sender == "user" && type == "text")
+                Text(
+                  "أنت:$message",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tajawal(
+                    fontSize: 3.w,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              )
+              if (sender == "user" && type == "file")
+                Text(
+                  "أنت: صورة",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tajawal(
+                    fontSize: 3.w,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              if (sender == "user" && type == "voice")
+                Text(
+                  "أنت: رسالة صوتية",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tajawal(
+                    fontSize: 3.w,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              if (sender != "user" && type == "text")
+                Text(
+                  message,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tajawal(
+                    fontSize: 3.w,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              if (sender != "user" && type == "file")
+                Text(
+                  "صورة",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tajawal(
+                    fontSize: 3.w,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
             ],
           ),
         ),

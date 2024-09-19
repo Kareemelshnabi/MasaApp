@@ -432,92 +432,99 @@ class ItemsController extends GetxController {
 
    messageAddressDelivery(onPressConfirm) {
     Get.defaultDialog(
+        onWillPop: () async {
+          return false;
+        },
+        barrierDismissible: false,
         title: "تأكيد العنوان",
         titleStyle: GoogleFonts.tajawal(
             fontSize: 5.w,
             color: LightMode.registerButtonBorder,
             fontWeight: FontWeight.w500),
-        content: Container(
-          margin: EdgeInsets.only(right: 3.w, left: 3.w, bottom: 3.w),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () async {
-                  await showDialogGovernate();
-                  Get.back();
-                  messageAddressDelivery(onPressConfirm);
-                },
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  width: 70.w,
-                  height: 6.h,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3.w),
-                      border: Border.all(color: LightMode.splash)),
-                  child: Text(
-                    governorateName,
-                    style: GoogleFonts.tajawal(
-                        fontSize: 4.w,
-                        color: LightMode.splash,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 4.w,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        content: Builder(builder: (context) {
+          return GetBuilder<ItemsController>(
+            builder: (controller) => Container(
+              margin: EdgeInsets.only(right: 3.w, left: 3.w, bottom: 3.w),
+              child: Column(
                 children: [
                   InkWell(
-                    onTap: onPressConfirm,
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 30.w,
-                      height: 5.h,
-                      decoration: BoxDecoration(
-                          color: LightMode.splash,
-                          borderRadius: BorderRadius.circular(4.w),
-                          border:
-                              Border.all(color: LightMode.splash, width: 2)),
-                      child: Text(
-                        "تأكيد",
-                        style: GoogleFonts.tajawal(
-                            fontSize: 4.w,
-                            color: LightMode.registerText,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.back();
+                    onTap: () async {
+                      await showDialogGovernate();
+
+                      // messageAddressDelivery(onPressConfirm);
                     },
                     child: Container(
-                      alignment: Alignment.center,
-                      width: 30.w,
-                      height: 5.h,
+                      alignment: Alignment.centerRight,
+                      width: 70.w,
+                      height: 6.h,
                       decoration: BoxDecoration(
-                          color: LightMode.registerText,
-                          borderRadius: BorderRadius.circular(4.w),
-                          border:
-                              Border.all(color: LightMode.splash, width: 2)),
+                          borderRadius: BorderRadius.circular(3.w),
+                          border: Border.all(color: LightMode.splash)),
                       child: Text(
-                        "إلغاء",
+                        governorateName,
                         style: GoogleFonts.tajawal(
                             fontSize: 4.w,
                             color: LightMode.splash,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 4.w,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: onPressConfirm,
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 30.w,
+                          height: 5.h,
+                          decoration: BoxDecoration(
+                              color: LightMode.splash,
+                              borderRadius: BorderRadius.circular(4.w),
+                              border: Border.all(
+                                  color: LightMode.splash, width: 2)),
+                          child: Text(
+                            "تأكيد",
+                            style: GoogleFonts.tajawal(
+                                fontSize: 4.w,
+                                color: LightMode.registerText,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 30.w,
+                          height: 5.h,
+                          decoration: BoxDecoration(
+                              color: LightMode.registerText,
+                              borderRadius: BorderRadius.circular(4.w),
+                              border: Border.all(
+                                  color: LightMode.splash, width: 2)),
+                          child: Text(
+                            "إلغاء",
+                            style: GoogleFonts.tajawal(
+                                fontSize: 4.w,
+                                color: LightMode.splash,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
-        ));
+            ),
+          );
+        }));
   }
-
  
   @override
   void onInit() {

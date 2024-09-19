@@ -58,34 +58,81 @@ class ChatPage extends StatelessWidget {
                                 print(controller.messages[index].sender);
                                 return controller.messages[index].sender !=
                                         "user"
-                                    ? chatPartFromMessage(
-                                        ImagesLink.noProfileImage,
-                                        controller.messages[index].content,
-                                        controller.messages[index].type,
-                                        controller.messages[index].attachment)
-                                    : chatPartToMessage(
-                                        controller.imageUser == null ||
-                                                controller.imageUser == ""
-                                            ? AssetImage(
-                                                ImagesLink.noProfileImage)
-                                            : CachedNetworkImageProvider(
-                                                controller.imageUser!),
-                                        controller.chatModel!.messages![index]
-                                            .content,
-                                        controller.messages[index].type,
-                                        controller.messages[index].attachment);
+                                    ? InkWell(
+                                        onTap: () {
+                                          controller.messages[index].type ==
+                                                  "file"
+                                              ? controller.showImage(controller
+                                                  .messages[index].attachment)
+                                              : null;
+                                        },
+                                        child: chatPartFromMessage(
+                                            ImagesLink.noProfileImage,
+                                            controller.messages[index].content,
+                                            controller.messages[index].type,
+                                            controller
+                                                .messages[index].attachment,
+                                            () {}),
+                                      )
+                                    : InkWell(
+                                        onTap: () {
+                                          controller.messages[index].type ==
+                                                  "file"
+                                              ? controller.showImage(controller
+                                                  .messages[index].attachment)
+                                              : null;
+                                        },
+                                        child: chatPartToMessage(
+                                            controller.imageUser == null ||
+                                                    controller.imageUser == ""
+                                                ? AssetImage(
+                                                    ImagesLink.noProfileImage)
+                                                : CachedNetworkImageProvider(
+                                                    controller.imageUser!),
+                                            controller.chatModel!
+                                                .messages![index].content,
+                                            controller.messages[index].type,
+                                            controller
+                                                .messages[index].attachment,
+                                            () {
+                                              controller.showImage(controller
+                                                  .messages[index].attachment);
+                                            },
+                                            controller.isPlayer,
+                                            () {
+                                              if (controller.isPlayer ==
+                                                  false) {
+                                                controller.play(controller
+                                                    .messages[index]
+                                                    .attachment);
+                                              } else {
+                                                controller.stop();
+                                              }
+                                            }),
+                                      );
                               },
                             ),
                           ),
                           if (controller.typeIndex == 0)
-                            bottomBarChat(controller.messageController,
-                                "انقر للكتابة ...", () {
-                              controller.getImageFromGallery();
-                            }, () {
-                              controller.image == null
-                                  ? controller.sendMessageText()
-                                  : controller.sendMessageFile();
-                            }),
+                            bottomBarChat(
+                                controller.messageController,
+                                "انقر للكتابة ...",
+                                () {
+                                  controller.getImageFromGallery();
+                                },
+                                () {
+                                  controller.sendMessageText();
+                                },
+                                controller.messageController.text.isEmpty
+                                    ? "voice"
+                                    : "text",
+                                controller.isRecord,
+                                () {
+                                  print("recorddddddddddddddddddd");
+                                  controller.isRecord == false
+                                      ? controller.startRecord()
+                                      : controller.stopRecord();
+                                }),
                           if (controller.typeIndex == 1)
                             bottmBarChatWithText(" إتمام ", LightMode.btnGreen),
                           if (controller.typeIndex == 2)
@@ -100,7 +147,8 @@ class ChatPage extends StatelessWidget {
   }
 }
 
-Widget chatPartToMessage(img, message, type, image) {
+Widget chatPartToMessage(
+    img, message, type, image, onPressShow, play, onPressPlay) {
   return SizedBox(
     width: 100.w,
     child: Row(
@@ -122,7 +170,7 @@ Widget chatPartToMessage(img, message, type, image) {
         ),
         Container(
           padding: EdgeInsets.all(3.w),
-          width: 40.w,
+          width: type == "file" ? 70.w : 40.w,
           decoration: BoxDecoration(
             border: Border.all(color: LightMode.splash),
             borderRadius: BorderRadius.circular(5.w),
@@ -132,21 +180,44 @@ Widget chatPartToMessage(img, message, type, image) {
                   imageUrl: image,
                   fit: BoxFit.fill,
                 )
-              : Text(
-                  maxLines: 5,
-                  message,
-                  style: GoogleFonts.tajawal(
-                      fontSize: 3.w,
-                      fontWeight: FontWeight.w600,
-                      color: LightMode.registerButtonBorder),
-                ),
+              : type == "voice"
+                  ? Row(
+                      children: [
+                        Container(),
+                        IconButton(
+                          onPressed: onPressPlay,
+                          icon: Icon(
+                            play == true
+                                ? Icons.stop_circle_outlined
+                                : Icons.play_circle_outline_rounded,
+                            color: LightMode.splash,
+                          ),
+                        ),
+                        SizedBox(width: 2.w),
+                        Container(
+                          width: 50.w,
+                          height: 2.w,
+                          color: play == true
+                              ? LightMode.btnGreen
+                              : LightMode.splash,
+                        )
+                      ],
+                    )
+                  : Text(
+                      maxLines: 5,
+                      message,
+                      style: GoogleFonts.tajawal(
+                          fontSize: 3.w,
+                          fontWeight: FontWeight.w600,
+                          color: LightMode.registerButtonBorder),
+                    ),
         ),
       ],
     ),
   );
 }
 
-Widget chatPartFromMessage(img, message, type, image) {
+Widget chatPartFromMessage(img, message, type, image, onPressShow) {
   return SizedBox(
     width: 100.w,
     child: Row(
@@ -154,7 +225,7 @@ Widget chatPartFromMessage(img, message, type, image) {
       children: [
         Container(
           padding: EdgeInsets.all(3.w),
-          width: 40.w,
+          width: type == "file" ? 70.w : 40.w,
           decoration: BoxDecoration(
             border: Border.all(color: LightMode.splash),
             borderRadius: BorderRadius.circular(5.w),
@@ -231,7 +302,8 @@ Widget bottmBarChatWithText(text, color) {
       ));
 }
 
-Widget bottomBarChat(controller, text, onPressFile, onPressSend) {
+Widget bottomBarChat(
+    controller, text, onPressFile, onPressSend, type, record, onPressVoice) {
   return Container(
     width: 100.w,
     height: 10.h,
@@ -288,15 +360,16 @@ Widget bottomBarChat(controller, text, onPressFile, onPressSend) {
               )),
         ),
         SizedBox(
-          width: 5.w,
-        ),
-        SizedBox(
           width: 10.w,
           child: IconButton(
               padding: EdgeInsets.zero,
-              onPressed: onPressSend,
+              onPressed: type == "text" ? onPressSend : onPressVoice,
               icon: Icon(
-                Icons.send_outlined,
+                type == "text"
+                    ? Icons.send_outlined
+                    : ((type == "voice" && record == false)
+                        ? Icons.mic
+                        : Icons.stop),
                 color: LightMode.registerText,
                 size: 5.w,
               )),

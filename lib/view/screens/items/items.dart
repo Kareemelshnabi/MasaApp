@@ -197,45 +197,30 @@ class ItemsPage extends StatelessWidget {
                                                   "الرجاء تسجيل الدخول أو انشاء حساب");
                                             } else {
                                               controller.messageAddressDelivery(
-                                                  ()async {
-await controller.storeOrder(
-                                                  controller.products[index].id,
-                                                  "product",
-                                                  "1");
+                                                  () async {
+                                                await controller.storeOrder(
+                                                    controller
+                                                        .products[index].id,
+                                                    "product",
+                                                    "1");
 
-                                              if (controller.succsess == true) {
-                                                Get.to(() => const ChatPage(),
-                                                    arguments: {
-                                                      "chatId": controller
-                                                          .storeOrderModel!.id,
-                                                      "imageUser": controller
-                                                          .storeOrderModel!
-                                                          .client!
-                                                          .image,
-                                                      "nameOfOrder": controller
-                                                          .storeOrderModel!.name
-                                                    });
-                                              }
-                                                  });
-
-                                              await controller.storeOrder(
-                                                  controller.products[index].id,
-                                                  "product",
-                                                  "1");
-
-                                              if (controller.succsess == true) {
-                                                Get.to(() => const ChatPage(),
-                                                    arguments: {
-                                                      "chatId": controller
-                                                          .storeOrderModel!.id,
-                                                      "imageUser": controller
-                                                          .storeOrderModel!
-                                                          .client!
-                                                          .image,
-                                                      "nameOfOrder": controller
-                                                          .storeOrderModel!.name
-                                                    });
-                                              }
+                                                if (controller.succsess ==
+                                                    true) {
+                                                  Get.to(() => const ChatPage(),
+                                                      arguments: {
+                                                        "chatId": controller
+                                                            .storeOrderModel!
+                                                            .id,
+                                                        "imageUser": controller
+                                                            .storeOrderModel!
+                                                            .client!
+                                                            .image,
+                                                        "nameOfOrder": controller
+                                                            .storeOrderModel!
+                                                            .name
+                                                      });
+                                                }
+                                              });
                                             }
                                           },
                                           controller.products[index].price,

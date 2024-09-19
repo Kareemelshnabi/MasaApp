@@ -21,8 +21,7 @@ class AllChatsModel {
     name = json['name'];
     active = json['active'];
     createdAt = json['created_at'];
-    client =
-        json['client'] != null ? Client.fromJson(json['client']) : null;
+    client = json['client'] != null ? Client.fromJson(json['client']) : null;
     lastMessage = json['last_message'] != null
         ? LastMessage.fromJson(json['last_message'])
         : null;
@@ -98,15 +97,26 @@ class Client {
 class LastMessage {
   int? id;
   String? content;
+  String? type;
+  String? attachment;
   int? seen;
   String? sender;
   String? createdAt;
 
-  LastMessage({this.id, this.content, this.seen, this.sender, this.createdAt});
+  LastMessage(
+      {this.id,
+      this.content,
+      this.seen,
+      this.sender,
+      this.createdAt,
+      this.attachment,
+      this.type});
 
   LastMessage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     content = json['content'];
+    attachment = json['attachment'];
+    type = json['type'];
     seen = json['seen'];
     sender = json['sender'].toString();
     createdAt = json['created_at'];
@@ -117,6 +127,8 @@ class LastMessage {
     data['id'] = id;
     data['content'] = content;
     data['seen'] = seen;
+    data['attachment'] = attachment;
+    data['type']=type;
     data['sender'] = sender;
     data['created_at'] = createdAt;
     return data;

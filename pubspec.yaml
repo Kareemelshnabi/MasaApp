@@ -60,7 +60,10 @@ dependencies:
  # pusher_channels_flutter: 2.2.1
   firebase_core: ^2.24.2
   firebase_messaging:   
-
+  record:
+  audioplayers: 
+  path_provider:
+  uuid: 
   webview_flutter: ^4.8.0
   speech_to_text: 
 dev_dependencies:

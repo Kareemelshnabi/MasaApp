@@ -1,7 +1,10 @@
 // ignore_for_file: avoid_print
 
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +21,10 @@ import 'package:mas_app/data/model/payment_model.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/orders/my_order_info.dart';
 import 'package:mas_app/view/screens/payment/payment.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatController extends GetxController {
   int? chatId;
@@ -33,14 +39,79 @@ class ChatController extends GetxController {
 
   ChatModel? chatModel;
   PaymentModel? paymentModel;
-  
+
   OrderModel? orderModel;
   String redirectUrl = '';
   List<Messages> messages = [];
   ChatsRemoteData chatsRemoteData = ChatsRemoteData(Get.put(Api()));
 
-File? image;
+  File? image;
   String imagerequest = '';
+  final record = AudioRecorder();
+  late AudioPlayer audioPlayer;
+  bool isPlayer = false;
+
+  String voice = '';
+  String url = '';
+  bool isRecord = false;
+
+  startRecord() async {
+    update();
+    print("starttttttttttttttttttttttttttttttt");
+    final location = await getApplicationCacheDirectory();
+    String name = Uuid().v1();
+    if (await record.hasPermission()) {
+      print("starttttttttttttttttttttttttttttttt  22222222222");
+      await record.start(RecordConfig(), path: '${location.path}/$name.m4a');
+      print(voice);
+    }
+    isRecord = true;
+    update();
+    log("start record");
+  }
+
+  stopRecord() async {
+    print("${File(voice)}stopppppppppppppppppppppppppppppppppppp");
+    String? final_path = await record.stop();
+
+    voice = final_path!;
+    update();
+    print(voice);
+    print("stopppppppppppppppppppppppppppppppppppp      222222");
+    isRecord = false;
+    await sendMessageVoice();
+    print("stopppppppppppppppppppppppppppppppppppp      3333333");
+
+    log("stop record");
+  }
+
+  play(link) async {
+    isPlayer = true;
+
+    await audioPlayer.play(UrlSource(link));
+    audioPlayer.onPlayerComplete.listen((event) {
+      isPlayer = false; // Reset the player state when audio finishes
+
+      log("Audio finished playing");
+    });
+    update();
+    log("audio Play");
+  }
+
+  stop() async {
+    await audioPlayer.stop();
+
+    isPlayer = false;
+    update();
+
+    log("audio stop");
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
 
   Future getImageFromGallery() async {
     final returnImage =
@@ -50,6 +121,7 @@ File? image;
     } else {
       image = File(returnImage.path);
       imagerequest = image!.path;
+      showImageChooseToSend();
       print(imagerequest);
 
       update();
@@ -57,8 +129,105 @@ File? image;
     update();
   }
 
-  
+  deleteImage() {
+    image = null;
+    imagerequest = '';
+    update();
+  }
 
+  showImageChooseToSend() {
+    Get.defaultDialog(
+        barrierDismissible: false,
+        title: "ملف",
+        content: Column(
+          children: [
+            SizedBox(
+              height: 50.h,
+              width: 80.w,
+              child: Image.file(
+                image!,
+                fit: BoxFit.fill,
+              ),
+            ),
+            SizedBox(
+              height: 5.w,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    sendMessageFile();
+                    Get.back();
+                  },
+                  child: Container(
+                    width: 35.w,
+                    height: 5.h,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          4.w,
+                        ),
+                        color: LightMode.splash),
+                    child: Text(
+                      "ارسال",
+                      style: GoogleFonts.tajawal(
+                          fontSize: 4.w,
+                          fontWeight: FontWeight.w700,
+                          color: LightMode.registerText),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    deleteImage();
+                    Get.back();
+                  },
+                  child: Container(
+                    width: 35.w,
+                    height: 5.h,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          4.w,
+                        ),
+                        border: Border.all(color: LightMode.splash)),
+                    child: Text(
+                      "الغاء",
+                      style: GoogleFonts.tajawal(
+                          fontSize: 4.w,
+                          fontWeight: FontWeight.w700,
+                          color: LightMode.splash),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
+  }
+
+  showImage(image) {
+    Get.defaultDialog(
+        title: "",
+        content: Column(
+          children: [
+            SizedBox(
+              height: 5.w,
+            ),
+            SizedBox(
+                height: 50.h,
+                width: 80.w,
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  fit: BoxFit.fill,
+                )),
+            SizedBox(
+              height: 5.w,
+            ),
+          ],
+        ));
+  }
 
   sendMessageText() async {
     var response = await chatsRemoteData.sendMessageText(
@@ -93,16 +262,51 @@ File? image;
     }
     update();
   }
-sendMessageFile() async {
+
+  sendMessageFile() async {
     var response = await chatsRemoteData.sendMessageFile(
-        sharedPreferences!.getString("token"),
-        chatId.toString(),
-        messageController.text,image);
+        sharedPreferences!.getString("token"), chatId.toString(), image!);
     print("  chat by id :: $response");
     statuesRequest = handlingData(response);
     if (statuesRequest == StatuesRequest.success) {
       print("sendddddddddddddddddddddd");
       messageController.clear();
+      image = null;
+
+      getChatByIdStream();
+      //  getChatById();
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(
+          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverException) {
+      messageHandleException("لم يتم العثور على المورد المطلوب.");
+    } else if (statuesRequest == StatuesRequest.unExpectedException) {
+      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+    } else if (statuesRequest == StatuesRequest.defaultException) {
+      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverError) {
+      messageHandleException(
+          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+    } else if (statuesRequest == StatuesRequest.timeoutException) {
+      messageHandleException(
+          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+    } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+      messageHandleException(
+          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+    }
+    update();
+  }
+
+  sendMessageVoice() async {
+    var response = await chatsRemoteData.sendMessageVoice(
+        sharedPreferences!.getString("token"), chatId.toString(), voice);
+    print("  chat by id :: $response");
+    statuesRequest = handlingData(response);
+    if (statuesRequest == StatuesRequest.success) {
+      print("sendddddddddddddddddddddd");
+      messageController.clear();
+      image = null;
+
       getChatByIdStream();
       //  getChatById();
     } else if (statuesRequest == StatuesRequest.socketException) {
@@ -506,6 +710,7 @@ sendMessageFile() async {
 
   @override
   void onInit() async {
+    audioPlayer = AudioPlayer();
     getTypeOfChat();
     nameOfOrder = Get.arguments['nameOfOrder'];
     print(nameOfOrder);
