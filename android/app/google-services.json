@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "112170794043",
+    "project_id": "almasia-72fc5",
+    "storage_bucket": "almasia-72fc5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112170794043:android:b7c5539cf5167adeb0f01e",
+        "android_client_info": {
+          "package_name": "com.masApp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBODQ2xdOOjfAyNaq2W5ZBv9gkJoQhLALY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
