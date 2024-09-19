@@ -14,7 +14,6 @@ class HomeController extends GetxController{
     const HomePage(),
     const FavouritePage(),
      Container(),
-   // const CartPage(),
     const MyCardPage(),
     const ProfilePage(),
     const ItemsPage()

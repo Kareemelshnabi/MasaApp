@@ -37,7 +37,7 @@ class ChatPage extends StatelessWidget {
                               controller.typeIndex == 0
                                   ? () {
                                       controller.chatModel!.merchantAssigned ==
-                                              "true"
+                                              true
                                           ? controller.firstMessage()
                                           : null;
                                     }
@@ -60,7 +60,9 @@ class ChatPage extends StatelessWidget {
                                         "user"
                                     ? chatPartFromMessage(
                                         ImagesLink.noProfileImage,
-                                        controller.messages[index].content)
+                                        controller.messages[index].content,
+                                        controller.messages[index].type,
+                                        controller.messages[index].attachment)
                                     : chatPartToMessage(
                                         controller.imageUser == null ||
                                                 controller.imageUser == ""
@@ -69,14 +71,20 @@ class ChatPage extends StatelessWidget {
                                             : CachedNetworkImageProvider(
                                                 controller.imageUser!),
                                         controller.chatModel!.messages![index]
-                                            .content);
+                                            .content,
+                                        controller.messages[index].type,
+                                        controller.messages[index].attachment);
                               },
                             ),
                           ),
                           if (controller.typeIndex == 0)
                             bottomBarChat(controller.messageController,
-                                "انقر للكتابة ...", () {}, () {
-                              controller.sendMessage();
+                                "انقر للكتابة ...", () {
+                              controller.getImageFromGallery();
+                            }, () {
+                              controller.image == null
+                                  ? controller.sendMessageText()
+                                  : controller.sendMessageFile();
                             }),
                           if (controller.typeIndex == 1)
                             bottmBarChatWithText(" إتمام ", LightMode.btnGreen),
@@ -92,7 +100,7 @@ class ChatPage extends StatelessWidget {
   }
 }
 
-Widget chatPartToMessage(img, message) {
+Widget chatPartToMessage(img, message, type, image) {
   return SizedBox(
     width: 100.w,
     child: Row(
@@ -119,21 +127,26 @@ Widget chatPartToMessage(img, message) {
             border: Border.all(color: LightMode.splash),
             borderRadius: BorderRadius.circular(5.w),
           ),
-          child: Text(
-            maxLines: 5,
-            message,
-            style: GoogleFonts.tajawal(
-                fontSize: 3.w,
-                fontWeight: FontWeight.w600,
-                color: LightMode.registerButtonBorder),
-          ),
+          child: type == "file"
+              ? CachedNetworkImage(
+                  imageUrl: image,
+                  fit: BoxFit.fill,
+                )
+              : Text(
+                  maxLines: 5,
+                  message,
+                  style: GoogleFonts.tajawal(
+                      fontSize: 3.w,
+                      fontWeight: FontWeight.w600,
+                      color: LightMode.registerButtonBorder),
+                ),
         ),
       ],
     ),
   );
 }
 
-Widget chatPartFromMessage(img, message) {
+Widget chatPartFromMessage(img, message, type, image) {
   return SizedBox(
     width: 100.w,
     child: Row(
@@ -146,14 +159,19 @@ Widget chatPartFromMessage(img, message) {
             border: Border.all(color: LightMode.splash),
             borderRadius: BorderRadius.circular(5.w),
           ),
-          child: Text(
-            message,
-            maxLines: 5,
-            style: GoogleFonts.tajawal(
-                fontSize: 3.w,
-                fontWeight: FontWeight.w600,
-                color: LightMode.registerButtonBorder),
-          ),
+          child: type == "file"
+              ? CachedNetworkImage(
+                  imageUrl: image,
+                  fit: BoxFit.fill,
+                )
+              : Text(
+                  message,
+                  maxLines: 5,
+                  style: GoogleFonts.tajawal(
+                      fontSize: 3.w,
+                      fontWeight: FontWeight.w600,
+                      color: LightMode.registerButtonBorder),
+                ),
         ),
         SizedBox(
           width: 3.w,
@@ -227,7 +245,7 @@ Widget bottomBarChat(controller, text, onPressFile, onPressSend) {
       children: [
         SizedBox(
           height: 10.h,
-          width: 75.w,
+          width: 70.w,
           child: TextFormField(
             style: GoogleFonts.tajawal(
                 color: LightMode.splash,
@@ -258,18 +276,17 @@ Widget bottomBarChat(controller, text, onPressFile, onPressSend) {
             ),
           ),
         ),
-        // SizedBox(
-        //   width: 10.w,
-        //   child: IconButton(
-        //       padding: EdgeInsets.zero,
-        //       onPressed: onPressFile,
-        //       icon: Icon(
-        //         Icons.insert_drive_file_outlined,
-        //         color: LightMode.registerText,
-        //         size: 5.w,
-        //       )),
-        // ),
-
+        SizedBox(
+          width: 10.w,
+          child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: onPressFile,
+              icon: Icon(
+                Icons.insert_drive_file_outlined,
+                color: LightMode.registerText,
+                size: 5.w,
+              )),
+        ),
         SizedBox(
           width: 5.w,
         ),

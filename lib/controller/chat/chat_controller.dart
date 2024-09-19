@@ -1,8 +1,11 @@
 // ignore_for_file: avoid_print
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mas_app/core/class/api.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
@@ -30,16 +33,71 @@ class ChatController extends GetxController {
 
   ChatModel? chatModel;
   PaymentModel? paymentModel;
+  
   OrderModel? orderModel;
   String redirectUrl = '';
   List<Messages> messages = [];
   ChatsRemoteData chatsRemoteData = ChatsRemoteData(Get.put(Api()));
 
-  sendMessage() async {
-    var response = await chatsRemoteData.sendMessage(
+File? image;
+  String imagerequest = '';
+
+  Future getImageFromGallery() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnImage == null) {
+      return null;
+    } else {
+      image = File(returnImage.path);
+      imagerequest = image!.path;
+      print(imagerequest);
+
+      update();
+    }
+    update();
+  }
+
+  
+
+
+  sendMessageText() async {
+    var response = await chatsRemoteData.sendMessageText(
         sharedPreferences!.getString("token"),
         chatId.toString(),
         messageController.text);
+    print("  chat by id :: $response");
+    statuesRequest = handlingData(response);
+    if (statuesRequest == StatuesRequest.success) {
+      print("sendddddddddddddddddddddd");
+      messageController.clear();
+      getChatByIdStream();
+      //  getChatById();
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(
+          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverException) {
+      messageHandleException("لم يتم العثور على المورد المطلوب.");
+    } else if (statuesRequest == StatuesRequest.unExpectedException) {
+      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+    } else if (statuesRequest == StatuesRequest.defaultException) {
+      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverError) {
+      messageHandleException(
+          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+    } else if (statuesRequest == StatuesRequest.timeoutException) {
+      messageHandleException(
+          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+    } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+      messageHandleException(
+          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+    }
+    update();
+  }
+sendMessageFile() async {
+    var response = await chatsRemoteData.sendMessageFile(
+        sharedPreferences!.getString("token"),
+        chatId.toString(),
+        messageController.text,image);
     print("  chat by id :: $response");
     statuesRequest = handlingData(response);
     if (statuesRequest == StatuesRequest.success) {
@@ -114,43 +172,6 @@ class ChatController extends GetxController {
     update();
   }
 
-  // getChatById() async {
-  //   var response = await chatsRemoteData.getChatById(
-  //       sharedPreferences!.getString("token"), chatId.toString());
-  //   print("  chat by id :: ${response}");
-  //   statuesRequest = handlingData(response);
-  //   if (statuesRequest == StatuesRequest.success) {
-  //     Map<String, dynamic> responseBody = response['data'];
-  //     chatModel = ChatModel.fromJson(responseBody);
-  //     messages = chatModel!.messages!;
-
-  //     await getTypeOfChat();
-
-  //     print("  chat by id :: ${responseBody}");
-  //   } else if (statuesRequest == StatuesRequest.socketException) {
-  //     return messageHandleException(
-  //         "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
-  //   } else if (statuesRequest == StatuesRequest.serverException) {
-  //     return messageHandleException("لم يتم العثور على المورد المطلوب.");
-  //   } else if (statuesRequest == StatuesRequest.unExpectedException) {
-  //     return messageHandleException(
-  //         "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
-  //   } else if (statuesRequest == StatuesRequest.defaultException) {
-  //     return messageHandleException(
-  //         "فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
-  //   } else if (statuesRequest == StatuesRequest.serverError) {
-  //     return messageHandleException(
-  //         "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
-  //   } else if (statuesRequest == StatuesRequest.timeoutException) {
-  //     return messageHandleException(
-  //         "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
-  //   } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-  //     return messageHandleException(
-  //         "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
-  //   }
-  //   update();
-  // }
-
   Stream<List<dynamic>> getChatByIdStream() async* {
     while (true) {
       var response = await chatsRemoteData.getChatById(
@@ -161,6 +182,7 @@ class ChatController extends GetxController {
         Map<String, dynamic> responseBody = response['data'];
         chatModel = ChatModel.fromJson(responseBody);
         messages = chatModel!.messages!;
+        orderModel = chatModel!.order!;
         //await getTypeOfChat();
 
         yield messages; // Return the new data
@@ -423,7 +445,6 @@ class ChatController extends GetxController {
   secondMessage() {
     Get.defaultDialog(
       title: "اختار عملية الدفع",
-      // titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.only(bottom: 3.w, right: 2.w, left: 2.w),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -494,7 +515,6 @@ class ChatController extends GetxController {
 
     chatId = Get.arguments['chatId'];
     print(chatId);
-    // getChatById();
     super.onInit();
   }
 }

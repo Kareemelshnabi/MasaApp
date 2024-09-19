@@ -21,14 +21,26 @@ class ChatsRemoteData {
     return response.fold((l) => l, (r) => r);
   }
 
-   sendMessage(token, id,message) async {
+   sendMessageText(token, id,message,) async {
     var response = await api.postData(
         "${AppLinks.getChatById}$id", {"authorization": "Bearer $token","Accept": "application/json", "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"},{
           "content":message,
 
-          "type":"text"
+          "type":"text",
+      
 
         });
+    return response.fold((l) => l, (r) => r);
+  }
+  sendMessageFile(token, id,message,file) async {
+    var response = await api.postRequestwithfile(
+        "${AppLinks.getChatById}$id",{
+          "content":message,
+
+          "type":"file",
+      
+
+        },file,token);
     return response.fold((l) => l, (r) => r);
   }
 }

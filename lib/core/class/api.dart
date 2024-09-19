@@ -188,7 +188,7 @@ class Api {
         stream.cast();
 
         request.files
-            .add(await http.MultipartFile.fromPath("avatar", image.path));
+            .add(await http.MultipartFile.fromPath("attachment", image.path));
       } else {}
       data.forEach((key, value) {
         request.fields[key] = value;
