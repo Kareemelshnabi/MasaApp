@@ -19,6 +19,7 @@ void main() async {
   sharedPreferences = await SharedPreferences.getInstance();
 
   await Firebase.initializeApp(
+    name: "untiteld-13a78",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
@@ -28,8 +29,6 @@ void main() async {
     ),
   );
   FirebaseNotification().intilizeNotification();
-
-  // MessagingService().subscribeToTopic();
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

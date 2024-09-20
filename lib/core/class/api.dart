@@ -291,14 +291,11 @@ class Api {
       request.headers['Authorization'] = 'Bearer $token';
       request.headers['Accept'] = 'application/json';
 
-      // Create a File object
       File file = File(filePath);
 
-      // Specify the MIME type for m4a
       var mimeType =
           MediaType('audio', 'm4a'); // Correct MIME type for .m4a files
 
-      // Add the file to the request
       request.files.add(await http.MultipartFile.fromPath(
         'attachment',
         filePath,
