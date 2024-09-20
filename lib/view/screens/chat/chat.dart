@@ -181,27 +181,30 @@ Widget chatPartToMessage(
                   fit: BoxFit.fill,
                 )
               : type == "voice"
-                  ? Row(
-                      children: [
-                        Container(),
-                        IconButton(
-                          onPressed: onPressPlay,
-                          icon: Icon(
-                            play == true
-                                ? Icons.stop_circle_outlined
-                                : Icons.play_circle_outline_rounded,
-                            color: LightMode.splash,
+                  ? FittedBox(
+                      child: Row(
+                        children: [
+                          Container(),
+                          IconButton(
+                            onPressed: onPressPlay,
+                            icon: Icon(
+                              play == true
+                                  ? Icons.stop_circle_outlined
+                                  : Icons.play_circle_outline_rounded,
+                              color: LightMode.splash,
+                              size: 20.w,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 2.w),
-                        Container(
-                          width: 50.w,
-                          height: 2.w,
-                          color: play == true
-                              ? LightMode.btnGreen
-                              : LightMode.splash,
-                        )
-                      ],
+                          SizedBox(width: 2.w),
+                          Container(
+                            width: 50.w,
+                            height: 2.w,
+                            color: play == true
+                                ? LightMode.btnGreen
+                                : LightMode.splash,
+                          )
+                        ],
+                      ),
                     )
                   : Text(
                       maxLines: 5,
