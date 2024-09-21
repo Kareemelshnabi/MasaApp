@@ -55,14 +55,20 @@ class ChatController extends GetxController {
   String url = '';
   bool isRecord = false;
 
-  startRecord() async {
+  Map isPlay = {};
+  setFavourite(String id, String val) {
+    isPlay[id] = val;
     update();
+  }
+
+  startRecord() async {
     print("starttttttttttttttttttttttttttttttt");
     final location = await getApplicationCacheDirectory();
-    String name = Uuid().v1();
+    String name = const Uuid().v1();
     if (await record.hasPermission()) {
       print("starttttttttttttttttttttttttttttttt  22222222222");
-      await record.start(RecordConfig(), path: '${location.path}/$name.m4a');
+      await record.start(const RecordConfig(),
+          path: '${location.path}/$name.m4a');
       print(voice);
     }
     isRecord = true;
@@ -85,23 +91,21 @@ class ChatController extends GetxController {
     log("stop record");
   }
 
-  play(link) async {
-    isPlayer = true;
+  play(link, index) async {
+    isPlay[messages[index].id.toString()] = "1";
 
     await audioPlayer.play(UrlSource(link));
     audioPlayer.onPlayerComplete.listen((event) {
-      isPlayer = false; // Reset the player state when audio finishes
-
       log("Audio finished playing");
+      isPlay[messages[index].id.toString()] = "0";
     });
     update();
     log("audio Play");
   }
 
-  stop() async {
+  stop(index) async {
     await audioPlayer.stop();
-
-    isPlayer = false;
+    isPlay[messages[index].id.toString()] = "0";
     update();
 
     log("audio stop");

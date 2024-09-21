@@ -454,6 +454,8 @@ class ItemsController extends GetxController {
                       // messageAddressDelivery(onPressConfirm);
                     },
                     child: Container(
+                      padding: EdgeInsets.only(right: 5.w),
+
                       alignment: Alignment.centerRight,
                       width: 70.w,
                       height: 6.h,

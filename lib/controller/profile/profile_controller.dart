@@ -461,7 +461,7 @@ class ProfileController extends GetxController {
 
       sharedPreferences!.setString("pageStart", "typeofUser");
 
-      Get.to(() => const MainRegister());
+      Get.offAll(() => const MainRegister());
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
           "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");

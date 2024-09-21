@@ -77,6 +77,8 @@ class LoginController extends GetxController {
   login(context) async {
     if (loginGlobalKey.currentState!.validate()) {
       print("nnn");
+      print("token $tokenDevice");
+
       statuesRequest = StatuesRequest.loading;
       update();
       var response = await registerRemoteData.login(

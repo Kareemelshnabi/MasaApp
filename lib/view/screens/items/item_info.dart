@@ -153,6 +153,9 @@ class ItemInfo extends StatelessWidget {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(
+                          height: 5.w,
+                        ),
                         bodyInfoItemPage(
                             SizedBox(
                               width: 60.w,
@@ -404,11 +407,12 @@ class ItemInfo extends StatelessWidget {
                         ),
                         divider(.3.w),
                         SizedBox(
-                          height: controller.productInfo!.details!.length > 5
-                              ? 55.h
-                              : 30.h,
+                          // height: controller.productInfo!.details!.length > 5
+                          //     ? 55.h
+                          //     : 30.h,
                           width: 70.w,
                           child: ListView.builder(
+                            padding: EdgeInsets.zero,
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: controller.productInfo!.details!.length,
@@ -417,15 +421,6 @@ class ItemInfo extends StatelessWidget {
                                 controller.productInfo!.details![index].value),
                           ),
                         ),
-                        // keyValueWidget("الحجم", "M"),
-                        // keyValueWidget("اسم العلامة التجارية", "كولوب"),
-                        // keyValueWidget("مواد", "خامات متعددة"),
-                        // keyValueWidget("شكل السلعة", "مستطيلي"),
-                        // keyValueWidget("النوع", "ختم"),
-                        // keyValueWidget("حجم الختم", "40 ملم"),
-                        // keyValueWidget("لون المنتج", "متعدد الألوان"),
-                        // keyValueWidget("وزن السلعة", "110 غ"),
-                        // keyValueWidget("رقم الموديل", "Printer R40"),
                         divider(.5.w),
                         Padding(
                           padding: EdgeInsets.only(

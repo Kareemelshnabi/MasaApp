@@ -59,10 +59,9 @@ dependencies:
  # geolocator: ^13.0.1
  # pusher_channels_flutter: 2.2.1
   firebase_core: ^2.24.2
-  firebase_messaging:   
+  firebase_messaging:  
   record:
   audioplayers: 
-  path_provider:
   uuid: 
   webview_flutter: ^4.8.0
   speech_to_text: 

@@ -98,15 +98,39 @@ class ChatPage extends StatelessWidget {
                                               controller.showImage(controller
                                                   .messages[index].attachment);
                                             },
-                                            controller.isPlayer,
+                                            controller.isPlay[controller
+                                                .messages[index].id
+                                                .toString()],
                                             () {
+                                              if (controller.isPlay[controller
+                                                          .messages[index].id
+                                                          .toString()] ==
+                                                      "0" ||
+                                                  controller.isPlay[controller
+                                                          .messages[index].id
+                                                          .toString()] ==
+                                                      null) {
+                                                controller.setFavourite(
+                                                    controller
+                                                        .messages[index].id
+                                                        .toString(),
+                                                    "1");
+                                              } else {
+                                                controller.setFavourite(
+                                                    controller
+                                                        .messages[index].id
+                                                        .toString(),
+                                                    "0");
+                                              }
+
                                               if (controller.isPlayer ==
                                                   false) {
-                                                controller.play(controller
-                                                    .messages[index]
-                                                    .attachment);
+                                                controller.play(
+                                                    controller.messages[index]
+                                                        .attachment,
+                                                    index);
                                               } else {
-                                                controller.stop();
+                                                controller.stop(index);
                                               }
                                             }),
                                       );
@@ -168,6 +192,9 @@ Widget chatPartToMessage(
                 : null,
           ),
         ),
+        SizedBox(
+          width: 3.w,
+        ),
         Container(
           padding: EdgeInsets.all(3.w),
           width: type == "file" ? 70.w : 40.w,
@@ -188,7 +215,7 @@ Widget chatPartToMessage(
                           IconButton(
                             onPressed: onPressPlay,
                             icon: Icon(
-                              play == true
+                              play == "1"
                                   ? Icons.stop_circle_outlined
                                   : Icons.play_circle_outline_rounded,
                               color: LightMode.splash,
@@ -199,7 +226,7 @@ Widget chatPartToMessage(
                           Container(
                             width: 50.w,
                             height: 2.w,
-                            color: play == true
+                            color: play == "1"
                                 ? LightMode.btnGreen
                                 : LightMode.splash,
                           )
