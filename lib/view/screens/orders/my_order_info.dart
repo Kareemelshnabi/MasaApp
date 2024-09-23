@@ -16,6 +16,9 @@ class MyOrderInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     MyOrderInfoController controller = Get.put(MyOrderInfoController());
     return Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -45,7 +48,7 @@ class MyOrderInfo extends StatelessWidget {
                     controller.orderModel!.code,
                     controller.orderModel!.createdAt!.substring(
                         0, controller.orderModel!.createdAt!.indexOf(" ")),
-                    "${controller.orderModel!.total} \$",
+                    "${controller.orderModel!.total} دينار",
                     controller.controllerArea,
                     controller.controllerBloc,
                     controller.controllerStreet,
@@ -90,7 +93,9 @@ class MyOrderInfo extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5.w)),
                   border: Border.all(color: LightMode.splash, width: 2),
-                  color: LightMode.searchField.withOpacity(.1)),
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.searchField.withOpacity(.1)
+                      : DarkMode.whiteDarkColor),
               margin: EdgeInsets.only(right: 4.w, left: 4.w),
               child: Column(
                 children: [
@@ -285,8 +290,8 @@ class MyOrderInfo extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            width: 20.w,
             child: Padding(
               padding: EdgeInsets.only(top: 7.w),
               child: IconButton(
@@ -295,24 +300,38 @@ class MyOrderInfo extends StatelessWidget {
                         ? Get.back()
                         : Get.off(() => const MyOrders());
                   },
-                  icon: const Icon(Icons.arrow_back_ios)),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 6.w,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? null
+                        : DarkMode.whiteDarkColor,
+                  )),
             ),
           ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 15.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                top: 6.5.h,
+                bottom: 2.h,
+              ),
               child: Text(
                 "تفاصيل طلبك",
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
-                  color: LightMode.typeUserTitle,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.typeUserTitle
+                      : DarkMode.whiteDarkColor,
                 ),
               ),
             ),
           ),
-          Expanded(flex: 1, child: Container()),
+          SizedBox(
+            width: 20.w,
+          ),
         ],
       ),
     );
@@ -347,7 +366,9 @@ class MyOrderInfo extends StatelessWidget {
       width: 100.w,
       height: heigh,
       decoration: BoxDecoration(
-        color: LightMode.searchField.withOpacity(.1),
+        color: sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.searchField.withOpacity(.1)
+            : DarkMode.whiteDarkColor,
         borderRadius: BorderRadius.circular(5.w),
         border: Border.all(color: LightMode.splash, width: 2),
       ),
@@ -672,7 +693,9 @@ class MyOrderInfo extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5.w)),
           border: Border.all(color: LightMode.splash, width: 2),
-          color: LightMode.searchField.withOpacity(.1)),
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.searchField.withOpacity(.1)
+              : DarkMode.whiteDarkColor),
       child: Column(
         children: [
           Container(
@@ -716,7 +739,7 @@ class MyOrderInfo extends StatelessWidget {
                       child: text("$name", FontWeight.bold, 3.5.w),
                     ),
                     text("الكمية: $quantity", FontWeight.w600, 3.w),
-                    text("$price \$", FontWeight.w600, 3.w),
+                    text("$price دينار", FontWeight.w600, 3.w),
                     Divider(
                       color: LightMode.registerButtonBorder,
                     ),

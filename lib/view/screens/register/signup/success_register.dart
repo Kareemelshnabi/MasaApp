@@ -48,7 +48,9 @@ class _SuccessRegisterState extends State<SuccessRegister> {
         DefaultMaterialLocalizations.delegate
       ],
       child: Scaffold(
-        backgroundColor: LightMode.registerText,
+        backgroundColor: sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerText
+            : DarkMode.darkModeSplash,
         body: SizedBox(
           height: 100.h,
           width: 100.w,
@@ -80,7 +82,9 @@ class _SuccessRegisterState extends State<SuccessRegister> {
         style: GoogleFonts.tajawal(
           fontSize: 5.w,
           fontWeight: FontWeight.w500,
-          color: LightMode.registerButtonBorder,
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerButtonBorder
+              : DarkMode.whiteDarkColor,
         ),
       ),
     );

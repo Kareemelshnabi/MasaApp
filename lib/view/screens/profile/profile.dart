@@ -22,142 +22,146 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(ProfileController());
     OnBoardingController onBoardingController = Get.put(OnBoardingController());
-    return Scaffold(
-        backgroundColor: LightMode.splash,
-        body: OfflineBuilder(
-          connectivityBuilder: (context, ConnectivityResult value, child) {
-            final bool connected = value != ConnectivityResult.none;
+    return GetBuilder<ProfileController>(
+      builder: (controller) => Scaffold(
+          backgroundColor: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.splash
+              : DarkMode.darkModeSplash,
+          body: OfflineBuilder(
+            connectivityBuilder: (context, ConnectivityResult value, child) {
+              final bool connected = value != ConnectivityResult.none;
 
-            if (connected) {
-              return GetBuilder<ProfileController>(
-                builder: (controller) => controller.statuesRequest ==
-                        StatuesRequest.loading
-                    ? SizedBox(
-                        width: 100.w,
-                        height: 100.h,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      )
-                    : SingleChildScrollView(
-                        child: SizedBox(
-                          height: 92.h,
+              if (connected) {
+                return GetBuilder<ProfileController>(
+                  builder: (controller) => controller.statuesRequest ==
+                          StatuesRequest.loading
+                      ? SizedBox(
                           width: 100.w,
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Positioned(
-                                  top: 10.5.h,
-                                  bottom: 70.h,
-                                  right: 4.w,
-                                  child: topOfProfile(
-                                      sharedPreferences!.getBool("visit") ==
-                                              true
-                                          ? AssetImage(
-                                              ImagesLink.noProfileImage)
-                                          : sharedPreferences!
-                                                      .getString("img") ==
-                                                  ""
-                                              ? AssetImage(
-                                                  ImagesLink.noProfileImage,
-                                                )
-                                              : NetworkImage(sharedPreferences!
-                                                  .getString("img")!),
-                                      sharedPreferences!.getBool("visit") ==
-                                              true
-                                          ? ""
-                                          : sharedPreferences!
-                                              .getString("nameEn"),
-                                      sharedPreferences!.getBool("visit") ==
-                                              true
-                                          ? ""
-                                          : sharedPreferences!
-                                              .getString("email"))),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Positioned(
+                          height: 100.h,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: SizedBox(
+                            height: 92.h,
+                            width: 100.w,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Positioned(
+                                    top: 10.5.h,
+                                    bottom: 70.h,
+                                    right: 4.w,
+                                    child: topOfProfile(
+                                        sharedPreferences!.getBool("visit") ==
+                                                true
+                                            ? AssetImage(
+                                                ImagesLink.noProfileImage)
+                                            : sharedPreferences!
+                                                        .getString("img") ==
+                                                    ""
+                                                ? AssetImage(
+                                                    ImagesLink.noProfileImage,
+                                                  )
+                                                : NetworkImage(
+                                                    sharedPreferences!
+                                                        .getString("img")!),
+                                        sharedPreferences!.getBool("visit") ==
+                                                true
+                                            ? ""
+                                            : sharedPreferences!
+                                                .getString("nameEn"),
+                                        sharedPreferences!.getBool("visit") ==
+                                                true
+                                            ? ""
+                                            : sharedPreferences!
+                                                .getString("email"))),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Positioned(
                                   bottom: 0,
                                   top: 27.h,
-                                  child: GetBuilder<ProfileController>(
-                                    builder: (controller) => bodyOfProfile(
-                                        controller.darkMode, (val) {
-                                      controller.changeToDark(val);
-                                    }, () {
-                                      //logout
-                                      sharedPreferences!.getBool("visit") ==
-                                              true
-                                          ? onBoardingController.message(
-                                              "الرجاء تسجيل الدخول أو إنشاء الحساب لإستكمال الإجراء")
-                                          : controller.showBottomSheet(context);
-                                    }, () {
-                                      if (sharedPreferences!.getBool("visit") ==
-                                          true) {
-                                        onBoardingController.message(
-                                            "الرجاء تسجيل الدخول أو إنشاء الحساب لإستكمال الإجراء");
-                                      } else {
-                                        controller.englishNameController.text =
-                                            sharedPreferences!
-                                                .getString("nameEn")!;
-                                        controller.emailController.text =
-                                            sharedPreferences!
-                                                .getString("email")!;
-                                        controller.phoneController.text =
-                                            sharedPreferences!
-                                                .getString("phone")!;
-                                        controller.imagerequest =
-                                            sharedPreferences!
-                                                .getString("img")!;
-                                        controller.addressController.text =
-                                            sharedPreferences!
-                                                .getString("address")!;
-                                        controller.countryController.text =
-                                            sharedPreferences!
-                                                .getString("country")!;
-                                        controller.governorateController.text =
-                                            sharedPreferences!
-                                                .getString("governorate")!;
+                                  child:
+                                      bodyOfProfile(controller.darkMode, (val) {
+                                    controller.changeToDark(val);
+                                    print(
+                                        sharedPreferences!.getBool("darkMode"));
+                                  }, () {
+                                    //logout
+                                    sharedPreferences!.getBool("visit") == true
+                                        ? onBoardingController.message(
+                                            "الرجاء تسجيل الدخول أو إنشاء الحساب لإستكمال الإجراء")
+                                        : controller.showBottomSheet(context);
+                                  }, () {
+                                    if (sharedPreferences!.getBool("visit") ==
+                                        true) {
+                                      onBoardingController.message(
+                                          "الرجاء تسجيل الدخول أو إنشاء الحساب لإستكمال الإجراء");
+                                    } else {
+                                      controller.englishNameController.text =
+                                          sharedPreferences!
+                                              .getString("nameEn")!;
+                                      controller.emailController.text =
+                                          sharedPreferences!
+                                              .getString("email")!;
+                                      controller.phoneController.text =
+                                          sharedPreferences!
+                                              .getString("phone")!;
+                                      controller.imagerequest =
+                                          sharedPreferences!.getString("img")!;
+                                      controller.addressController.text =
+                                          sharedPreferences!
+                                              .getString("address")!;
+                                      controller.countryController.text =
+                                          sharedPreferences!
+                                              .getString("country")!;
+                                      controller.governorateController.text =
+                                          sharedPreferences!
+                                              .getString("governorate")!;
 
-                                        Get.to(() => const EditProfile());
-                                      }
+                                      Get.to(() => const EditProfile());
+                                    }
 
-                                      //profile
-                                    }, () {
-                                      Get.to(() => const ContactUs());
-                                      //communication
-                                    }, () {
-                                      Get.to(() => const InfoAboutUs());
-                                      //info
-                                    }, () {
-                                      Get.to(() => const ChooseLunguage());
-                                      //launguage
-                                    }),
-                                  )),
-                              Positioned(
-                                  top: 22.h,
-                                  right: 25.w,
-                                  left: 25.w,
-                                  child: box(() {
-                                    // my orders
-                                    Get.to(() => const MyOrders());
-                                  })),
-                            ],
+                                    //profile
+                                  }, () {
+                                    Get.to(() => const ContactUs());
+                                    //communication
+                                  }, () {
+                                    Get.to(() => const InfoAboutUs());
+                                    //info
+                                  }, () {
+                                    Get.to(() => const ChooseLunguage());
+                                    //launguage
+                                  }),
+                                ),
+                                Positioned(
+                                    top: 22.h,
+                                    right: 25.w,
+                                    left: 25.w,
+                                    child: box(() {
+                                      // my orders
+                                      Get.to(() => const MyOrders());
+                                    })),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-              );
-            } else {
-              return SizedBox(
-                  height: 100.h,
-                  width: 100.w,
-                  child:
-                      const Center(child: Text("no internet ............ !")));
-            }
-          },
-          child: CircularProgressIndicator(
-            color: LightMode.registerText,
-          ),
-        ));
+                );
+              } else {
+                return SizedBox(
+                    height: 100.h,
+                    width: 100.w,
+                    child: const Center(
+                        child: Text("no internet ............ !")));
+              }
+            },
+            child: CircularProgressIndicator(
+              color: LightMode.registerText,
+            ),
+          )),
+    );
   }
 
   Widget box(onPress) {
@@ -167,12 +171,16 @@ class ProfilePage extends StatelessWidget {
         width: 50.w,
         height: 9.h,
         decoration: BoxDecoration(
-            color: LightMode.registerText,
-            border: Border(
-                bottom: BorderSide(
-                    color: LightMode.registerButtonBorder.withOpacity(.2)),
-                right: BorderSide(
-                    color: LightMode.registerButtonBorder.withOpacity(.2))),
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerText
+                : DarkMode.darkModeSplash,
+            border: sharedPreferences!.getBool("darkMode") == false
+                ? Border(
+                    bottom: BorderSide(
+                        color: LightMode.registerButtonBorder.withOpacity(.2)),
+                    right: BorderSide(
+                        color: LightMode.registerButtonBorder.withOpacity(.2)))
+                : Border.all(color: DarkMode.buttonDarkColor),
             borderRadius: BorderRadius.circular(5.w)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -186,7 +194,9 @@ class ProfilePage extends StatelessWidget {
                     Text(
                       "طلباتي",
                       style: GoogleFonts.tajawal(
-                          color: LightMode.registerButtonBorder,
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor,
                           fontSize: 5.w,
                           fontWeight: FontWeight.w500),
                     ),
@@ -214,59 +224,23 @@ class ProfilePage extends StatelessWidget {
       width: 90.w,
       margin: EdgeInsets.only(right: 4.w, left: 4.w, top: 3.w),
       decoration: BoxDecoration(
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? null
+              : DarkMode.white_2DarkColor,
           borderRadius: BorderRadius.all(Radius.circular(7.w)),
-          border: Border(
-              right: BorderSide(
-                  color: LightMode.registerButtonBorder.withOpacity(.2),
-                  width: 2),
-              bottom: BorderSide(
-                  color: LightMode.registerButtonBorder.withOpacity(.2),
-                  width: 2))),
-      child: ElevatedButton(
-          onPressed: onPress,
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                color: LightMode.splash,
-                size: 5.w,
-              ),
-              SizedBox(
-                width: 3.w,
-              ),
-              Text(
-                title,
-                style: GoogleFonts.tajawal(
-                    color: LightMode.registerButtonBorder,
-                    fontSize: 3.5.w,
-                    fontWeight: FontWeight.w500),
-              )
-            ],
-          )),
-    );
-  }
-
-  Widget darkFieldProfile(
-      onPress, title, icon, Function(bool) onChange, bool value) {
-    return Container(
-      height: 5.h,
-      width: 90.w,
-      margin: EdgeInsets.only(right: 4.w, left: 4.w, top: 3.w),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(7.w)),
-          border: Border(
-              right: BorderSide(
-                  color: LightMode.registerButtonBorder.withOpacity(.2),
-                  width: 2),
-              bottom: BorderSide(
-                  color: LightMode.registerButtonBorder.withOpacity(.2),
-                  width: 2))),
-      child: ElevatedButton(
-          onPressed: onPress,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          border: sharedPreferences!.getBool("darkMode") == true
+              ? null
+              : Border(
+                  right: BorderSide(
+                      color: LightMode.registerButtonBorder.withOpacity(.2),
+                      width: 2),
+                  bottom: BorderSide(
+                      color: LightMode.registerButtonBorder.withOpacity(.2),
+                      width: 2))),
+      child: sharedPreferences!.getBool("darkMode") == false
+          ? ElevatedButton(
+              onPressed: onPress,
+              child: Row(
                 children: [
                   Icon(
                     icon,
@@ -279,21 +253,141 @@ class ProfilePage extends StatelessWidget {
                   Text(
                     title,
                     style: GoogleFonts.tajawal(
-                        color: LightMode.registerButtonBorder,
+                        color: sharedPreferences!.getBool("darkMode") == false
+                            ? LightMode.registerButtonBorder
+                            : DarkMode.whiteDarkColor,
                         fontSize: 3.5.w,
                         fontWeight: FontWeight.w500),
-                  ),
+                  )
                 ],
+              ))
+          : InkWell(
+              onTap: onPress,
+              child: Padding(
+                padding: EdgeInsets.only(right: 5.w, left: 5.w),
+                child: Row(
+                  children: [
+                    Icon(
+                      icon,
+                      color: LightMode.splash,
+                      size: 5.w,
+                    ),
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    Text(
+                      title,
+                      style: GoogleFonts.tajawal(
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor,
+                          fontSize: 3.5.w,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
               ),
-              Switch(
-                  activeColor: LightMode.registerText,
-                  activeTrackColor: LightMode.splash,
-                  inactiveTrackColor: LightMode.splash.withOpacity(.1),
-                  inactiveThumbColor: LightMode.registerText,
-                  value: value,
-                  onChanged: onChange)
-            ],
-          )),
+            ),
+    );
+  }
+
+  Widget darkFieldProfile(
+      onPress, title, icon, Function(bool) onChange, bool value) {
+    return Container(
+      height: 5.h,
+      width: 90.w,
+      margin: EdgeInsets.only(right: 4.w, left: 4.w, top: 3.w),
+      decoration: BoxDecoration(
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? null
+              : DarkMode.white_2DarkColor,
+          borderRadius: BorderRadius.all(Radius.circular(7.w)),
+          border: sharedPreferences!.getBool("darkMode") == true
+              ? null
+              : Border(
+                  right: BorderSide(
+                      color: LightMode.registerButtonBorder.withOpacity(.2),
+                      width: 2),
+                  bottom: BorderSide(
+                      color: LightMode.registerButtonBorder.withOpacity(.2),
+                      width: 2))),
+      child: sharedPreferences!.getBool("darkMode") == false
+          ? ElevatedButton(
+              onPressed: onPress,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        icon,
+                        color: LightMode.splash,
+                        size: 5.w,
+                      ),
+                      SizedBox(
+                        width: 3.w,
+                      ),
+                      Text(
+                        title,
+                        style: GoogleFonts.tajawal(
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
+                            fontSize: 3.5.w,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                  Switch(
+                      activeColor: LightMode.registerText,
+                      activeTrackColor: LightMode.splash,
+                      inactiveTrackColor: LightMode.splash.withOpacity(.1),
+                      inactiveThumbColor: LightMode.registerText,
+                      value: value,
+                      onChanged: onChange)
+                ],
+              ))
+          : InkWell(
+              onTap: onPress,
+              child: Padding(
+                padding: EdgeInsets.only(right: 5.w, left: 5.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          icon,
+                          color: LightMode.splash,
+                          size: 5.w,
+                        ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Text(
+                          title,
+                          style: GoogleFonts.tajawal(
+                              color: sharedPreferences!.getBool("darkMode") ==
+                                      false
+                                  ? LightMode.registerButtonBorder
+                                  : DarkMode.whiteDarkColor,
+                              fontSize: 3.5.w,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                    Switch(
+                        activeColor: LightMode.registerText,
+                        activeTrackColor: LightMode.splash,
+                        inactiveTrackColor: LightMode.splash.withOpacity(.1),
+                        inactiveThumbColor: LightMode.registerText,
+                        value: value,
+                        onChanged: onChange)
+                  ],
+                ),
+              ),
+            ),
     );
   }
 
@@ -303,7 +397,9 @@ class ProfilePage extends StatelessWidget {
       child: Text(
         text,
         style: GoogleFonts.tajawal(
-            color: LightMode.registerButtonBorder,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButtonBorder
+                : DarkMode.whiteDarkColor,
             fontSize: 3.5.w,
             fontWeight: FontWeight.bold),
       ),
@@ -316,9 +412,16 @@ class ProfilePage extends StatelessWidget {
       width: 100.w,
       height: 72.h,
       decoration: BoxDecoration(
+          border: Border(
+              top: BorderSide(
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerText
+                      : DarkMode.buttonDarkColor)),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(7.w), topRight: Radius.circular(7.w)),
-          color: LightMode.registerText),
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerText
+              : DarkMode.darkModeSplash),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

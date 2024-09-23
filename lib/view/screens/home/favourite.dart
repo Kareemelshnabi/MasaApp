@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/home/favourite_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/items/item_info.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -14,7 +15,9 @@ class FavouritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     FavouriteController controller = Get.put(FavouriteController());
     return Container(
-      color: LightMode.registerText,
+      color: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       child: Column(
         children: [
           appBarFavourite(),
@@ -93,7 +96,9 @@ class FavouritePage extends StatelessWidget {
             style: GoogleFonts.tajawal(
               fontSize: 5.w,
               fontWeight: FontWeight.bold,
-              color: LightMode.typeUserTitle,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.typeUserTitle
+                  : DarkMode.whiteDarkColor,
             ),
           ),
         ),

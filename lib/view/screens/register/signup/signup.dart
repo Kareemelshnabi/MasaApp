@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:get/get.dart';
@@ -6,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/register/register_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/generated/l10n.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/profile/policy_page.dart';
 import 'package:mas_app/view/screens/profile/services_page.dart';
 import 'package:mas_app/view/screens/register/login/login.dart';
@@ -21,7 +21,9 @@ class SignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     RegisterController registerController = Get.put(RegisterController());
     return Scaffold(
-        backgroundColor: LightMode.registerText,
+        backgroundColor: sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerText
+            : DarkMode.darkModeSplash,
         body: SingleChildScrollView(
             child: OfflineBuilder(
           connectivityBuilder: (context, ConnectivityResult value, child) {
@@ -140,7 +142,11 @@ class SignUp extends StatelessWidget {
                                         controller.choose,
                                         controller.choose == true
                                             ? LightMode.splash
-                                            : Colors.white),
+                                            : sharedPreferences!
+                                                        .getBool("darkMode") ==
+                                                    false
+                                                ? Colors.white
+                                                : DarkMode.darkModeSplash),
                                   ),
                                   const SizedBox(
                                     width: 10,
@@ -208,7 +214,9 @@ class SignUp extends StatelessWidget {
 Widget termsText(onTap, value, colorCheck) {
   return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? Colors.white
+              : DarkMode.darkModeSplash,
           border: Border.all(color: LightMode.registerButton),
           borderRadius: const BorderRadius.all(Radius.circular(5))),
       width: 4.5.w,
@@ -262,7 +270,9 @@ Widget onBtnClick(text, onPress) {
         child: Text(
           text,
           style: GoogleFonts.tajawal(
-              color: LightMode.onBoardOneText,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.onBoardOneText
+                  : DarkMode.darkModeSplash,
               fontSize: 4.w,
               fontWeight: FontWeight.w500),
         )),
@@ -288,7 +298,9 @@ Widget multiTextSignUp(text, onPressed, textTap) {
             style: GoogleFonts.tajawal(
                 fontSize: 3.w,
                 fontWeight: FontWeight.w500,
-                color: LightMode.registerButton),
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButton
+                    : DarkMode.buttonDarkColor),
           )),
     ],
   );
@@ -302,7 +314,9 @@ Widget textTerms(text, textAlign, fontSize, fontWeight) {
     style: GoogleFonts.tajawal(
         fontSize: fontSize,
         fontWeight: fontWeight,
-        color: LightMode.registerButtonBorder),
+        color: sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerButtonBorder
+            : DarkMode.whiteDarkColor),
   );
 }
 
@@ -312,8 +326,8 @@ Widget appBarRegister(context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: 20.w,
           child: Padding(
             padding: EdgeInsets.only(top: 7.w),
             child: IconButton(
@@ -322,11 +336,17 @@ Widget appBarRegister(context) {
                       ? Get.back()
                       : Get.off(() => const MainRegister());
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 6.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
+                )),
           ),
         ),
-        Expanded(
-          flex: 5,
+        SizedBox(
+          width: 60.w,
           child: Container(
             margin: EdgeInsets.only(top: 7.h, bottom: 2.h, right: 13.w),
             child: Text(
@@ -334,12 +354,16 @@ Widget appBarRegister(context) {
               style: GoogleFonts.tajawal(
                 fontSize: 5.5.w,
                 fontWeight: FontWeight.bold,
-                color: LightMode.typeUserTitle,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.typeUserTitle
+                    : DarkMode.whiteDarkColor,
               ),
             ),
           ),
         ),
-        Expanded(flex: 1, child: Container()),
+        SizedBox(
+          width: 20.w,
+        ),
       ],
     ),
   );
@@ -355,7 +379,9 @@ Widget bodyRegister(context) {
         style: GoogleFonts.tajawal(
           fontSize: 3.5.w,
           fontWeight: FontWeight.w500,
-          color: LightMode.typeUserBody,
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.typeUserBody
+              : DarkMode.whiteDarkColor,
         ),
       ),
     ),
@@ -370,7 +396,11 @@ Widget textField(String? Function(String?)? validator, controller, keyboardType,
     height: 9.h,
     child: TextFormField(
       style: GoogleFonts.tajawal(
-          color: LightMode.splash, fontSize: 4.w, fontWeight: FontWeight.w500),
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.splash
+              : DarkMode.whiteDarkColor,
+          fontSize: 4.w,
+          fontWeight: FontWeight.w500),
       obscureText: obscure == true ? true : false,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validator,
@@ -398,6 +428,12 @@ Widget textField(String? Function(String?)? validator, controller, keyboardType,
           ),
         ),
         disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: LightMode.splash,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
             color: LightMode.splash,

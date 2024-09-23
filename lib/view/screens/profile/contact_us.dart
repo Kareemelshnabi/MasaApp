@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -12,6 +13,9 @@ class ContactUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -90,7 +94,9 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
                 color: LightMode.splash),
             child: Icon(
               icon,
-              color: LightMode.registerText,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerText
+                  : DarkMode.darkModeSplash,
               size: 7.w,
             )),
         SizedBox(
@@ -99,9 +105,11 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
         Text(
           title,
           style: GoogleFonts.tajawal(
-            fontSize: 3.5.w,
-            fontWeight: FontWeight.w600,
-          ),
+              fontSize: 3.5.w,
+              fontWeight: FontWeight.w600,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerButtonBorder
+                  : DarkMode.whiteDarkColor),
         ),
         SizedBox(
           height: 2.w,
@@ -109,9 +117,11 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
         Text(
           body,
           style: GoogleFonts.tajawal(
-            fontSize: 3.w,
-            fontWeight: FontWeight.w400,
-          ),
+              fontSize: 3.w,
+              fontWeight: FontWeight.w400,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerButtonBorder
+                  : DarkMode.whiteDarkColor),
         ),
         SizedBox(
           height: 2.w,
@@ -125,7 +135,9 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
                   style: GoogleFonts.tajawal(
                       fontSize: 3.5.w,
                       fontWeight: FontWeight.w700,
-                      color: LightMode.splash),
+                      color: sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.splash
+                          : DarkMode.whiteDarkColor),
                 ))
             : Row(
                 children: [
@@ -142,7 +154,10 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
                           onPressed: onPressFaceBook,
                           icon: Icon(
                             Icons.facebook,
-                            color: LightMode.registerText,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerText
+                                    : DarkMode.darkModeSplash,
                             size: 6.w,
                           ))),
                   Container(
@@ -160,6 +175,10 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
                             ImagesLink.instegramImage,
                             height: 7.w,
                             width: 7.w,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerText
+                                    : DarkMode.darkModeSplash,
                             fit: BoxFit.fill,
                           ))),
                   Container(
@@ -177,6 +196,10 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
                             ImagesLink.youtubeImage,
                             height: 7.w,
                             width: 7.w,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerText
+                                    : DarkMode.darkModeSplash,
                             fit: BoxFit.fill,
                           ))),
                   Container(
@@ -194,6 +217,10 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
                             ImagesLink.twitterImage,
                             height: 7.w,
                             width: 7.w,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerText
+                                    : DarkMode.darkModeSplash,
                             fit: BoxFit.fill,
                           )))
                 ],
@@ -211,9 +238,11 @@ Widget bodyText(text) {
       text,
       textAlign: TextAlign.center,
       style: GoogleFonts.tajawal(
-        fontSize: 3.5.w,
-        fontWeight: FontWeight.w700,
-      ),
+          fontSize: 3.5.w,
+          fontWeight: FontWeight.w700,
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerButtonBorder
+              : DarkMode.whiteDarkColor),
     ),
   );
 }
@@ -224,8 +253,8 @@ Widget appBarMyOrders(context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: 20.w,
           child: Padding(
             padding: EdgeInsets.only(top: 7.w),
             child: IconButton(
@@ -234,24 +263,35 @@ Widget appBarMyOrders(context) {
                       ? Get.back()
                       : Get.off(() => const Home());
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 6.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
+                )),
           ),
         ),
-        Expanded(
-          flex: 5,
+        SizedBox(
+          width: 60.w,
           child: Container(
-            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 22.w),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
             child: Text(
               "تواصل معنا",
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,
-                color: LightMode.typeUserTitle,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.typeUserTitle
+                    : DarkMode.whiteDarkColor,
               ),
             ),
           ),
         ),
-        Expanded(flex: 1, child: Container()),
+        SizedBox(
+          width: 20.w,
+        ),
       ],
     ),
   );

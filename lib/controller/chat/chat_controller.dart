@@ -562,6 +562,9 @@ class ChatController extends GetxController {
 
   firstMessage() {
     Get.defaultDialog(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? null
+          : DarkMode.darkModeSplash,
       title: "",
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.only(bottom: 3.w, right: 2.w, left: 2.w),
@@ -585,7 +588,9 @@ class ChatController extends GetxController {
                   "مراجعة الطلب",
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
-                      color: LightMode.registerText,
+                      color: sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerText
+                          : DarkMode.darkModeSplash,
                       fontWeight: FontWeight.w500),
                 ),
               ),
@@ -611,7 +616,9 @@ class ChatController extends GetxController {
                   "تأكيد الطلب",
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
-                      color: LightMode.registerText,
+                      color: sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerText
+                          : DarkMode.darkModeSplash,
                       fontWeight: FontWeight.w500),
                 ),
               ),

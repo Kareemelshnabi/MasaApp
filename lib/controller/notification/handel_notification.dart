@@ -24,6 +24,5 @@ class FirebaseNotification {
   Future<void> handelBackGround() async {
     firebaseMessagin.getInitialMessage().then(handelMassage);
     FirebaseMessaging.onMessageOpenedApp.listen(handelMassage);
-  
   }
 }

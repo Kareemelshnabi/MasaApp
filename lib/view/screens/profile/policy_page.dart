@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/profile/policy_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -14,6 +15,9 @@ class PolicyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(PolicyController());
     return Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: GetBuilder<PolicyController>(
         builder: (controller) => Column(
           children: [
@@ -35,16 +39,24 @@ class PolicyPage extends StatelessWidget {
                 controller.show == false ? null : LightMode.searchField,
                 "ما هو التطبيق الخاص بنا ؟",
                 controller.show == false
-                    ? LightMode.registerButtonBorder
-                    : LightMode.splash, () {
+                    ? sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor
+                    : sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.splash
+                        : DarkMode.darkModeSplash, () {
               controller.showText();
             },
                 controller.show == false
                     ? Icons.arrow_drop_down
                     : Icons.arrow_drop_up,
                 controller.show == false
-                    ? LightMode.registerButtonBorder
-                    : LightMode.splash,
+                    ? sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor
+                    : sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.splash
+                        : DarkMode.darkModeSplash,
                 controller.show,
                 "هو تطبيق بيقدم خدمات كتير تساعدنا علي توفير وقت لذهاب وتضيع الوقت وبيقدم خدمات كثير مثل خدمات دراسية وخدمات كثير يمكن التعرف عليها من خلال تصفح التطبيق الخاص بنا ويمكن طلب أي شئ تريده من خلالنا ويمكن التحدث معنا من خلال خدمة العملاء")
           ],
@@ -89,12 +101,16 @@ Widget questionText(
                 style: GoogleFonts.tajawal(
                     fontSize: 3.w,
                     fontWeight: FontWeight.w600,
-                    color: LightMode.registerButtonBorder),
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor),
               )
             : const SizedBox(),
         show == false
             ? Divider(
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
                 height: 2,
               )
             : const SizedBox()
@@ -109,8 +125,8 @@ Widget appBarMyPolicy(context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: 20.w,
           child: Padding(
             padding: EdgeInsets.only(top: 7.w),
             child: IconButton(
@@ -119,24 +135,38 @@ Widget appBarMyPolicy(context) {
                       ? Get.back()
                       : Get.off(() => const Home());
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 6.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
+                )),
           ),
         ),
-        Expanded(
-          flex: 5,
+        SizedBox(
+          width: 60.w,
           child: Container(
-            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 18.w),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(
+              top: 6.5.h,
+              bottom: 2.h,
+            ),
             child: Text(
-              "سياسة الخصوصية",
+              "الأسئلة الشائعة",
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,
-                color: LightMode.typeUserTitle,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.typeUserTitle
+                    : DarkMode.whiteDarkColor,
               ),
             ),
           ),
         ),
-        Expanded(flex: 1, child: Container()),
+        SizedBox(
+          width: 20.w,
+        ),
       ],
     ),
   );

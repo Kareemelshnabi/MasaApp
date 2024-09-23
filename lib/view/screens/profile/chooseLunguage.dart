@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -13,7 +14,9 @@ class ChooseLunguage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: LightMode.splash,
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.splash
+          : DarkMode.darkModeSplash,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -24,10 +27,15 @@ class ChooseLunguage extends StatelessWidget {
               margin: EdgeInsets.only(top: 10.h),
               padding: EdgeInsets.only(top: 5.w),
               decoration: BoxDecoration(
+                border: sharedPreferences!.getBool("darkMode") == false
+                    ? null
+                    : Border(top: BorderSide(color: DarkMode.buttonDarkColor)),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(4.w),
                     topRight: Radius.circular(4.w)),
-                color: LightMode.registerText,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerText
+                    : DarkMode.darkModeSplash,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,6 +47,9 @@ class ChooseLunguage extends StatelessWidget {
                         "اللغة",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.tajawal(
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor,
                           fontSize: 4.w,
                           fontWeight: FontWeight.w700,
                         ),
@@ -56,14 +67,14 @@ class ChooseLunguage extends StatelessWidget {
                     height: 5.w,
                   ),
                   btnClick(() {
-                  //  sharedPreferences!.setString("local", "ar");
+                    //  sharedPreferences!.setString("local", "ar");
                     Get.off(() => const Home());
                   }, "العربية"),
                   SizedBox(
                     height: 3.w,
                   ),
                   btnClick(() {
-                 //   sharedPreferences!.setString("local", "en");
+                    //   sharedPreferences!.setString("local", "en");
                     Get.off(() => const Home());
                   }, "English")
                 ],
@@ -77,23 +88,52 @@ class ChooseLunguage extends StatelessWidget {
 }
 
 Widget btnClick(onPress, lang) {
-  return Container(
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.w),
-        border: Border(
-            bottom: BorderSide(
-                color: LightMode.registerButtonBorder.withOpacity(.2),
-                width: 3))),
-    width: 50.w,
-    height: 5.h,
-    child: ElevatedButton(
-        onPressed: onPress,
-        child: Text(
-          lang,
-          style:
-              GoogleFonts.tajawal(fontSize: 3.5.w, fontWeight: FontWeight.w500),
-        )),
-  );
+  return sharedPreferences!.getBool("darkMode") == false
+      ? Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.w),
+              border: Border(
+                  bottom: BorderSide(
+                      color: LightMode.registerButtonBorder.withOpacity(.2),
+                      width: 3))),
+          width: 50.w,
+          height: 5.h,
+          child: ElevatedButton(
+              onPressed: onPress,
+              child: Text(
+                lang,
+                style: GoogleFonts.tajawal(
+                  fontSize: 3.5.w,
+                  fontWeight: FontWeight.w500,
+                ),
+              )),
+        )
+      : InkWell(
+          onTap: onPress,
+          child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? null
+                      : DarkMode.white_2DarkColor,
+                  borderRadius: BorderRadius.circular(5.w),
+                  border: Border(
+                      bottom: BorderSide(
+                          color: LightMode.registerButtonBorder.withOpacity(.2),
+                          width: 3))),
+              width: 50.w,
+              height: 5.h,
+              child: Text(
+                lang,
+                style: GoogleFonts.tajawal(
+                  fontSize: 3.5.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? null
+                      : DarkMode.whiteDarkColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              )),
+        );
 }
 
 Widget appBarProfile() {
@@ -102,8 +142,8 @@ Widget appBarProfile() {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: 20.w,
           child: Padding(
             padding: EdgeInsets.only(top: 7.w),
             child: IconButton(
@@ -111,15 +151,17 @@ Widget appBarProfile() {
                   Get.back();
                 },
                 icon: Icon(
+                  size: 6.w,
                   Icons.arrow_back_ios,
                   color: LightMode.registerText,
                 )),
           ),
         ),
-        Expanded(
-          flex: 5,
+        SizedBox(
+          width: 60.w,
           child: Container(
-            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 23.w),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
             child: Text(
               "اختر اللغة",
               style: GoogleFonts.tajawal(
@@ -130,7 +172,9 @@ Widget appBarProfile() {
             ),
           ),
         ),
-        Expanded(flex: 1, child: Container()),
+        SizedBox(
+          width: 20.w,
+        ),
       ],
     ),
   );

@@ -18,6 +18,9 @@ class ItemInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(ItemsInfoController());
     return Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: SingleChildScrollView(
         child: GetBuilder<ItemsInfoController>(
           builder: (controller) => Column(
@@ -58,7 +61,11 @@ class ItemInfo extends StatelessWidget {
                                   radius: const Radius.circular(10),
                                   strokeWidth: 1.5,
                                   borderType: BorderType.RRect,
-                                  color: LightMode.splash,
+                                  color:
+                                      sharedPreferences!.getBool("darkMode") ==
+                                              false
+                                          ? LightMode.splash
+                                          : DarkMode.whiteDarkColor,
                                   child: Center(
                                     child: Text(
                                       "لا يوجد منتجات",
@@ -67,7 +74,11 @@ class ItemInfo extends StatelessWidget {
                                       style: GoogleFonts.tajawal(
                                           fontSize: 3.5.w,
                                           fontWeight: FontWeight.bold,
-                                          color: LightMode.splash),
+                                          color: sharedPreferences!
+                                                      .getBool("darkMode") ==
+                                                  false
+                                              ? LightMode.splash
+                                              : DarkMode.whiteDarkColor),
                                     ),
                                   ),
                                 ),
@@ -220,22 +231,30 @@ class ItemInfo extends StatelessWidget {
                                         .productInfo!.specifications!.length,
                                     itemBuilder: (context, index) => InkWell(
                                         onTap: () {
-                                          controller.setIndex(
-                                              index,
-                                              controller.productInfo!
-                                                  .specifications![index].image,
-                                              controller.productInfo!
-                                                  .specifications![index].title,
-                                              controller.productInfo!
-                                                  .specifications![index].price,
-                                              controller
-                                                  .productInfo!
-                                                  .specifications![index]
-                                                  .priceAfterDiscount,
-                                              controller
-                                                  .productInfo!
-                                                  .specifications![index]
-                                                  .available);
+                                          controller.index == null
+                                              ? controller.setIndex(
+                                                  index,
+                                                  controller
+                                                      .productInfo!
+                                                      .specifications![index]
+                                                      .image,
+                                                  controller
+                                                      .productInfo!
+                                                      .specifications![index]
+                                                      .title,
+                                                  controller
+                                                      .productInfo!
+                                                      .specifications![index]
+                                                      .price,
+                                                  controller
+                                                      .productInfo!
+                                                      .specifications![index]
+                                                      .priceAfterDiscount,
+                                                  controller
+                                                      .productInfo!
+                                                      .specifications![index]
+                                                      .available)
+                                              : controller.removeIndex();
                                         },
                                         child: cardOfItem(
                                             controller
@@ -270,8 +289,12 @@ class ItemInfo extends StatelessWidget {
                                                 : true,
                                             controller.index == index
                                                 ? LightMode.splash
-                                                : LightMode
-                                                    .registerButtonBorder)),
+                                                : sharedPreferences!.getBool(
+                                                            "darkMode") ==
+                                                        false
+                                                    ? LightMode
+                                                        .registerButtonBorder
+                                                    : DarkMode.whiteDarkColor)),
                                   ),
                                 ),
                               )
@@ -285,9 +308,10 @@ class ItemInfo extends StatelessWidget {
                                 ? controller.productInfo!.priceAfterDiscount
                                 : controller.priceAfterdiscount,
                             controller.index == null
-                                ? ((controller.productInfo!.discountValue!.toDouble() / double.parse(controller.productInfo!.price!)) *
-                                        100)
-                                    .roundToDouble()
+                                ? (controller.productInfo!.discountType == "fixed"
+                                    ? ((controller.productInfo!.discountValue!.toDouble() / double.parse(controller.productInfo!.price!)) * 100)
+                                        .roundToDouble()
+                                    : controller.productInfo!.discountValue)
                                 : (((double.parse(controller.price!) - double.parse(controller.priceAfterdiscount!)) /
                                             double.parse(controller.price!)) *
                                         100)
@@ -296,14 +320,13 @@ class ItemInfo extends StatelessWidget {
                                 ? controller.productInfo!.price
                                 : controller.price,
                             controller.productInfo!.freeDeliveryEndDate == null ||
-                                    DateTime.now().isAfter(DateTime.parse(
-                                        controller
-                                            .productInfo!.freeDeliveryEndDate!))
+                                    DateTime.now().isAfter(DateTime.parse(controller
+                                        .productInfo!.freeDeliveryEndDate!))
                                 ? ""
                                 : "التوصيل مجاني ",
                             controller.productInfo!.freeDeliveryEndDate == null ||
-                                    DateTime.now().isAfter(
-                                        DateTime.parse(controller.productInfo!.freeDeliveryEndDate!))
+                                    DateTime.now()
+                                        .isAfter(DateTime.parse(controller.productInfo!.freeDeliveryEndDate!))
                                 ? ""
                                 : "${controller.productInfo!.freeDeliveryStartDate} , ${controller.productInfo!.freeDeliveryEndDate}",
                             "التوصيل الي ${sharedPreferences!.getString("address")} - ${sharedPreferences!.getString("nameEn")}",
@@ -360,7 +383,10 @@ class ItemInfo extends StatelessWidget {
                             "التسوق بثقة",
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
-                                color: LightMode.registerButtonBorder,
+                                color: sharedPreferences!.getBool("darkMode") ==
+                                        false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -401,7 +427,10 @@ class ItemInfo extends StatelessWidget {
                             "تفاصيل المنتج",
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
-                                color: LightMode.registerButtonBorder,
+                                color: sharedPreferences!.getBool("darkMode") ==
+                                        false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                                 fontWeight: FontWeight.w700),
                           ),
                         ),
@@ -429,7 +458,10 @@ class ItemInfo extends StatelessWidget {
                             "تفاصيل إضافية",
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
-                                color: LightMode.registerButtonBorder,
+                                color: sharedPreferences!.getBool("darkMode") ==
+                                        false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                                 fontWeight: FontWeight.w700),
                           ),
                         ),
@@ -442,7 +474,10 @@ class ItemInfo extends StatelessWidget {
                             controller.productInfo!.description!,
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
-                                color: LightMode.registerButtonBorder,
+                                color: sharedPreferences!.getBool("darkMode") ==
+                                        false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                                 fontWeight: FontWeight.w700),
                           ),
                         ),
@@ -454,7 +489,10 @@ class ItemInfo extends StatelessWidget {
                             "مراجعة المستخدمين",
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
-                                color: LightMode.registerButtonBorder,
+                                color: sharedPreferences!.getBool("darkMode") ==
+                                        false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                                 fontWeight: FontWeight.w700),
                           ),
                         ),
@@ -550,8 +588,11 @@ class ItemInfo extends StatelessWidget {
             padding: EdgeInsets.only(top: 1.w, right: 3.w),
             child: Text(
               "$rating من أصل 5 ",
-              style:
-                  GoogleFonts.tajawal(fontSize: 3.w, color: LightMode.splash),
+              style: GoogleFonts.tajawal(
+                  fontSize: 3.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.splash
+                      : DarkMode.whiteDarkColor.withOpacity(.7)),
             ),
           ),
         ],
@@ -570,14 +611,18 @@ class ItemInfo extends StatelessWidget {
             key,
             style: GoogleFonts.tajawal(
                 fontSize: 3.5.w,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
                 fontWeight: FontWeight.w700),
           ),
           Text(
             value,
             style: GoogleFonts.tajawal(
                 fontSize: 3.5.w,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
                 fontWeight: FontWeight.w700),
           ),
         ],
@@ -590,7 +635,9 @@ class ItemInfo extends StatelessWidget {
       child: SizedBox(
         width: 90.w,
         child: Divider(
-          color: LightMode.registerButtonBorder,
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerButtonBorder
+              : DarkMode.whiteDarkColor,
           thickness: thikness,
         ),
       ),
@@ -603,7 +650,9 @@ class ItemInfo extends StatelessWidget {
         Icon(
           icon,
           size: 6.w,
-          color: LightMode.registerButtonBorder,
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerButtonBorder
+              : DarkMode.whiteDarkColor,
         ),
         SizedBox(
           width: 2.w,
@@ -636,13 +685,18 @@ class ItemInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(
+            height: 1.w,
+          ),
           img,
           Text(
             color,
             textAlign: TextAlign.center,
             style: GoogleFonts.tajawal(
                 fontSize: 3.5.w,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
                 fontWeight: FontWeight.w700),
           ),
           Text(
@@ -650,7 +704,9 @@ class ItemInfo extends StatelessWidget {
             textAlign: TextAlign.center,
             style: GoogleFonts.tajawal(
                 fontSize: 3.w,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
                 fontWeight: FontWeight.w600),
           ),
           status == true
@@ -688,7 +744,13 @@ class ItemInfo extends StatelessWidget {
                   onPressed: () {
                     Get.back();
                   },
-                  icon: const Icon(Icons.arrow_back_ios))),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 6.w,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
+                  ))),
           searchField(controller, hintText, onChange, onPress, icon),
         ],
       ),
@@ -706,22 +768,35 @@ class ItemInfo extends StatelessWidget {
       height: 6.h,
       child: TextFormField(
         onChanged: onChange,
+        style: GoogleFonts.tajawal(
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButtonBorder
+                : DarkMode.whiteDarkColor,
+            fontSize: 4.w,
+            fontWeight: FontWeight.w500),
         controller: controller,
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
             size: 5.w,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.splash
+                : DarkMode.whiteDarkColor,
           ),
           suffixIcon: IconButton(
               onPressed: onPress,
               icon: Icon(
                 icon,
-                color: LightMode.splash,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.splash
+                    : DarkMode.whiteDarkColor,
                 size: 5.w,
               )),
           contentPadding: EdgeInsets.only(top: 1.w),
           hintStyle: GoogleFonts.tajawal(
-              color: LightMode.registerButtonBorder,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerButtonBorder
+                  : DarkMode.whiteDarkColor,
               fontSize: 4.w,
               fontWeight: FontWeight.w500),
           hintText: text,
@@ -757,19 +832,24 @@ class ItemInfo extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "العلامة التجارية : $brand",
-                      style: GoogleFonts.tajawal(
-                          fontSize: 3.5.w,
-                          color: LightMode.splash,
-                          fontWeight: FontWeight.w600),
-                    ),
+                    if (brand != null || brand != "" || brand != "null")
+                      Text(
+                        "العلامة التجارية : $brand",
+                        style: GoogleFonts.tajawal(
+                            fontSize: 3.5.w,
+                            color: LightMode.splash,
+                            fontWeight: FontWeight.w600),
+                      ),
                     Text(
                       discriptionItem,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.tajawal(
-                          fontSize: 2.5.w, fontWeight: FontWeight.w600),
+                          fontSize: 2.5.w,
+                          fontWeight: FontWeight.w600,
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor),
                     ),
                   ],
                 ),
@@ -784,8 +864,11 @@ class ItemInfo extends StatelessWidget {
                       child: Text(
                         "$ratingPrecentage",
                         style: GoogleFonts.tajawal(
-                          fontSize: 3.w,
-                        ),
+                            fontSize: 3.w,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor),
                       ),
                     ),
                     rating == 0
@@ -918,46 +1001,44 @@ class ItemInfo extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    "-$discountPrecntage%",
-                    style: GoogleFonts.tajawal(
-                        color: LightMode.discountCollor,
-                        fontSize: 4.w,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  if (discountPrecntage != "" &&
+                      discountPrecntage != "null" &&
+                      discountPrecntage != null)
+                    Text(
+                      "-$discountPrecntage%",
+                      style: GoogleFonts.tajawal(
+                          color: LightMode.discountCollor,
+                          fontSize: 4.w,
+                          fontWeight: FontWeight.bold),
+                    ),
                   SizedBox(
                     width: 3.w,
                   ),
-                  Text(
-                    "$priceWithDiscount دينار كويتي",
-                    style: GoogleFonts.tajawal(
-                        fontSize: 4.w, fontWeight: FontWeight.w700),
-                  ),
+                  priceWithDiscount != "" &&
+                          priceWithDiscount != "null" &&
+                          priceWithDiscount != null
+                      ? Text(
+                          "$priceWithDiscount دينار كويتي",
+                          style: GoogleFonts.tajawal(
+                              color: sharedPreferences!.getBool("darkMode") ==
+                                      false
+                                  ? LightMode.registerButtonBorder
+                                  : DarkMode.whiteDarkColor,
+                              fontSize: 4.w,
+                              fontWeight: FontWeight.w700),
+                        )
+                      : Text(
+                          "$priceWithoutDiscount دينار كويتي",
+                          style: GoogleFonts.tajawal(
+                              color: sharedPreferences!.getBool("darkMode") ==
+                                      false
+                                  ? LightMode.registerButtonBorder
+                                  : DarkMode.whiteDarkColor,
+                              fontSize: 4.w,
+                              fontWeight: FontWeight.w700),
+                        ),
                 ],
               ),
-              // Container(
-              //   margin: EdgeInsets.only(left: 4.w),
-              //   child: Row(
-              //     children: [
-              //       IconButton(
-              //         onPressed: onPressFav,
-              //         icon: Icon(
-              //           Icons.favorite_border_outlined,
-              //           size: 7.w,
-              //         ),
-              //       ),
-              //       SizedBox(
-              //         width: 3.w,
-              //       ),
-              //       IconButton(
-              //           onPressed: onPressShare,
-              //           icon: Icon(
-              //             Icons.ios_share_outlined,
-              //             size: 7.w,
-              //           ))
-              //     ],
-              //   ),
-              // ),
             ],
           ),
           SizedBox(
@@ -968,7 +1049,11 @@ class ItemInfo extends StatelessWidget {
               Text(
                 "السعر بدون خصم :",
                 style: GoogleFonts.tajawal(
-                    fontSize: 3.w, fontWeight: FontWeight.w600),
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
+                    fontSize: 3.w,
+                    fontWeight: FontWeight.w600),
               ),
               Text(
                 "$priceWithoutDiscount",
@@ -976,6 +1061,9 @@ class ItemInfo extends StatelessWidget {
                     decoration: TextDecoration.lineThrough,
                     decorationThickness: 2,
                     fontSize: 3.w,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
                     fontWeight: FontWeight.w600),
               ),
             ],
@@ -986,8 +1074,12 @@ class ItemInfo extends StatelessWidget {
           Text(
             "الاسعار تشمل الضريبة",
             textAlign: TextAlign.right,
-            style:
-                GoogleFonts.tajawal(fontSize: 3.w, fontWeight: FontWeight.w600),
+            style: GoogleFonts.tajawal(
+                fontSize: 3.w,
+                fontWeight: FontWeight.w600,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor),
           ),
           SizedBox(
             height: 2.w,
@@ -1027,21 +1119,6 @@ class ItemInfo extends StatelessWidget {
           SizedBox(
             height: 1.w,
           ),
-          // status == 1
-          //     ? Text(
-          //         "متوفر",
-          //         style: GoogleFonts.tajawal(
-          //             color: LightMode.splash,
-          //             fontSize: 3.w,
-          //             fontWeight: FontWeight.w700),
-          //       )
-          //     : Text(
-          //         "غير متوفر",
-          //         style: GoogleFonts.tajawal(
-          //             color: LightMode.discountCollor,
-          //             fontSize: 3.w,
-          //             fontWeight: FontWeight.w700),
-          //       ),
         ],
       ),
     );
@@ -1069,8 +1146,12 @@ class ItemInfo extends StatelessWidget {
                 color: LightMode.searchField),
             icon: const Icon(Icons.arrow_drop_down_sharp),
             borderRadius: const BorderRadius.all(Radius.circular(25)),
-            iconDisabledColor: LightMode.registerButtonBorder,
-            iconEnabledColor: LightMode.registerButtonBorder,
+            iconDisabledColor: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButtonBorder
+                : DarkMode.whiteDarkColor,
+            iconEnabledColor: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButtonBorder
+                : DarkMode.whiteDarkColor,
             menuMaxHeight: 20.h,
             hint: Text(
               "الكمية",
@@ -1079,10 +1160,14 @@ class ItemInfo extends StatelessWidget {
               style: GoogleFonts.tajawal(
                   fontSize: 3.7.w,
                   fontWeight: FontWeight.w500,
-                  color: LightMode.registerButtonBorder),
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor),
             ),
             value: value,
-            dropdownColor: LightMode.registerText,
+            dropdownColor: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerText
+                : DarkMode.darkModeSplash,
             items: [
               ...List.generate(
                 list,
@@ -1092,7 +1177,10 @@ class ItemInfo extends StatelessWidget {
                         style: GoogleFonts.tajawal(
                             fontSize: 3.7.w,
                             fontWeight: FontWeight.w500,
-                            color: LightMode.registerButtonBorder))),
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor))),
               )
             ],
             onChanged: onChange,
@@ -1132,14 +1220,18 @@ class ItemInfo extends StatelessWidget {
               Text(
                 "يشحن من ",
                 style: GoogleFonts.tajawal(
-                    color: LightMode.registerButtonBorder,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
                     fontSize: 3.w,
                     fontWeight: FontWeight.w500),
               ),
               Text(
                 text1,
                 style: GoogleFonts.tajawal(
-                    color: LightMode.registerButtonBorder,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
                     fontSize: 3.w,
                     fontWeight: FontWeight.w500),
               )
@@ -1154,14 +1246,18 @@ class ItemInfo extends StatelessWidget {
               Text(
                 "يباع من ",
                 style: GoogleFonts.tajawal(
-                    color: LightMode.registerButtonBorder,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
                     fontSize: 3.w,
                     fontWeight: FontWeight.w500),
               ),
               Text(
                 text2,
                 style: GoogleFonts.tajawal(
-                    color: LightMode.registerButtonBorder,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
                     fontSize: 3.w,
                     fontWeight: FontWeight.w500),
               )
@@ -1190,6 +1286,7 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
             margin: EdgeInsets.all(4.w),
             width: 65.w,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1197,7 +1294,9 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
                     Text(
                       nameOfItem,
                       style: GoogleFonts.tajawal(
-                          color: LightMode.registerButtonBorder,
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor,
                           fontSize: 4.w,
                           fontWeight: FontWeight.bold),
                     ),
@@ -1283,15 +1382,20 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
                 SizedBox(
                   height: 2.w,
                 ),
-                Text(
-                  discription,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.right,
-                  style: GoogleFonts.tajawal(
-                      color: LightMode.registerButtonBorder,
-                      fontSize: 2.5.w,
-                      fontWeight: FontWeight.w600),
+                SizedBox(
+                  width: 65.w,
+                  child: Text(
+                    discription,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
+                    style: GoogleFonts.tajawal(
+                        color: sharedPreferences!.getBool("darkMode") == false
+                            ? LightMode.registerButtonBorder
+                            : DarkMode.whiteDarkColor,
+                        fontSize: 2.5.w,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
                 SizedBox(
                   height: 2.w,
@@ -1308,7 +1412,10 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
                             style: TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 decorationColor: LightMode.registerButtonBorder,
-                                color: LightMode.registerButtonBorder,
+                                color: sharedPreferences!.getBool("darkMode") ==
+                                        false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                                 fontSize: 2.5.w,
                                 fontWeight: FontWeight.w400),
                           ),
@@ -1318,7 +1425,10 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
                           Text(
                             "$priceWithDiscount دينار",
                             style: GoogleFonts.tajawal(
-                                color: LightMode.registerButtonBorder,
+                                color: sharedPreferences!.getBool("darkMode") ==
+                                        false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                                 fontSize: 2.5.w,
                                 fontWeight: FontWeight.w700),
                           ),

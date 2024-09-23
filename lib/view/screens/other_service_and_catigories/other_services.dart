@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/other_services/other_services_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/other_service_and_catigories/categories.dart';
@@ -17,7 +18,8 @@ class OtherServices extends StatelessWidget {
   Widget build(BuildContext context) {
     OtherServicesController controller = Get.put(OtherServicesController());
     return Scaffold(
-      backgroundColor: LightMode.registerText,
+      backgroundColor:sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerText:DarkMode.darkModeSplash,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -74,19 +76,21 @@ class OtherServices extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            width: 20.w,
             child: Padding(
               padding: EdgeInsets.only(top: 7.w),
               child: IconButton(
                   onPressed: () {
                     Get.off(() => const Home());
                   },
-                  icon: const Icon(Icons.arrow_back_ios)),
+                  icon:  Icon(Icons.arrow_back_ios,size: 6.w,color: sharedPreferences!.getBool("darkMode") == false
+            ?LightMode.registerButtonBorder:DarkMode.whiteDarkColor,)),
             ),
           ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+
+            width: 60.w,
             child: Container(
               margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 16.w),
               child: Text(
@@ -94,12 +98,13 @@ class OtherServices extends StatelessWidget {
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
-                  color: LightMode.registerButtonBorder,
+                  color:sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerButtonBorder:DarkMode.whiteDarkColor,
                 ),
               ),
             ),
           ),
-          Expanded(flex: 1, child: Container()),
+          SizedBox(width: 20.w,),
         ],
       ),
     );
@@ -150,7 +155,8 @@ class OtherServices extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                     style: GoogleFonts.tajawal(
-                        color: LightMode.registerButtonBorder,
+                        color: sharedPreferences!.getBool("darkMode") == false
+            ?LightMode.registerButtonBorder:DarkMode.whiteDarkColor,
                         fontSize: 3.w,
                         fontWeight: FontWeight.w500),
                   )

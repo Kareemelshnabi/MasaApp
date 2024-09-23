@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/register/verify_code_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/main.dart';
-import 'package:mas_app/view/screens/register/signup/success_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 import '../../../../core/constant/colors.dart';
@@ -28,15 +27,17 @@ class VerifyCodeRegister extends StatelessWidget {
         DefaultMaterialLocalizations.delegate
       ],
       child: Scaffold(
-        backgroundColor: LightMode.registerText,
+          backgroundColor: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerText
+              : DarkMode.darkModeSplash,
           body: OfflineBuilder(
-        connectivityBuilder: (context, ConnectivityResult value, child) {
-          final bool connected = value != ConnectivityResult.none;
+            connectivityBuilder: (context, ConnectivityResult value, child) {
+              final bool connected = value != ConnectivityResult.none;
 
-          if (connected) {
-            return GetBuilder<VerifyCodeController>(
-              builder: (controller) =>
-                  controller.statuesRequest == StatuesRequest.loading
+              if (connected) {
+                return GetBuilder<VerifyCodeController>(
+                  builder: (controller) => controller.statuesRequest ==
+                          StatuesRequest.loading
                       ? SizedBox(
                           width: 100.w,
                           height: 100.h,
@@ -60,22 +61,23 @@ class VerifyCodeRegister extends StatelessWidget {
                                   sharedPreferences!.getString("local") == "ar"
                                       ? "إرسال"
                                       : "Send", () {
-                                Get.off(() => const SuccessRegister());
-                                //controller.verifyCodeSign();
+                                // Get.off(() => const SuccessRegister());
+                                controller.verifySign(context);
                               })
                             ],
                           ),
                         ),
-            );
-          } else {
-            return SizedBox(
-                height: 100.h,
-                width: 100.w,
-                child: const Center(child: Text("no internet ............ !")));
-          }
-        },
-        child: const CircularProgressIndicator(),
-      )),
+                );
+              } else {
+                return SizedBox(
+                    height: 100.h,
+                    width: 100.w,
+                    child: const Center(
+                        child: Text("no internet ............ !")));
+              }
+            },
+            child: const CircularProgressIndicator(),
+          )),
     );
   }
 
@@ -91,7 +93,9 @@ class VerifyCodeRegister extends StatelessWidget {
           child: Text(
             text,
             style: GoogleFonts.tajawal(
-                color: LightMode.onBoardOneText,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.onBoardOneText
+                    : DarkMode.darkModeSplash,
                 fontSize: 4.w,
                 fontWeight: FontWeight.w500),
           )),
@@ -128,14 +132,20 @@ class VerifyCodeRegister extends StatelessWidget {
           textStyle: GoogleFonts.tajawal(
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
-              color: LightMode.splash),
-          fieldWidth: 11.w,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.splash
+                  : DarkMode.whiteDarkColor),
+          fieldWidth: 12.w,
           fieldHeight: 7.h,
-          borderColor: LightMode.registerButton,
+          borderColor: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerButton
+              : DarkMode.buttonDarkColor,
           borderWidth: 2,
-          numberOfFields: 6,
+          numberOfFields: 4,
           margin: EdgeInsets.only(right: 2.w, left: 2.w),
-          fillColor: Colors.white,
+          fillColor: sharedPreferences!.getBool("darkMode") == false
+              ? Colors.white
+              : DarkMode.darkModeSplash,
           filled: false,
 
           borderRadius: BorderRadius.circular(20),
@@ -159,9 +169,9 @@ class VerifyCodeRegister extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           sharedPreferences!.getString("local") == "ar"
-              ? Expanded(flex: 1, child: Container())
-              : Expanded(
-                  flex: 1,
+              ? SizedBox(width: 20.w)
+              : SizedBox(
+                  width: 20.w,
                   child: Padding(
                     padding: EdgeInsets.only(top: 7.w),
                     child: IconButton(
@@ -170,13 +180,19 @@ class VerifyCodeRegister extends StatelessWidget {
                               .setString("pageStart", "typeOfUser");
                           Get.back();
                         },
-                        icon: const Icon(Icons.arrow_back_ios)),
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          size: 6.w,
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor,
+                        )),
                   ),
                 ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, left: 13.w),
+              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
               child: Text(
                 sharedPreferences!.getString("local") == "ar"
                     ? "التحقق من الرمز"
@@ -184,14 +200,16 @@ class VerifyCodeRegister extends StatelessWidget {
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
-                  color: LightMode.typeUserTitle,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.typeUserTitle
+                      : DarkMode.whiteDarkColor,
                 ),
               ),
             ),
           ),
           sharedPreferences!.getString("local") == "ar"
-              ? Expanded(
-                  flex: 1,
+              ? SizedBox(
+                  width: 20.w,
                   child: Padding(
                     padding: EdgeInsets.only(top: 7.w),
                     child: IconButton(
@@ -200,10 +218,18 @@ class VerifyCodeRegister extends StatelessWidget {
                               .setString("pageStart", "typeOfUser");
                           Get.back();
                         },
-                        icon: const Icon(Icons.arrow_forward_ios)),
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 6.w,
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor,
+                        )),
                   ),
                 )
-              : Expanded(flex: 1, child: Container()),
+              : SizedBox(
+                  width: 20.w,
+                ),
         ],
       ),
     );

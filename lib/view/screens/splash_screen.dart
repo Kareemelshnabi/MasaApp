@@ -6,7 +6,6 @@ import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
-import 'package:mas_app/view/screens/register/login/verify_code_login.dart';
 import 'package:mas_app/view/screens/register/main_register.dart';
 import 'package:mas_app/view/screens/register/signup/verify_code_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -35,8 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
         } else if (sharedPreferences!.getString("pageStart") ==
             "verifyregister") {
           Get.off(() => const VerifyCodeRegister());
-        } else if (sharedPreferences!.getString("pageStart") == "verifyLogin") {
-          Get.off(() => const VerifyCodeLogin());
         } else {
           Get.off(() => const OnBoarding());
         }
@@ -48,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: LightMode.splash,
+      backgroundColor:sharedPreferences!.getBool("darkMode")==false? LightMode.splash:DarkMode.darkModeSplash,
       body: Center(
         child: SizedBox(
           width: 70.w,

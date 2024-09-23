@@ -19,6 +19,9 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(ProfileController());
     return Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: SingleChildScrollView(
         child: GetBuilder<ProfileController>(
           builder: (controller) => controller.statuesRequest ==
@@ -249,11 +252,13 @@ Widget textFieldChooseGovernate(onPress, governateController) {
     onTap: onPress,
     child: Container(
       margin: EdgeInsets.only(bottom: 5.w),
-      width: 90.w,
+      width: 100.w,
       height: 9.h,
       child: TextFormField(
         style: GoogleFonts.tajawal(
-            color: LightMode.splash,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.splash
+                : DarkMode.whiteDarkColor,
             fontSize: 4.w,
             fontWeight: FontWeight.w500),
         controller: governateController,
@@ -294,19 +299,25 @@ Widget appBarProfile() {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: 20.w,
           child: Padding(
             padding: EdgeInsets.only(top: 7.w),
             child: IconButton(
                 onPressed: () {
                   Get.back();
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 6.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
+                )),
           ),
         ),
-        Expanded(
-          flex: 3,
+        SizedBox(
+          width: 60.w,
           child: Container(
             margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 17.w),
             child: Text(
@@ -314,12 +325,16 @@ Widget appBarProfile() {
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
               ),
             ),
           ),
         ),
-        Expanded(flex: 1, child: Container()),
+        SizedBox(
+          width: 20.w,
+        ),
       ],
     ),
   );
@@ -361,7 +376,9 @@ Widget onBtnClick(text, onPress) {
         child: Text(
           text,
           style: GoogleFonts.tajawal(
-              color: LightMode.onBoardOneText,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.onBoardOneText
+                  : DarkMode.darkModeSplash,
               fontSize: 3.w,
               fontWeight: FontWeight.w500),
         )),
@@ -378,7 +395,9 @@ Widget onBtnClickSave(text, onPress) {
         child: Text(
           text,
           style: GoogleFonts.tajawal(
-              color: LightMode.registerText,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerText
+                  : DarkMode.darkModeSplash,
               fontSize: 4.w,
               fontWeight: FontWeight.w500),
         )),
@@ -394,8 +413,12 @@ Widget field(title, controller, hintText, edit,
       children: [
         Text(
           title,
-          style:
-              GoogleFonts.tajawal(fontSize: 3.w, fontWeight: FontWeight.w500),
+          style: GoogleFonts.tajawal(
+              fontSize: 3.w,
+              fontWeight: FontWeight.w500,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerButtonBorder
+                  : DarkMode.whiteDarkColor),
         ),
         SizedBox(
           height: 3.w,
@@ -414,7 +437,11 @@ Widget textField(controller, text, edit, String? Function(String?)? onValidate,
     child: TextFormField(
       obscureText: obscure == true ? true : false,
       style: GoogleFonts.tajawal(
-          color: LightMode.splash, fontSize: 3.w, fontWeight: FontWeight.w500),
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.splash
+              : DarkMode.whiteDarkColor,
+          fontSize: 3.w,
+          fontWeight: FontWeight.w500),
       validator: onValidate,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
@@ -446,6 +473,12 @@ Widget textField(controller, text, edit, String? Function(String?)? onValidate,
             color: LightMode.splash,
           ),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(2.w),
+          borderSide: BorderSide(
+            color: LightMode.splash,
+          ),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(2.w),
           borderSide: BorderSide(
@@ -464,9 +497,11 @@ Widget rowTitle(onPress, text, edit) {
       Text(
         text,
         style: GoogleFonts.tajawal(
-          fontSize: 4.w,
-          fontWeight: FontWeight.bold,
-        ),
+            fontSize: 4.w,
+            fontWeight: FontWeight.bold,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButtonBorder
+                : DarkMode.whiteDarkColor),
       ),
       TextButton(
           onPressed: onPress,

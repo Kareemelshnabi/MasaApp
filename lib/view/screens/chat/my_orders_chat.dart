@@ -5,6 +5,7 @@ import 'package:mas_app/controller/chat/my_orders_chat_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/widget/no_data.dart';
@@ -17,7 +18,9 @@ class MyOrdersChat extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(MyOrdersChatController());
     return Scaffold(
-      backgroundColor: LightMode.registerText,
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: GetBuilder<MyOrdersChatController>(
         builder: (controller) => SingleChildScrollView(
           child: Column(
@@ -98,7 +101,11 @@ Widget chat(name, message, date, sender, type) {
               Text(
                 name,
                 style: GoogleFonts.tajawal(
-                    fontSize: 3.5.w, fontWeight: FontWeight.bold),
+                    fontSize: 3.5.w,
+                    fontWeight: FontWeight.bold,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? null
+                        : DarkMode.whiteDarkColor),
               ),
               if (sender == "user" && type == "text")
                 Text(
@@ -106,9 +113,11 @@ Widget chat(name, message, date, sender, type) {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.tajawal(
-                    fontSize: 3.w,
-                    fontWeight: FontWeight.w500,
-                  ),
+                      fontSize: 3.w,
+                      fontWeight: FontWeight.w500,
+                      color: sharedPreferences!.getBool("darkMode") == false
+                          ? null
+                          : DarkMode.blackColor_1),
                 ),
               if (sender == "user" && type == "file")
                 Text(
@@ -205,8 +214,8 @@ Widget appBarMyOrders(context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: 20.w,
           child: Padding(
             padding: EdgeInsets.only(top: 7.w),
             child: IconButton(
@@ -215,24 +224,38 @@ Widget appBarMyOrders(context) {
                       ? Get.back()
                       : Get.off(() => const Home());
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 6.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? null
+                      : DarkMode.whiteDarkColor,
+                )),
           ),
         ),
-        Expanded(
-          flex: 3,
+        SizedBox(
+          width: 60.w,
           child: Container(
-            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 22.w),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(
+              top: 6.5.h,
+              bottom: 2.h,
+            ),
             child: Text(
               "طلباتي",
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,
-                color: LightMode.typeUserTitle,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.typeUserTitle
+                    : DarkMode.whiteDarkColor,
               ),
             ),
           ),
         ),
-        Expanded(flex: 1, child: Container()),
+        SizedBox(
+          width: 20.w,
+        ),
       ],
     ),
   );

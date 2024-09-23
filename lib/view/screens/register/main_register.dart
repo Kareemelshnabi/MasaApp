@@ -31,21 +31,6 @@ class MainRegister extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Container(
-              //   decoration: BoxDecoration(
-              //       color: LightMode.onBoardOneCircle, shape: BoxShape.circle),
-              //   padding: EdgeInsets.only(right: 2.w, left: 2.w),
-              //   margin: EdgeInsets.only(top: 6.h, right: 5.w),
-              //   child: IconButton(
-              //       onPressed: () {
-              //         Get.back();
-              //       },
-              //       icon: Icon(
-              //         Icons.arrow_back_ios,
-              //         size: 6.w,
-              //         color: LightMode.onBoardOneIcon,
-              //       )),
-              // ),
               Container(
                 height: 55.h,
                 width: 100.w,
@@ -55,7 +40,9 @@ class MainRegister extends StatelessWidget {
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
                     ),
-                    color: LightMode.registerText),
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerText
+                        : DarkMode.darkModeSplash),
                 child: Column(
                   children: [
                     SizedBox(
@@ -97,7 +84,9 @@ class MainRegister extends StatelessWidget {
                       Icons.apple_outlined,
                       //   "تسجيل الدخول بواسطة الأيكلاود",
                       S.of(context).icloud,
-                      Colors.black,
+                      sharedPreferences!.getBool("darkMode") == false
+                          ? Colors.black
+                          : DarkMode.whiteDarkColor,
                     ),
                     btnRegisterGoogle(() {
                       controller.messageNotEnable(context);
@@ -113,7 +102,10 @@ class MainRegister extends StatelessWidget {
                         Text(
                           "تسجيل الدخول كزائر ؟ ",
                           style: GoogleFonts.tajawal(
-                              color: LightMode.registerButtonBorder,
+                              color: sharedPreferences!.getBool("darkMode") ==
+                                      false
+                                  ? LightMode.registerButtonBorder
+                                  : DarkMode.whiteDarkColor,
                               fontSize: 4.w,
                               fontWeight: FontWeight.w500),
                         ),
@@ -155,7 +147,9 @@ class MainRegister extends StatelessWidget {
           child: Text(
             text,
             style: GoogleFonts.tajawal(
-                color: LightMode.onBoardOneText,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.onBoardOneText
+                    : DarkMode.darkModeSplash,
                 fontSize: 4.w,
                 fontWeight: FontWeight.w500),
           )),
@@ -175,20 +169,28 @@ class MainRegister extends StatelessWidget {
               width: 20.w,
               child: Divider(
                 thickness: 1,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
               ),
             ),
             Text(
               " ${S.of(context).or} ",
               style: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w700, fontSize: 3.5.w),
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 3.5.w),
             ),
             Container(
               margin: EdgeInsets.only(left: 2.w),
               width: 20.w,
               child: Divider(
                 thickness: 1,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
               ),
             )
           ],
@@ -204,8 +206,13 @@ class MainRegister extends StatelessWidget {
       width: 90.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            side: BorderSide(color: LightMode.registerButtonBorder),
-            backgroundColor: Colors.white),
+            side: BorderSide(
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor),
+            backgroundColor: sharedPreferences!.getBool("darkMode") == false
+                ? Colors.white
+                : DarkMode.darkModeSplash),
         onPressed: onPress,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -218,7 +225,9 @@ class MainRegister extends StatelessWidget {
               text,
               style: GoogleFonts.tajawal(
                   fontSize: 3.5.w,
-                  color: LightMode.registerButtonBorder,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
                   fontWeight: FontWeight.w600),
             ),
           ],
@@ -234,8 +243,13 @@ class MainRegister extends StatelessWidget {
       width: 90.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            side: BorderSide(color: LightMode.registerButtonBorder),
-            backgroundColor: Colors.white),
+            side: BorderSide(
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor),
+            backgroundColor: sharedPreferences!.getBool("darkMode") == false
+                ? Colors.white
+                : DarkMode.darkModeSplash),
         onPressed: onPress,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -253,7 +267,9 @@ class MainRegister extends StatelessWidget {
               text,
               style: GoogleFonts.tajawal(
                   fontSize: 3.5.w,
-                  color: LightMode.registerButtonBorder,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
                   fontWeight: FontWeight.w600),
             ),
           ],

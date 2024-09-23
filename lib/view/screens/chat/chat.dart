@@ -20,6 +20,9 @@ class ChatPage extends StatelessWidget {
         stream: controller.getChatByIdStream(),
         builder: (context, snapshot) {
           return Scaffold(
+            backgroundColor: sharedPreferences!.getBool("darkMode") == false
+                ? null
+                : DarkMode.darkModeSplash,
             body: GetBuilder<ChatController>(
               builder: (controller) => SingleChildScrollView(
                 child: controller.statuesRequest == StatuesRequest.loading
@@ -218,7 +221,10 @@ Widget chatPartToMessage(
                               play == "1"
                                   ? Icons.stop_circle_outlined
                                   : Icons.play_circle_outline_rounded,
-                              color: LightMode.splash,
+                              color: sharedPreferences!.getBool("darkMode") ==
+                                      false
+                                  ? LightMode.splash
+                                  : DarkMode.whiteDarkColor,
                               size: 20.w,
                             ),
                           ),
@@ -239,7 +245,9 @@ Widget chatPartToMessage(
                       style: GoogleFonts.tajawal(
                           fontSize: 3.w,
                           fontWeight: FontWeight.w600,
-                          color: LightMode.registerButtonBorder),
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor.withOpacity(.5)),
                     ),
         ),
       ],
@@ -271,7 +279,9 @@ Widget chatPartFromMessage(img, message, type, image, onPressShow) {
                   style: GoogleFonts.tajawal(
                       fontSize: 3.w,
                       fontWeight: FontWeight.w600,
-                      color: LightMode.registerButtonBorder),
+                      color: sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerButtonBorder
+                          : DarkMode.whiteDarkColor.withOpacity(.5)),
                 ),
         ),
         SizedBox(
@@ -339,7 +349,12 @@ Widget bottomBarChat(
     height: 10.h,
     padding: EdgeInsets.only(right: 5.w, left: 5.w, bottom: 5.w, top: 5.w),
     decoration: BoxDecoration(
-      color: LightMode.splash,
+      border: sharedPreferences!.getBool("darkMode") == false
+          ? null
+          : Border(top: BorderSide(color: DarkMode.buttonDarkColor, width: 2)),
+      color: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.splash
+          : DarkMode.darkModeSplash,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(7.w), topRight: Radius.circular(7.w)),
     ),
@@ -415,7 +430,13 @@ Widget appBarChat(onPress, name, img, onPressText, colorText) {
     height: 15.h,
     padding: EdgeInsets.only(right: 5.w, left: 5.w, bottom: 2.w, top: 7.h),
     decoration: BoxDecoration(
-      color: LightMode.splash,
+      border: sharedPreferences!.getBool("darkMode") == false
+          ? null
+          : Border(
+              bottom: BorderSide(color: DarkMode.buttonDarkColor, width: 2)),
+      color: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.splash
+          : DarkMode.darkModeSplash,
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(7.w), bottomRight: Radius.circular(7.w)),
     ),

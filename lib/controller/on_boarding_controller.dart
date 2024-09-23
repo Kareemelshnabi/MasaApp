@@ -105,6 +105,7 @@ class OnBoardingController extends GetxController {
   void onInit() {
     print(sharedPreferences!.getString("pageStart"));
     print(sharedPreferences!.getString("local"));
+    sharedPreferences!.setBool("darkMode", false);
 
     super.onInit();
   }

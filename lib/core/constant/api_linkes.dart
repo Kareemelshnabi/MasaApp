@@ -7,6 +7,8 @@ class AppLinks {
   static String forgetPassLink = "$serverLink/domains/auth/reset-password";
   static String logOutLink = "$serverLink/domains/auth/logout";
   static String getCountries = "$serverLink/data/countries";
+  static String verifySign = "$serverLink/domains/auth/verify-otp";
+  static String reSendOtp = "$serverLink/domains/auth/resend-otp";
   //services
   static String getServicesLink = "$serverLink/domains/product/services";
 

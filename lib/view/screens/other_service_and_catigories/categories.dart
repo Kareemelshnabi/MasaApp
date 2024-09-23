@@ -7,6 +7,7 @@ import 'package:mas_app/controller/home/home_controller.dart';
 import 'package:mas_app/controller/other_services/categories_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/widget/no_data.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -18,7 +19,9 @@ class CategoriesPage extends StatelessWidget {
     HomeController controller = Get.put(HomeController());
     CategoriesController categoriesController = Get.put(CategoriesController());
     return Scaffold(
-      backgroundColor: LightMode.registerText,
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -117,7 +120,9 @@ class CategoriesPage extends StatelessWidget {
                 style: GoogleFonts.tajawal(
                     fontSize: 3.w,
                     fontWeight: FontWeight.w500,
-                    color: LightMode.registerButtonBorder),
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor),
               )
             ],
           )),
@@ -130,8 +135,8 @@ class CategoriesPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            width: 20.w,
             child: Padding(
               padding: EdgeInsets.only(top: 7.w),
               child: IconButton(
@@ -139,11 +144,17 @@ class CategoriesPage extends StatelessWidget {
                     HomeController controller = Get.put(HomeController());
                     controller.goToHomeWithIndex(0, {});
                   },
-                  icon: const Icon(Icons.arrow_back_ios)),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
+                    size: 6.w,
+                  )),
             ),
           ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: 60.w,
             child: Container(
               margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 17.w),
               child: Text(
@@ -151,12 +162,16 @@ class CategoriesPage extends StatelessWidget {
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
-                  color: LightMode.registerButtonBorder,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
                 ),
               ),
             ),
           ),
-          Expanded(flex: 1, child: Container()),
+          SizedBox(
+            width: 20.w,
+          ),
         ],
       ),
     );
@@ -172,7 +187,9 @@ class CategoriesPage extends StatelessWidget {
           style: GoogleFonts.tajawal(
             fontSize: 3.5.w,
             fontWeight: FontWeight.w500,
-            color: LightMode.typeUserBody,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.typeUserBody
+                : DarkMode.whiteDarkColor,
           ),
         ),
       ),

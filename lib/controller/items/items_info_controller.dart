@@ -273,6 +273,7 @@ class ItemsInfoController extends GetxController {
       x, imgdata, namedata, pricedata, priceAfterdiscountdata, availableData) {
     statuesRequest = StatuesRequest.loading;
     update();
+
     index = x;
     img = imgdata;
     name = namedata;
@@ -282,6 +283,11 @@ class ItemsInfoController extends GetxController {
     statuesRequest = StatuesRequest.none;
 
     print(price);
+    update();
+  }
+
+  removeIndex() {
+    index = null;
     update();
   }
 

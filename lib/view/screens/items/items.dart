@@ -27,7 +27,10 @@ class ItemsPage extends StatelessWidget {
         if (connected) {
           return GetBuilder<ItemsController>(
             builder: (controller) => Container(
-              color: LightMode.registerText,
+              height: 100.h,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerText
+                  : DarkMode.darkModeSplash,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -65,7 +68,11 @@ class ItemsPage extends StatelessWidget {
                                       radius: const Radius.circular(10),
                                       strokeWidth: 1.5,
                                       borderType: BorderType.RRect,
-                                      color: LightMode.splash,
+                                      color: sharedPreferences!
+                                                  .getBool("darkMode") ==
+                                              false
+                                          ? LightMode.splash
+                                          : DarkMode.whiteDarkColor,
                                       child: Center(
                                         child: Text(
                                           "لا يوجد منتجات",
@@ -74,7 +81,11 @@ class ItemsPage extends StatelessWidget {
                                           style: GoogleFonts.tajawal(
                                               fontSize: 3.5.w,
                                               fontWeight: FontWeight.bold,
-                                              color: LightMode.splash),
+                                              color: sharedPreferences!.getBool(
+                                                          "darkMode") ==
+                                                      false
+                                                  ? LightMode.splash
+                                                  : DarkMode.whiteDarkColor),
                                         ),
                                       ),
                                     ),
@@ -290,7 +301,13 @@ class ItemsPage extends StatelessWidget {
                   onPressed: () {
                     Get.back();
                   },
-                  icon: const Icon(Icons.arrow_back_ios))),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 6.w,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
+                  ))),
           searchField(controller, hintText, onChange, onPress, icon),
         ],
       ),
@@ -309,21 +326,32 @@ class ItemsPage extends StatelessWidget {
       child: TextFormField(
         onChanged: onChange,
         controller: controller,
+        style: GoogleFonts.tajawal(
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButtonBorder
+                : DarkMode.whiteDarkColor),
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
             size: 5.w,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButtonBorder
+                : DarkMode.whiteDarkColor,
           ),
           suffixIcon: IconButton(
               onPressed: onPress,
               icon: Icon(
                 icon,
-                color: LightMode.splash,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.splash
+                    : DarkMode.whiteDarkColor,
                 size: 5.w,
               )),
           contentPadding: EdgeInsets.only(top: 1.w),
           hintStyle: GoogleFonts.tajawal(
-              color: LightMode.registerButtonBorder,
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerButtonBorder
+                  : DarkMode.whiteDarkColor,
               fontSize: 4.w,
               fontWeight: FontWeight.w500),
           hintText: text,
@@ -362,6 +390,7 @@ class ItemsPage extends StatelessWidget {
               margin: EdgeInsets.all(4.w),
               width: 65.w,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -369,7 +398,10 @@ class ItemsPage extends StatelessWidget {
                       Text(
                         nameOfItem,
                         style: GoogleFonts.tajawal(
-                            color: LightMode.registerButtonBorder,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                             fontSize: 4.w,
                             fontWeight: FontWeight.bold),
                       ),
@@ -455,15 +487,20 @@ class ItemsPage extends StatelessWidget {
                   SizedBox(
                     height: 2.w,
                   ),
-                  Text(
-                    discription,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.right,
-                    style: GoogleFonts.tajawal(
-                        color: LightMode.registerButtonBorder,
-                        fontSize: 2.5.w,
-                        fontWeight: FontWeight.w600),
+                  SizedBox(
+                    width: 65.w,
+                    child: Text(
+                      discription,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
+                      style: GoogleFonts.tajawal(
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor,
+                          fontSize: 2.5.w,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                   SizedBox(
                     height: 2.w,
@@ -481,7 +518,11 @@ class ItemsPage extends StatelessWidget {
                                   decoration: TextDecoration.lineThrough,
                                   decorationColor:
                                       LightMode.registerButtonBorder,
-                                  color: LightMode.registerButtonBorder,
+                                  color:
+                                      sharedPreferences!.getBool("darkMode") ==
+                                              false
+                                          ? LightMode.registerButtonBorder
+                                          : DarkMode.whiteDarkColor,
                                   fontSize: 2.5.w,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -491,7 +532,11 @@ class ItemsPage extends StatelessWidget {
                             Text(
                               "$priceWithDiscount دينار",
                               style: GoogleFonts.tajawal(
-                                  color: LightMode.registerButtonBorder,
+                                  color:
+                                      sharedPreferences!.getBool("darkMode") ==
+                                              false
+                                          ? LightMode.registerButtonBorder
+                                          : DarkMode.whiteDarkColor,
                                   fontSize: 2.5.w,
                                   fontWeight: FontWeight.w700),
                             ),

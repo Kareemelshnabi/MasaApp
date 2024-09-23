@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/orders/my_orders_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/orders/my_order_info.dart';
 import 'package:mas_app/view/widget/no_data.dart';
@@ -16,6 +17,9 @@ class MyOrders extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(MyOrdersController());
     return Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: GetBuilder<MyOrdersController>(
         builder: (controller) => SingleChildScrollView(
           child: Column(
@@ -28,21 +32,27 @@ class MyOrders extends StatelessWidget {
                   "الحالية",
                   controller.index == 0
                       ? LightMode.splash
-                      : LightMode.registerButtonBorder,
+                      : sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerButtonBorder
+                          : DarkMode.whiteDarkColor,
                   () {
                     controller.changIndex(1);
                   },
                   "السابقة",
                   controller.index == 1
                       ? LightMode.splash
-                      : LightMode.registerButtonBorder,
+                      : sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerButtonBorder
+                          : DarkMode.whiteDarkColor,
                   () {
                     controller.changIndex(2);
                   },
                   "الملغاة",
                   controller.index == 2
                       ? LightMode.splash
-                      : LightMode.registerButtonBorder),
+                      : sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerButtonBorder
+                          : DarkMode.whiteDarkColor),
               divider(),
               controller.statuesRequest == StatuesRequest.loading
                   ? SizedBox(
@@ -61,7 +71,7 @@ class MyOrders extends StatelessWidget {
                                   onTap: () {
                                     Get.to(() => const MyOrderInfo(),
                                         arguments: {
-                                          "page":"order",
+                                          "page": "order",
                                           "type": controller.index,
                                           "data": controller
                                               .pendingOrdersList[index]
@@ -94,48 +104,53 @@ class MyOrders extends StatelessWidget {
                               ),
                             )
                       : controller.index == 1
-                          ?controller.completedOrdersList.isEmpty? noData("لا يوجد طلبات "):
-                           SizedBox(
-                              width: 100.w,
-                              height: 79.h,
-                              child: ListView.builder(
-                                padding: EdgeInsets.only(top: 4.w),
-                                itemBuilder: (context, index) => InkWell(
-                                  onTap: () {
-                                   Get.to(() => const MyOrderInfo(),
-                                                arguments: {
-                                                  "page":"order",
-                                                  "type": controller.index,
-                                                  "data": controller
-                                                      .canceledOrdersList[index]
-                                                      .toJson()
-                                                });
-                                  },
-                                  child: cardOrder(
-                                      controller
+                          ? controller.completedOrdersList.isEmpty
+                              ? noData("لا يوجد طلبات ")
+                              : SizedBox(
+                                  width: 100.w,
+                                  height: 79.h,
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.only(top: 4.w),
+                                    itemBuilder: (context, index) => InkWell(
+                                      onTap: () {
+                                        Get.to(() => const MyOrderInfo(),
+                                            arguments: {
+                                              "page": "order",
+                                              "type": controller.index,
+                                              "data": controller
+                                                  .canceledOrdersList[index]
+                                                  .toJson()
+                                            });
+                                      },
+                                      child: cardOrder(
+                                          controller
+                                                      .pendingOrdersList[index]
+                                                      .orderItems![0]
+                                                      .item!
+                                                      .specification ==
+                                                  null
+                                              ? controller
                                                   .pendingOrdersList[index]
                                                   .orderItems![0]
                                                   .item!
-                                                  .specification ==
-                                              null
-                                          ? controller.pendingOrdersList[index]
-                                              .orderItems![0].item!.name
-                                          : controller
-                                              .pendingOrdersList[index]
-                                              .orderItems![0]
-                                              .item!
-                                              .specification!
-                                              .title,
-                                      "نم التوصيل",
-                                      LightMode.btnGreen,
-                                      controller.pendingOrdersList[index].total,
-                                      controller
-                                          .pendingOrdersList[index].createdAt),
-                                ),
-                                itemCount: 8,
-                                shrinkWrap: true,
-                              ),
-                            )
+                                                  .name
+                                              : controller
+                                                  .pendingOrdersList[index]
+                                                  .orderItems![0]
+                                                  .item!
+                                                  .specification!
+                                                  .title,
+                                          "نم التوصيل",
+                                          LightMode.btnGreen,
+                                          controller
+                                              .pendingOrdersList[index].total,
+                                          controller.pendingOrdersList[index]
+                                              .createdAt),
+                                    ),
+                                    itemCount: 8,
+                                    shrinkWrap: true,
+                                  ),
+                                )
                           : controller.index == 2
                               ? controller.canceledOrdersList.isEmpty
                                   ? noData("لا يوجد طلبات ملغاة بعد")
@@ -149,7 +164,7 @@ class MyOrders extends StatelessWidget {
                                           onTap: () {
                                             Get.to(() => const MyOrderInfo(),
                                                 arguments: {
-                                                  "page":"order",
+                                                  "page": "order",
                                                   "type": controller.index,
                                                   "data": controller
                                                       .canceledOrdersList[index]
@@ -164,7 +179,11 @@ class MyOrders extends StatelessWidget {
                                                           .item!
                                                           .specification ==
                                                       null
-                                                  ? controller.canceledOrdersList[index].orderItems![0].item!.name
+                                                  ? controller
+                                                      .canceledOrdersList[index]
+                                                      .orderItems![0]
+                                                      .item!
+                                                      .name
                                                   : controller
                                                       .canceledOrdersList[index]
                                                       .orderItems![0]
@@ -201,7 +220,11 @@ class MyOrders extends StatelessWidget {
       margin: EdgeInsets.only(right: 4.w, left: 4.w, bottom: 4.w),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.w),
-          border: Border.all(color: LightMode.registerButtonBorder, width: 2)),
+          border: Border.all(
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.registerButtonBorder
+                  : DarkMode.whiteDarkColor,
+              width: 2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -210,7 +233,9 @@ class MyOrders extends StatelessWidget {
             children: [
               Text(nameOfItem,
                   style: GoogleFonts.tajawal(
-                      color: LightMode.registerButtonBorder,
+                      color: sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerButtonBorder
+                          : DarkMode.whiteDarkColor,
                       fontSize: 4.w,
                       fontWeight: FontWeight.bold)),
               Text(status,
@@ -231,13 +256,18 @@ class MyOrders extends StatelessWidget {
                   children: [
                     Text("إجمالي المبلغ",
                         style: GoogleFonts.tajawal(
-                          color: LightMode.registerButtonBorder,
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? LightMode.registerButtonBorder
+                              : DarkMode.whiteDarkColor.withOpacity(.5),
                           fontSize: 3.w,
                           fontWeight: FontWeight.w500,
                         )),
-                    Text("$price \$",
+                    Text("$price دينار",
                         style: GoogleFonts.tajawal(
-                            color: LightMode.registerButtonBorder,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                             fontSize: 3.w,
                             fontWeight: FontWeight.w500)),
                   ],
@@ -248,7 +278,9 @@ class MyOrders extends StatelessWidget {
                 SizedBox(
                     height: 4.h,
                     child: VerticalDivider(
-                      color: LightMode.registerButtonBorder,
+                      color: sharedPreferences!.getBool("darkMode") == false
+                          ? LightMode.registerButtonBorder
+                          : DarkMode.whiteDarkColor.withOpacity(.5),
                       thickness: 1,
                     )),
                 Column(
@@ -256,12 +288,18 @@ class MyOrders extends StatelessWidget {
                   children: [
                     Text("التاريخ",
                         style: GoogleFonts.tajawal(
-                            color: LightMode.registerButtonBorder,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor.withOpacity(.5),
                             fontSize: 3.w,
                             fontWeight: FontWeight.w500)),
                     Text(date,
                         style: GoogleFonts.tajawal(
-                            color: LightMode.registerButtonBorder,
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
                             fontSize: 3.w,
                             fontWeight: FontWeight.w500)),
                   ],
@@ -316,8 +354,8 @@ class MyOrders extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            width: 20.w,
             child: Padding(
               padding: EdgeInsets.only(top: 7.w),
               child: IconButton(
@@ -326,24 +364,36 @@ class MyOrders extends StatelessWidget {
                         ? Get.back()
                         : Get.off(() => const Home());
                   },
-                  icon: const Icon(Icons.arrow_back_ios)),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 6.w,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? null
+                        : DarkMode.whiteDarkColor,
+                  )),
             ),
           ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 22.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                top: 6.5.h,
+                bottom: 2.h,
+              ),
               child: Text(
                 "طلباتي",
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
-                  color: LightMode.typeUserTitle,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.typeUserTitle
+                      : DarkMode.whiteDarkColor,
                 ),
               ),
             ),
           ),
-          Expanded(flex: 1, child: Container()),
+          SizedBox(width: 20.w),
         ],
       ),
     );

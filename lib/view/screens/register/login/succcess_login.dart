@@ -49,7 +49,8 @@ class _SuccessLoginState extends State<SuccessLogin> {
         DefaultMaterialLocalizations.delegate
       ],
       child: Scaffold(
-        backgroundColor: LightMode.registerText,
+        backgroundColor:  sharedPreferences!.getBool("darkMode") == false
+            ?  LightMode.registerText:DarkMode.darkModeSplash,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +79,8 @@ class _SuccessLoginState extends State<SuccessLogin> {
         style: GoogleFonts.tajawal(
           fontSize: 4.5.w,
           fontWeight: FontWeight.w500,
-          color: LightMode.registerButtonBorder,
+          color: sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerButtonBorder:DarkMode.whiteDarkColor,
         ),
       ),
     );

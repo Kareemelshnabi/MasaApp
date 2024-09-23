@@ -52,6 +52,9 @@ class ProfileController extends GetxController {
         contentPadding: EdgeInsets.zero,
         // ignore: sized_box_for_whitespace
         content: Container(
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerText
+              : DarkMode.darkModeSplash,
           width: 80.w,
           height: 50.h,
           child: Column(
@@ -100,7 +103,11 @@ class ProfileController extends GetxController {
                               countryMoodel!.governorates![index].name!,
                               style: GoogleFonts.tajawal(
                                   fontSize: 4.w,
-                                  color: LightMode.registerButtonBorder,
+                                  color:
+                                      sharedPreferences!.getBool("darkMode") ==
+                                              false
+                                          ? LightMode.registerButtonBorder
+                                          : DarkMode.whiteDarkColor,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -416,11 +423,19 @@ class ProfileController extends GetxController {
   bool darkMode = false;
   changeToDark(val) {
     darkMode = val;
+    if (darkMode == true) {
+      sharedPreferences!.setBool("darkMode", true);
+    } else {
+      sharedPreferences!.setBool("darkMode", false);
+    }
     update();
   }
 
   showSuccsessUpdate() {
     Get.defaultDialog(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       title: "",
       titlePadding: EdgeInsets.zero,
       content: Column(
@@ -438,9 +453,11 @@ class ProfileController extends GetxController {
               "تم تغيير معلومات حسابك بنجاح. لحظات و سيتم تحويلك للصفحتك الرئيسية.",
               textAlign: TextAlign.center,
               style: GoogleFonts.tajawal(
-                fontSize: 3.5.w,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 3.5.w,
+                  fontWeight: FontWeight.bold,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor),
             ),
           ),
         ],
@@ -527,6 +544,9 @@ class ProfileController extends GetxController {
 
   showBottomSheet(context) {
     showModalBottomSheet(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       constraints: BoxConstraints(
           maxHeight: MediaQuery.sizeOf(context).height / 3,
           maxWidth: MediaQuery.sizeOf(context).width - 40,
@@ -544,7 +564,9 @@ class ProfileController extends GetxController {
             "تسجيل الخروج",
             style: GoogleFonts.tajawal(
                 letterSpacing: 2,
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
                 fontSize:
                     MediaQuery.of(context).size.shortestSide < 600 ? 5.w : 4.w,
                 fontWeight: FontWeight.bold),
@@ -553,7 +575,9 @@ class ProfileController extends GetxController {
             "هل أنت متأكد أنك تريد تسجيل الخروج؟",
             textAlign: TextAlign.center,
             style: GoogleFonts.tajawal(
-                color: LightMode.registerButtonBorder,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.registerButtonBorder
+                    : DarkMode.whiteDarkColor,
                 fontSize: MediaQuery.of(context).size.shortestSide < 600
                     ? 4.5.w
                     : 3.5.w,
@@ -580,7 +604,9 @@ class ProfileController extends GetxController {
                     child: Text(
                       "تأكيد",
                       style: GoogleFonts.tajawal(
-                          color: Colors.white,
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? Colors.white
+                              : DarkMode.darkModeSplash,
                           fontSize:
                               MediaQuery.of(context).size.shortestSide < 600
                                   ? 3.5.w
@@ -594,7 +620,9 @@ class ProfileController extends GetxController {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(10),
                     ),
-                    color: Colors.white,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? Colors.white
+                        : DarkMode.darkModeSplash,
                   ),
                   width: MediaQuery.sizeOf(context).width / 3,
                   height: 5.h,
@@ -605,7 +633,9 @@ class ProfileController extends GetxController {
                     child: Text(
                       "إلغاء",
                       style: GoogleFonts.tajawal(
-                          color: const Color.fromARGB(255, 41, 108, 186),
+                          color: sharedPreferences!.getBool("darkMode") == false
+                              ? const Color.fromARGB(255, 41, 108, 186)
+                              : DarkMode.whiteDarkColor,
                           fontSize:
                               MediaQuery.of(context).size.shortestSide < 600
                                   ? 3.5.w

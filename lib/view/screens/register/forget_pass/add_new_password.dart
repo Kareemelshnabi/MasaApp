@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/register/forget_password.dart';
 import 'package:mas_app/generated/l10n.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/login/login.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -18,94 +19,98 @@ class AddNewPassword extends StatelessWidget {
     ForgetPasswordController forgetPasswordController =
         Get.put(ForgetPasswordController());
     return Scaffold(
-      backgroundColor: LightMode.registerText,
+        backgroundColor: sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerText
+            : DarkMode.darkModeSplash,
         body: OfflineBuilder(
-      connectivityBuilder: (context, ConnectivityResult value, child) {
-        final bool connected = value != ConnectivityResult.none;
+          connectivityBuilder: (context, ConnectivityResult value, child) {
+            final bool connected = value != ConnectivityResult.none;
 
-        if (connected) {
-          return GetBuilder<ForgetPasswordController>(
-            builder: (controller) => controller.statuesRequest ==
-                    StatuesRequest.loading
-                ? SizedBox(
-                    width: 100.w,
-                    height: 100.h,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Form(
-                    key: controller.addNewPassGlobalKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          appBarForgetPass(context),
-                          bodyForgetPass(context),
-                          textFieldPhone(
-                            (val) {
-                              return forgetPasswordController.phoneValidate(
-                                  val!, context);
-                            },
-                            forgetPasswordController.phoneController,
-                            TextInputType.phone,
-                            S.of(context).phone,
-                            false,
+            if (connected) {
+              return GetBuilder<ForgetPasswordController>(
+                builder: (controller) =>
+                    controller.statuesRequest == StatuesRequest.loading
+                        ? SizedBox(
+                            width: 100.w,
+                            height: 100.h,
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : Form(
+                            key: controller.addNewPassGlobalKey,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  appBarForgetPass(context),
+                                  bodyForgetPass(context),
+                                  textFieldPhone(
+                                    (val) {
+                                      return forgetPasswordController
+                                          .phoneValidate(val!, context);
+                                    },
+                                    forgetPasswordController.phoneController,
+                                    TextInputType.phone,
+                                    S.of(context).phone,
+                                    false,
+                                  ),
+                                  textField(
+                                    (val) {
+                                      return forgetPasswordController
+                                          .passwordValidate(val!, context);
+                                    },
+                                    forgetPasswordController.passwordController,
+                                    TextInputType.visiblePassword,
+                                    S.of(context).password,
+                                    true,
+                                    controller.showPass_1,
+                                    controller.showPass_1 == false
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined,
+                                    () {
+                                      controller.showPassword_1();
+                                    },
+                                  ),
+                                  textField(
+                                    (val) {
+                                      return forgetPasswordController
+                                          .passwordConfirmationValidate(
+                                              val!, context);
+                                    },
+                                    forgetPasswordController
+                                        .passwordConfirmationController,
+                                    TextInputType.visiblePassword,
+                                    S.of(context).confirmPass,
+                                    true,
+                                    controller.showPass_2,
+                                    controller.showPass_2 == false
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined,
+                                    () {
+                                      controller.showPassword_2();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 6.w,
+                                  ),
+                                  onBtnClick("تأكيد", () {
+                                    controller.addNewPass(context);
+                                  }),
+                                ],
+                              ),
+                            ),
                           ),
-                          textField(
-                            (val) {
-                              return forgetPasswordController.passwordValidate(
-                                  val!, context);
-                            },
-                            forgetPasswordController.passwordController,
-                            TextInputType.visiblePassword,
-                            S.of(context).password,
-                            true,
-                            controller.showPass_1,
-                            controller.showPass_1 == false
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            () {
-                              controller.showPassword_1();
-                            },
-                          ),
-                          textField(
-                            (val) {
-                              return forgetPasswordController
-                                  .passwordConfirmationValidate(val!, context);
-                            },
-                            forgetPasswordController
-                                .passwordConfirmationController,
-                            TextInputType.visiblePassword,
-                            S.of(context).confirmPass,
-                            true,
-                            controller.showPass_2,
-                            controller.showPass_2 == false
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            () {
-                              controller.showPassword_2();
-                            },
-                          ),
-                          SizedBox(
-                            height: 6.w,
-                          ),
-                          onBtnClick("تأكيد", () {
-                            controller.addNewPass(context);
-                          }),
-                        ],
-                      ),
-                    ),
-                  ),
-          );
-        } else {
-          return SizedBox(
-              height: 100.h,
-              width: 100.w,
-              child: const Center(child: Text("no internet ............ !")));
-        }
-      },
-      child: const CircularProgressIndicator(),
-    ));
+              );
+            } else {
+              return SizedBox(
+                  height: 100.h,
+                  width: 100.w,
+                  child:
+                      const Center(child: Text("no internet ............ !")));
+            }
+          },
+          child: const CircularProgressIndicator(),
+        ));
   }
 
   Widget textTerms(text, textAlign, fontSize, fontWeight) {
@@ -116,7 +121,9 @@ class AddNewPassword extends StatelessWidget {
       style: GoogleFonts.tajawal(
           fontSize: fontSize,
           fontWeight: fontWeight,
-          color: LightMode.registerButtonBorder),
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerButtonBorder
+              : DarkMode.whiteDarkColor),
     );
   }
 
@@ -131,6 +138,12 @@ class AddNewPassword extends StatelessWidget {
         validator: validator,
         controller: controller,
         keyboardType: keyboardType,
+        style: GoogleFonts.tajawal(
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.splash
+                : DarkMode.whiteDarkColor,
+            fontSize: 4.w,
+            fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           suffixIcon: icon == true
               ? Icon(
@@ -144,6 +157,12 @@ class AddNewPassword extends StatelessWidget {
               fontWeight: FontWeight.w500),
           hintText: text,
           enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: LightMode.splash,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
               color: LightMode.splash,
@@ -172,8 +191,8 @@ class AddNewPassword extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            width: 20.w,
             child: Padding(
               padding: EdgeInsets.only(top: 7.w),
               child: IconButton(
@@ -182,12 +201,15 @@ class AddNewPassword extends StatelessWidget {
                   },
                   icon: Icon(
                     Icons.arrow_back_ios,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
                     size: 6.w,
                   )),
             ),
           ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: 60.w,
             child: Container(
               margin: EdgeInsets.only(top: 7.h, bottom: 2.h, right: 13.w),
               child: Text(
@@ -195,12 +217,16 @@ class AddNewPassword extends StatelessWidget {
                 style: GoogleFonts.tajawal(
                   fontSize: 5.5.w,
                   fontWeight: FontWeight.bold,
-                  color: LightMode.typeUserTitle,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.typeUserTitle
+                      : DarkMode.whiteDarkColor,
                 ),
               ),
             ),
           ),
-          Expanded(flex: 1, child: Container()),
+          SizedBox(
+            width: 20.w,
+          ),
         ],
       ),
     );
@@ -216,7 +242,9 @@ class AddNewPassword extends StatelessWidget {
           style: GoogleFonts.tajawal(
             fontSize: 3.5.w,
             fontWeight: FontWeight.w500,
-            color: LightMode.typeUserBody,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.typeUserBody
+                : DarkMode.whiteDarkColor,
           ),
         ),
       ),
@@ -235,6 +263,12 @@ class AddNewPassword extends StatelessWidget {
         validator: validator,
         controller: controller,
         keyboardType: keyboardType,
+        style: GoogleFonts.tajawal(
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.splash
+                : DarkMode.whiteDarkColor,
+            fontSize: 4.w,
+            fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           suffixIcon: icon == true
               ? InkWell(
@@ -257,6 +291,12 @@ class AddNewPassword extends StatelessWidget {
             ),
           ),
           disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: LightMode.splash,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
               color: LightMode.splash,
@@ -285,7 +325,9 @@ class AddNewPassword extends StatelessWidget {
           child: Text(
             text,
             style: GoogleFonts.tajawal(
-                color: LightMode.onBoardOneText,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.onBoardOneText
+                    : DarkMode.darkModeSplash,
                 fontSize: 4.w,
                 fontWeight: FontWeight.w500),
           )),

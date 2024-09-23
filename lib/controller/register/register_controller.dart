@@ -281,27 +281,18 @@ class RegisterController extends GetxController {
 
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
-        Map responseBody = response['data'];
+        dynamic responseBody = response['data'];
         print("response :: $responseBody");
-
-        sharedPreferences!.setString("phone", responseBody['phone']);
-        sharedPreferences!.setString("email", emailController.text);
-
-        sharedPreferences!.setString("token", "${responseBody['token']}");
-        sharedPreferences!
-            .setString("country", "${responseBody['country']['name']}");
-        sharedPreferences!.setString("address", "${responseBody['address']}");
-        sharedPreferences!.setString("nameEn", "${responseBody['name']}");
-        sharedPreferences!.setString("img", "${responseBody['image']}");
-        sharedPreferences!.setString("lat", "${responseBody['lat']}");
-        sharedPreferences!.setString("lng", "${responseBody['lng']}");
-        sharedPreferences!
-            .setString("governorateId", "${responseBody['governorate']['id']}");
-
-        sharedPreferences!
-            .setString("governorate", "${responseBody['governorate']['name']}");
-        print(sharedPreferences!.getString("governorate"));
-        sharedPreferences!.setString("pageStart", "verifyRegister");
+        sharedPreferences!.setString(
+            "phone",
+            responseBody['phone'].toString().contains("+965")
+                ? responseBody['phone']
+                : "+965${responseBody['phone']}");
+        print(sharedPreferences!.setString(
+            "phone",
+            responseBody['phone'].toString().contains("+965")
+                ? responseBody['phone']
+                : "+965${responseBody['phone']}"));
         Get.to(() => const VerifyCodeRegister());
       } else if (statuesRequest == StatuesRequest.unprocessableException) {
         messageHandleException("رقم الهاتف مسجل من قبل", context);

@@ -20,3 +20,12 @@ class LightMode {
   static Color discountCollor = Colors.red.shade600;
   static Color blueColor = const Color.fromARGB(255, 35, 17, 126);
 }
+
+class DarkMode {
+  // splash  login sign forget otp
+  static Color darkModeSplash = const Color(0xff024260);
+  static Color buttonDarkColor = const Color(0xff016A9E);
+  static Color whiteDarkColor = Colors.white;
+  static Color white_2DarkColor = const Color(0xff807C7C);
+  static Color blackColor_1 = const Color(0xff807C7C);
+}

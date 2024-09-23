@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/profile/contact_us.dart';
 import 'package:mas_app/view/screens/profile/faq.dart';
@@ -15,6 +16,9 @@ class InfoAboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
       body: Column(
         children: [
           appBarMyOrders(context),
@@ -83,8 +87,8 @@ Widget appBarMyOrders(context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: 20.w,
           child: Padding(
             padding: EdgeInsets.only(top: 7.w),
             child: IconButton(
@@ -93,24 +97,35 @@ Widget appBarMyOrders(context) {
                       ? Get.back()
                       : Get.off(() => const Home());
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 6.w,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.registerButtonBorder
+                      : DarkMode.whiteDarkColor,
+                )),
           ),
         ),
-        Expanded(
-          flex: 5,
+        SizedBox(
+          width: 60.w,
           child: Container(
-            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 18.w),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
             child: Text(
               "معلومات عنا",
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,
-                color: LightMode.typeUserTitle,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.typeUserTitle
+                    : DarkMode.whiteDarkColor,
               ),
             ),
           ),
         ),
-        Expanded(flex: 1, child: Container()),
+        SizedBox(
+          width: 20.w,
+        ),
       ],
     ),
   );

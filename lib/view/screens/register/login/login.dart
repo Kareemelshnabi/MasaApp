@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/register/login_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/generated/l10n.dart';
+import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/forget_pass/add_new_password.dart';
 import 'package:mas_app/view/screens/register/signup/signup.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -18,7 +19,9 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginController loginController = Get.put(LoginController());
     return Scaffold(
-        backgroundColor: LightMode.registerText,
+        backgroundColor: sharedPreferences!.getBool("darkMode") == false
+            ? LightMode.registerText
+            : DarkMode.darkModeSplash,
         body: OfflineBuilder(
           connectivityBuilder: (context, ConnectivityResult value, child) {
             final bool connected = value != ConnectivityResult.none;
@@ -136,7 +139,9 @@ class LoginPage extends StatelessWidget {
       style: GoogleFonts.tajawal(
           fontSize: fontSize,
           fontWeight: fontWeight,
-          color: LightMode.registerButtonBorder),
+          color: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerButtonBorder
+              : DarkMode.whiteDarkColor),
     );
   }
 
@@ -146,19 +151,25 @@ class LoginPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            width: 20.w,
             child: Padding(
               padding: EdgeInsets.only(top: 7.w),
               child: IconButton(
                   onPressed: () {
                     Get.back();
                   },
-                  icon: const Icon(Icons.arrow_back_ios)),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 6.w,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
+                  )),
             ),
           ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: 60.w,
             child: Container(
               margin: EdgeInsets.only(top: 7.h, bottom: 2.h, right: 13.w),
               child: Text(
@@ -166,12 +177,16 @@ class LoginPage extends StatelessWidget {
                 style: GoogleFonts.tajawal(
                   fontSize: 5.5.w,
                   fontWeight: FontWeight.bold,
-                  color: LightMode.typeUserTitle,
+                  color: sharedPreferences!.getBool("darkMode") == false
+                      ? LightMode.typeUserTitle
+                      : DarkMode.whiteDarkColor,
                 ),
               ),
             ),
           ),
-          Expanded(flex: 1, child: Container()),
+          SizedBox(
+            width: 20.w,
+          ),
         ],
       ),
     );
@@ -204,7 +219,9 @@ class LoginPage extends StatelessWidget {
           style: GoogleFonts.tajawal(
             fontSize: 3.5.w,
             fontWeight: FontWeight.w500,
-            color: LightMode.typeUserBody,
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.typeUserBody
+                : DarkMode.whiteDarkColor,
           ),
         ),
       ),
@@ -218,6 +235,12 @@ class LoginPage extends StatelessWidget {
       width: 90.w,
       height: 9.h,
       child: TextFormField(
+        style: GoogleFonts.tajawal(
+            color: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.splash
+                : DarkMode.whiteDarkColor,
+            fontSize: 4.w,
+            fontWeight: FontWeight.w500),
         obscureText: obscure == true ? true : false,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: validator,
@@ -239,6 +262,12 @@ class LoginPage extends StatelessWidget {
               fontWeight: FontWeight.w500),
           hintText: text,
           enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: LightMode.splash,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
               color: LightMode.splash,
@@ -273,7 +302,9 @@ class LoginPage extends StatelessWidget {
           child: Text(
             text,
             style: GoogleFonts.tajawal(
-                color: LightMode.onBoardOneText,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.onBoardOneText
+                    : DarkMode.darkModeSplash,
                 fontSize: 4.w,
                 fontWeight: FontWeight.w500),
           )),

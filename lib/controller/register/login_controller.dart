@@ -11,6 +11,7 @@ import 'package:mas_app/core/function/handling_data.dart';
 import 'package:mas_app/data/data%20source/register.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
+import 'package:mas_app/view/screens/register/login/succcess_login.dart';
 import 'package:mas_app/view/screens/register/login/verify_code_login.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -110,8 +111,8 @@ class LoginController extends GetxController {
             .setString("governorateId", "${responseBody['governorate']['id']}");
         String text = responseBody['governorate']['name'];
         print(text);
-        sharedPreferences!.setString("pageStart", "verifyLogin");
-        Get.to(() => const VerifyCodeLogin());
+        sharedPreferences!.setString("pageStart", "Home");
+        Get.offAll(() => const SuccessLogin());
       } else if (statuesRequest == StatuesRequest.forbiddenException) {
         messageHandleException(" لم يتم التحقق من الحساب", context);
       } else if (statuesRequest == StatuesRequest.socketException) {

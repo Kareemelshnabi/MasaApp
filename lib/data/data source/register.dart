@@ -8,7 +8,7 @@ class RegisterRemoteData {
   Api api;
   RegisterRemoteData(this.api);
   signUp(String nameEn, String email, String phone, String address, String lat,
-      String lng, String password, governorateId,tokenDevice) async {
+      String lng, String password, governorateId, tokenDevice) async {
     var response = await api.postData(AppLinks.registerLink, {
       //"Accept": "application/json",
     }, {
@@ -20,15 +20,14 @@ class RegisterRemoteData {
       "country": "Kuwait",
       "country_id": "1",
       "governorate_id": governorateId.toString(),
-      "fcm_token":tokenDevice,
-      
+      "fcm_token": tokenDevice,
     });
     return response.fold((l) => l, (r) => r);
   }
 
   //login
 
-  login(String phone, String password,tokenDevice) async {
+  login(String phone, String password, tokenDevice) async {
     var response = await api.postData(AppLinks.loginLink, {
       // "Accept": "application/json",
       // "Accept-Language":
@@ -36,7 +35,7 @@ class RegisterRemoteData {
     }, {
       "phone": phone.toString(),
       "password": password.toString(),
-       "fcm_token":tokenDevice,
+      "fcm_token": tokenDevice,
     });
     return response.fold((l) => l, (r) => r);
   }
@@ -97,6 +96,32 @@ class RegisterRemoteData {
   getCountry() async {
     var response = await api.getData(AppLinks.getCountries,
         {"Accept": "application/json", "Accept-Language": "ar"});
+    return response.fold((l) => l, (r) => r);
+  }
+
+  // verify
+
+  verifySign(phone, otp) async {
+    var response = await api.postData(AppLinks.verifySign, {
+      "Accept": "application/json",
+      "Accept-Language": "ar",
+     
+    }, {
+      "phone": phone,
+      "otp": otp
+    });
+    return response.fold((l) => l, (r) => r);
+  }
+
+  //resend
+    reSendOtp(phone) async {
+    var response = await api.postData(AppLinks.reSendOtp, {
+      "Accept": "application/json",
+      "Accept-Language": "ar",
+     
+    }, {
+      "phone": phone,
+    });
     return response.fold((l) => l, (r) => r);
   }
 }
