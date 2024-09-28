@@ -1,5 +1,5 @@
 class AppLinks {
-  static String serverLink = "https://dev.almasia-online.com/app";
+  static String serverLink = "https://dashboard.dev.almasia-online.com/app";
 
   //auth
   static String registerLink = "$serverLink/domains/auth/register";
@@ -9,6 +9,7 @@ class AppLinks {
   static String getCountries = "$serverLink/data/countries";
   static String verifySign = "$serverLink/domains/auth/verify-otp";
   static String reSendOtp = "$serverLink/domains/auth/resend-otp";
+  static String sendOtpToREsetPassLink = "$serverLink/domains/auth/send-otp";
   //services
   static String getServicesLink = "$serverLink/domains/product/services";
 

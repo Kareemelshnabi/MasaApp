@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/register/forget_password.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
+import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/register/login/login.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -44,16 +45,7 @@ class AddNewPassword extends StatelessWidget {
                                 children: [
                                   appBarForgetPass(context),
                                   bodyForgetPass(context),
-                                  textFieldPhone(
-                                    (val) {
-                                      return forgetPasswordController
-                                          .phoneValidate(val!, context);
-                                    },
-                                    forgetPasswordController.phoneController,
-                                    TextInputType.phone,
-                                    S.of(context).phone,
-                                    false,
-                                  ),
+                                
                                   textField(
                                     (val) {
                                       return forgetPasswordController
@@ -93,8 +85,8 @@ class AddNewPassword extends StatelessWidget {
                                   SizedBox(
                                     height: 6.w,
                                   ),
-                                  onBtnClick("تأكيد", () {
-                                    controller.addNewPass(context);
+                                  onBtnClick("تأكيد", () {Get.offAll(()=>const Home());
+                                   // controller.addNewPass(context);
                                   }),
                                 ],
                               ),

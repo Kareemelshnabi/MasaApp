@@ -124,4 +124,17 @@ class RegisterRemoteData {
     });
     return response.fold((l) => l, (r) => r);
   }
+
+  //send otp to reset pass
+
+   sendOtpToResetPass(phone) async {
+    var response = await api.postData(AppLinks.sendOtpToREsetPassLink, {
+      "Accept": "application/json",
+      "Accept-Language": "ar",
+     
+    }, {
+      "phone": phone,
+    });
+    return response.fold((l) => l, (r) => r);
+  }
 }

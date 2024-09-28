@@ -12,7 +12,6 @@ import 'package:mas_app/data/data%20source/register.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/login/succcess_login.dart';
-import 'package:mas_app/view/screens/register/login/verify_code_login.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 class LoginController extends GetxController {

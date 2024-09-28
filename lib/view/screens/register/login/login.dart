@@ -7,6 +7,7 @@ import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/forget_pass/add_new_password.dart';
+import 'package:mas_app/view/screens/register/forget_pass/forget_password.dart';
 import 'package:mas_app/view/screens/register/signup/signup.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -73,7 +74,7 @@ class LoginPage extends StatelessWidget {
                                     },
                                   ),
                                   multiTextSignUp(() {
-                                    Get.to(() => const AddNewPassword());
+                                    Get.to(() => const ForgetPassword());
                                   }, S.of(context).forgetPass),
                                   SizedBox(
                                     height: 6.w,

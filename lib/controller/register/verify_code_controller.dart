@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mas_app/controller/register/login_controller.dart';
-import 'package:mas_app/controller/register/register_controller.dart';
 import 'package:mas_app/core/class/api.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
@@ -10,7 +8,6 @@ import 'package:mas_app/core/function/handling_data.dart';
 import 'package:mas_app/data/data%20source/register.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
-import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/register/signup/success_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -149,4 +146,9 @@ class VerifyCodeController extends GetxController {
       messageHandleException(S.of(context).errorUnAuthorized, context);
     }
   }
+
+verifyResetPass(context)async{
+
+
+}
 }

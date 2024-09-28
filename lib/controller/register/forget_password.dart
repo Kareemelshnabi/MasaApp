@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/core/class/api.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
+import 'package:mas_app/view/screens/register/forget_pass/verify_code_forgetpass.dart';
 import 'package:mas_app/view/screens/register/login/login.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -16,7 +17,7 @@ import '../../data/data source/register.dart';
 
 class ForgetPasswordController extends GetxController {
   GlobalKey<FormState> addNewPassGlobalKey = GlobalKey();
-  // GlobalKey<FormState> forgetPassGlobalKey = GlobalKey();
+   GlobalKey<FormState> forgetPassGlobalKey = GlobalKey();
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -79,16 +80,12 @@ class ForgetPasswordController extends GetxController {
   phoneValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
-  //  } else if (!val.isPhoneNumber) {
-    //  return S.of(context).errorPhone_2;
+
     } else if (val.length < 8 || val.length > 8) {
       return "رقم الهاتف المدخل خطأ";
     }
-    //  else if (!isValidPhoneNumber(val)) {
-    //   return S.of(context).errorPhone_3;
-    // }
+    
     else {
-      // if (isValidPhoneNumber(val)) {
       return null;
     }
   }
@@ -107,7 +104,7 @@ class ForgetPasswordController extends GetxController {
         print("response :: $responseBody");
 
         sharedPreferences!.setString("pageStart", "typeOfUser");
-        Get.to(() => const LoginPage());
+        Get.off(() => const LoginPage());
       } else if (statuesRequest == StatuesRequest.unprocessableException) {
         messageHandleException("رقم الهاتف المستخدم غير مسجل", context);
       } else if (statuesRequest == StatuesRequest.socketException) {
@@ -131,46 +128,49 @@ class ForgetPasswordController extends GetxController {
     update();
   }
 
-  // forgetPass(context) async {
-  //   if (forgetPassGlobalKey.currentState!.validate()) {
-  //     statuesRequest = StatuesRequest.loading;
-  //     update();
-  //     var response = await registerRemoteData.forgetPassword(
-  //         phoneController.text,
 
-  //         // changeeeeeeeeeeeeeeeeeeeeeee
-  //         "00000000");
-  //     print(response);
-  //     statuesRequest = handlingData(response);
-  //     if (statuesRequest == StatuesRequest.success) {
-  //       Map responseBody = response['data'];
-  //       print("response :: $responseBody");
-  //       sharedPreferences!.setString("phoneVerify", "${responseBody['phone']}");
+ 
 
-  //       sharedPreferences!.setString("pageStart", "verifyForgetPass");
-  //       Get.offAll(() => const VerifyCodeForgetpass());
-  //     }  else if (statuesRequest == StatuesRequest.unprocessableException) {
-  //       messageHandleException("${response['message']}", context);
-  //     } else if (statuesRequest == StatuesRequest.socketException) {
-  //       messageHandleException(S.of(context).noInternetApi, context);
-  //     } else if (statuesRequest == StatuesRequest.serverException) {
-  //       messageHandleException(S.of(context).serverException, context);
-  //     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-  //       messageHandleException(S.of(context).unExcepectedException, context);
-  //     } else if (statuesRequest == StatuesRequest.defaultException) {
-  //       messageHandleException(S.of(context).errorForgetPass, context);
-  //     } else if (statuesRequest == StatuesRequest.serverError) {
-  //       messageHandleException(S.of(context).serverError, context);
-  //     } else if (statuesRequest == StatuesRequest.timeoutException) {
-  //       messageHandleException(S.of(context).timeOutException, context);
-  //     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-  //       messageHandleException(S.of(context).passwordNotCorrect, context);
-  //     }
-  //   } else {
-  //     messageHandleException(S.of(context).errorConfirmPrivacy, context);
-  //   }
-  //   update();
-  // }
+
+
+  forgetPass(context) async {
+    if (forgetPassGlobalKey.currentState!.validate()) {
+      statuesRequest = StatuesRequest.loading;
+      update();
+      var response = await registerRemoteData.sendOtpToResetPass(
+          phoneController.text,
+
+         );
+      print(response);
+      statuesRequest = handlingData(response);
+      if (statuesRequest == StatuesRequest.success) {
+        dynamic responseBody = response['data'];
+        print("response :: $responseBody");
+
+        sharedPreferences!.setString("pageStart", "verifyForgetPass");
+        Get.to(() => const VerifyCodeForgetpass());
+      }  else if (statuesRequest == StatuesRequest.unprocessableException) {
+        messageHandleException("${response['message']}", context);
+      } else if (statuesRequest == StatuesRequest.socketException) {
+        messageHandleException(S.of(context).noInternetApi, context);
+      } else if (statuesRequest == StatuesRequest.serverException) {
+        messageHandleException(S.of(context).serverException, context);
+      } else if (statuesRequest == StatuesRequest.unExpectedException) {
+        messageHandleException(S.of(context).unExcepectedException, context);
+      } else if (statuesRequest == StatuesRequest.defaultException) {
+        messageHandleException(S.of(context).errorForgetPass, context);
+      } else if (statuesRequest == StatuesRequest.serverError) {
+        messageHandleException(S.of(context).serverError, context);
+      } else if (statuesRequest == StatuesRequest.timeoutException) {
+        messageHandleException(S.of(context).timeOutException, context);
+      } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+        messageHandleException(S.of(context).passwordNotCorrect, context);
+      }
+    } else {
+      messageHandleException(S.of(context).errorConfirmPrivacy, context);
+    }
+    update();
+  }
 
   messageHandleException(message, context) {
     Get.defaultDialog(
