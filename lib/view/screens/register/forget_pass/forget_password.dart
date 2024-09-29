@@ -6,6 +6,7 @@ import 'package:mas_app/controller/register/forget_password.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/images.dart';
 import 'package:mas_app/generated/l10n.dart';
+import 'package:mas_app/main.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 import '../../../../core/constant/colors.dart';
@@ -17,71 +18,83 @@ class ForgetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     ForgetPasswordController forgetPasswordController =
         Get.put(ForgetPasswordController());
-    return Scaffold(
-        body: OfflineBuilder(
-      connectivityBuilder: (context, ConnectivityResult value, child) {
-        final bool connected = value != ConnectivityResult.none;
+    return
+        //  Localizations(
+        //   locale:const Locale("ar"),
+        //   delegates:const [
+        //       S.delegate,
+        //     DefaultMaterialLocalizations.delegate,
+        //     DefaultWidgetsLocalizations.delegate,
+        //     DefaultMaterialLocalizations.delegate
+        //   ],
+        // child:
+        Scaffold(
+      body: OfflineBuilder(
+        connectivityBuilder: (context, ConnectivityResult value, child) {
+          final bool connected = value != ConnectivityResult.none;
 
-        if (connected) {
-          return GetBuilder<ForgetPasswordController>(
-            builder: (controller) =>
-                controller.statuesRequest == StatuesRequest.loading
-                    ? SizedBox(
-                        width: 100.w,
-                        height: 100.h,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      )
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            appBarForgetPass(context),
-                            Image.asset(
-                              ImagesLink.resetPasswordImage,
-                              width: 50.w,
-                              height: 30.h,
-                              fit: BoxFit.fill,
-                            ),
-                            bodyForgetPass(context),
-                            GetBuilder<ForgetPasswordController>(
-                                builder: (controller) => Form(
-                                      key: controller.forgetPassGlobalKey,
-                                      child: Column(
-                                        children: [
-                                          textField(
-                                            (val) {
-                                              return forgetPasswordController
-                                                  .phoneValidate(val!, context);
-                                            },
-                                            forgetPasswordController
-                                                .phoneController,
-                                            TextInputType.phone,
-                                            S.of(context).phone,
-                                            false,
-                                          ),
-                                          SizedBox(
-                                            height: 6.w,
-                                          ),
-                                          onBtnClick(S.of(context).next, () {
-                                            controller.forgetPass(context);
-                                          }),
-                                        ],
-                                      ),
-                                    ))
-                          ],
-                        ),
+          if (connected) {
+            return GetBuilder<ForgetPasswordController>(
+              builder: (controller) => controller.statuesRequest ==
+                      StatuesRequest.loading
+                  ? SizedBox(
+                      width: 100.w,
+                      height: 100.h,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
                       ),
-          );
-        } else {
-          return SizedBox(
-              height: 100.h,
-              width: 100.w,
-              child: const Center(child: Text("no internet ............ !")));
-        }
-      },
-      child: const CircularProgressIndicator(),
-    ));
+                    )
+                  : SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          appBarForgetPass(context),
+                          Image.asset(
+                            ImagesLink.resetPasswordImage,
+                            width: 50.w,
+                            height: 30.h,
+                            fit: BoxFit.fill,
+                          ),
+                          bodyForgetPass(context),
+                          GetBuilder<ForgetPasswordController>(
+                              builder: (controller) => Form(
+                                    key: controller.forgetPassGlobalKey,
+                                    child: Column(
+                                      children: [
+                                        textField(
+                                          (val) {
+                                            return forgetPasswordController
+                                                .phoneValidate(val!, context);
+                                          },
+                                          forgetPasswordController
+                                              .phoneController,
+                                          TextInputType.phone,
+                                          S.of(context).phone,
+                                          false,
+                                        ),
+                                        SizedBox(
+                                          height: 6.w,
+                                        ),
+                                        onBtnClick(S.of(context).next, () {
+                                          controller.forgetPass(context);
+                                        }),
+                                      ],
+                                    ),
+                                  ))
+                        ],
+                      ),
+                    ),
+            );
+          } else {
+            return SizedBox(
+                height: 100.h,
+                width: 100.w,
+                child: const Center(child: Text("no internet ............ !")));
+          }
+        },
+        child: const CircularProgressIndicator(),
+        //)
+      ),
+    );
   }
 
   Widget textTerms(text, textAlign, fontSize, fontWeight) {

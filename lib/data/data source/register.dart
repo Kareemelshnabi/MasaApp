@@ -10,7 +10,7 @@ class RegisterRemoteData {
   signUp(String nameEn, String email, String phone, String address, String lat,
       String lng, String password, governorateId, tokenDevice) async {
     var response = await api.postData(AppLinks.registerLink, {
-      //"Accept": "application/json",
+      "Accept": "application/json",
     }, {
       "name": nameEn.toString(),
       "email": email.toString(),
@@ -104,8 +104,7 @@ class RegisterRemoteData {
   verifySign(phone, otp) async {
     var response = await api.postData(AppLinks.verifySign, {
       "Accept": "application/json",
-      "Accept-Language": "ar",
-     
+      // "Accept-Language": "ar",
     }, {
       "phone": phone,
       "otp": otp
@@ -114,11 +113,10 @@ class RegisterRemoteData {
   }
 
   //resend
-    reSendOtp(phone) async {
+  reSendOtp(phone) async {
     var response = await api.postData(AppLinks.reSendOtp, {
       "Accept": "application/json",
       "Accept-Language": "ar",
-     
     }, {
       "phone": phone,
     });
@@ -127,14 +125,26 @@ class RegisterRemoteData {
 
   //send otp to reset pass
 
-   sendOtpToResetPass(phone) async {
+  sendOtpToResetPass(phone) async {
     var response = await api.postData(AppLinks.sendOtpToREsetPassLink, {
       "Accept": "application/json",
       "Accept-Language": "ar",
-     
     }, {
       "phone": phone,
     });
     return response.fold((l) => l, (r) => r);
   }
+  //verify forget pass
+  verifyForgetPass(phone,otp) async {
+    var response = await api.postData(AppLinks.verifyForgetPass, {
+      "Accept": "application/json",
+//      "Accept-Language": "ar",
+    }, {
+      "phone": phone,
+      "otp":otp
+    });
+    return response.fold((l) => l, (r) => r);
+  }
+  
+  
 }

@@ -19,88 +19,100 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LoginController loginController = Get.put(LoginController());
-    return Scaffold(
-        backgroundColor: sharedPreferences!.getBool("darkMode") == false
-            ? LightMode.registerText
-            : DarkMode.darkModeSplash,
-        body: OfflineBuilder(
-          connectivityBuilder: (context, ConnectivityResult value, child) {
-            final bool connected = value != ConnectivityResult.none;
-
-            if (connected) {
-              return GetBuilder<LoginController>(
-                builder: (controller) =>
-                    controller.statuesRequest == StatuesRequest.loading
-                        ? SizedBox(
-                            width: 100.w,
-                            height: 100.h,
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        : SingleChildScrollView(
-                            child: Form(
-                              key: controller.loginGlobalKey,
-                              child: Column(
-                                children: [
-                                  appBarLogin(context),
-                                  bodyLogin(context),
-                                  textField((val) {
-                                    return loginController.phoneValidate(
-                                        val!, context);
-                                  },
-                                      loginController.phoneController,
-                                      TextInputType.phone,
-                                      S.of(context).phone,
-                                      false,
-                                      false,
-                                      null,
-                                      null),
-                                  textField(
-                                    (val) {
-                                      return loginController.passwordValidate(
+    return
+    //  Localizations(
+    //    locale:const Locale("ar"),
+    //   delegates:const [
+    //       S.delegate,
+    //     DefaultMaterialLocalizations.delegate,
+    //     DefaultWidgetsLocalizations.delegate,
+    //     DefaultMaterialLocalizations.delegate
+    //   ],
+      // child:
+       Scaffold(
+          backgroundColor: sharedPreferences!.getBool("darkMode") == false
+              ? LightMode.registerText
+              : DarkMode.darkModeSplash,
+          body: OfflineBuilder(
+            connectivityBuilder: (context, ConnectivityResult value, child) {
+              final bool connected = value != ConnectivityResult.none;
+      
+              if (connected) {
+                return GetBuilder<LoginController>(
+                  builder: (controller) =>
+                      controller.statuesRequest == StatuesRequest.loading
+                          ? SizedBox(
+                              width: 100.w,
+                              height: 100.h,
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              child: Form(
+                                key: controller.loginGlobalKey,
+                                child: Column(
+                                  children: [
+                                    appBarLogin(context),
+                                    bodyLogin(context),
+                                    textField((val) {
+                                      return loginController.phoneValidate(
                                           val!, context);
                                     },
-                                    loginController.passwordController,
-                                    TextInputType.visiblePassword,
-                                    S.of(context).password,
-                                    true,
-                                    controller.showPass,
-                                    controller.showPass == false
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined,
-                                    () {
-                                      controller.showPassword();
-                                    },
-                                  ),
-                                  multiTextSignUp(() {
-                                    Get.to(() => const ForgetPassword());
-                                  }, S.of(context).forgetPass),
-                                  SizedBox(
-                                    height: 6.w,
-                                  ),
-                                  onBtnClick(S.of(context).login, () {
-                                    print("object");
-                                    controller.login(context);
-                                  }),
-                                  bottomText(() {
-                                    Get.off(() => const SignUp());
-                                  }, context),
-                                ],
+                                        loginController.phoneController,
+                                        TextInputType.phone,
+                                        S.of(context).phone,
+                                        false,
+                                        false,
+                                        null,
+                                        null),
+                                    textField(
+                                      (val) {
+                                        return loginController.passwordValidate(
+                                            val!, context);
+                                      },
+                                      loginController.passwordController,
+                                      TextInputType.visiblePassword,
+                                      S.of(context).password,
+                                      true,
+                                      controller.showPass,
+                                      controller.showPass == false
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined,
+                                      () {
+                                        controller.showPassword();
+                                      },
+                                    ),
+                                    multiTextSignUp(() {
+                                      Get.to(() => const ForgetPassword());
+                                    }, S.of(context).forgetPass),
+                                    SizedBox(
+                                      height: 6.w,
+                                    ),
+                                    onBtnClick(S.of(context).login, () {
+                                      print("object");
+                                      controller.login(context);
+                                    }),
+                                    bottomText(() {
+                                      Get.off(() => const SignUp());
+                                    }, context),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-              );
-            } else {
-              return SizedBox(
-                  height: 100.h,
-                  width: 100.w,
-                  child:
-                      const Center(child: Text("no internet ............ !")));
-            }
-          },
-          child: const CircularProgressIndicator(),
-        ));
+                );
+              } else {
+                return SizedBox(
+                    height: 100.h,
+                    width: 100.w,
+                    child:
+                        const Center(child: Text("no internet ............ !")));
+              }
+            },
+            child: const CircularProgressIndicator(),
+          //)
+          ),
+    );
   }
 
   Widget bottomText(onTap, context) {

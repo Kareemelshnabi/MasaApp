@@ -10,6 +10,8 @@ class AppLinks {
   static String verifySign = "$serverLink/domains/auth/verify-otp";
   static String reSendOtp = "$serverLink/domains/auth/resend-otp";
   static String sendOtpToREsetPassLink = "$serverLink/domains/auth/send-otp";
+  static String verifyForgetPass = "$serverLink/domains/auth/verify-Phone";
+
   //services
   static String getServicesLink = "$serverLink/domains/product/services";
 

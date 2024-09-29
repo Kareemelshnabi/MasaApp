@@ -8,6 +8,8 @@ import 'package:mas_app/core/function/handling_data.dart';
 import 'package:mas_app/data/data%20source/register.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
+import 'package:mas_app/view/screens/register/forget_pass/add_new_password.dart';
+import 'package:mas_app/view/screens/register/login/login.dart';
 import 'package:mas_app/view/screens/register/signup/success_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -61,6 +63,8 @@ class VerifyCodeController extends GetxController {
   }
 
   verifySign(context) async {
+    print(verifyCodeRegister);
+    print(sharedPreferences!.getString("phone"));
     statuesRequest = StatuesRequest.loading;
     update();
     var response = await registerRemoteData.verifySign(
@@ -147,8 +151,41 @@ class VerifyCodeController extends GetxController {
     }
   }
 
-verifyResetPass(context)async{
+  verifyResetPass(context) async {
+print(verifyCodeForgetPass);
+//print(sharedPreferences!.getString("phone"));
+    statuesRequest = StatuesRequest.loading;
+    update();
+    var response = await registerRemoteData.verifyForgetPass(
+      sharedPreferences!.getString("phone"),
+      verifyCodeForgetPass,
+    );
+    print(response);
+
+    statuesRequest = handlingData(response);
+    if (statuesRequest == StatuesRequest.success) {
+      dynamic responseBody = response['data'];
+      print("response :: $responseBody");
+
+     Get.offAll(() => const AddNewPassword());
+    } else if (statuesRequest == StatuesRequest.unprocessableException) {
+      messageHandleException("رقم الهاتف مسجل من قبل", context);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(context).noInternetApi, context);
+    } else if (statuesRequest == StatuesRequest.serverException) {
+      messageHandleException(S.of(context).serverException, context);
+    } else if (statuesRequest == StatuesRequest.unExpectedException) {
+      messageHandleException(S.of(context).unExcepectedException, context);
+    } else if (statuesRequest == StatuesRequest.defaultException) {
+      messageHandleException(S.of(context).errorPhoneUseBeforeApi, context);
+    } else if (statuesRequest == StatuesRequest.serverError) {
+      messageHandleException(S.of(context).serverError, context);
+    } else if (statuesRequest == StatuesRequest.timeoutException) {
+      messageHandleException(S.of(context).timeOutException, context);
+    } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+      messageHandleException(S.of(context).errorUnAuthorized, context);
+    }
 
 
-}
+  }
 }

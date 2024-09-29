@@ -62,18 +62,35 @@ class Api {
       final response = await http
           .post(Uri.parse(url), headers: headers, body: data)
           .timeout(const Duration(seconds: 20));
+      print(response.statusCode);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         print(data);
         return right(data);
       } else if (response.statusCode == 422) {
-        final data = jsonDecode(response.body);
-        print(data);
-        return left(StatuesRequest.unprocessableException);
+        print(response.body);
+        if (response.body.toString() ==
+                "{\"message\":\"The Phone has already been taken.\",\"errors\":{\"phone\":[\"The Phone has already been taken.\"]}}" ||
+            response.body ==
+                "{\"message\":\"The Phone has already been taken. (and 1 more error)\",\"errors\":{\"phone\":[\"The Phone has already been taken.\"],\"email\":[\"The email has already been taken.\"]}}") {
+          return left(StatuesRequest.unprocessableException);
+        } else if (response.body ==
+            "{\"message\":\"Invalid phone number (and 1 more error)\",\"errors\":{\"phone\":[\"Invalid phone number\"],\"email\":[\"The email has already been taken.\"]}}") {
+          return left(StatuesRequest.phoneValid);
+        } else {
+          return left(StatuesRequest.phoneNotVerify);
+        }
       } else if (response.statusCode == 400) {
+        print(response.body);
         throw BadRequestException();
       } else if (response.statusCode == 401) {
-        throw UnauthorizedException();
+        print(response.body);
+        if (response.body ==
+            "{\"message\":\"Your phone number is not verified. Please verify your account before logging in.\"}") {
+          return left(StatuesRequest.phoneNotVerify);
+        } else {
+          throw UnauthorizedException();
+        }
       } else if (response.statusCode == 404) {
         return left(StatuesRequest.serverException);
       } else if (response.statusCode == 403) {
@@ -84,7 +101,8 @@ class Api {
       } else if (response.statusCode == 409) {
         throw ConflictException();
       } else {
-        print(response.statusCode);
+        print(response.body);
+
         return left(StatuesRequest.defaultException);
       }
     } on SocketException {
@@ -290,7 +308,6 @@ class Api {
 
       request.headers['Authorization'] = 'Bearer $token';
       request.headers['Accept'] = 'application/json';
-
 
       var mimeType =
           MediaType('audio', 'm4a'); // Correct MIME type for .m4a files

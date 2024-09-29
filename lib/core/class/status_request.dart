@@ -14,10 +14,12 @@ enum StatuesRequest{
   serverError,
   defaultException,
   unprocessableException, 
+  phoneValid,
   formatException,
   unExpectedException,
   clientException,
-  none
+  none,
+  phoneNotVerify
 }
 
 //success

@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mas_app/controller/register/verify_code_controller.dart';
 import 'package:mas_app/core/class/api.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
@@ -26,7 +27,7 @@ class RegisterController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController governateController = TextEditingController();
-
+  VerifyCodeController controller = Get.put(VerifyCodeController());
   StatuesRequest statuesRequest = StatuesRequest.none;
   RegisterRemoteData registerRemoteData = RegisterRemoteData(Get.put(Api()));
   bool choose = false;
@@ -259,6 +260,75 @@ class RegisterController extends GetxController {
         ));
   }
 
+  messageHandleException_2(message, context) {
+    Get.defaultDialog(
+        title: S.of(context).error,
+        content: Column(
+          children: [
+            Text(
+              message,
+              style: GoogleFonts.tajawal(
+                  fontSize: 3.5.w,
+                  color: LightMode.registerButtonBorder,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 5.w,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await controller.reSendOtp(context);
+                    Get.to(() => const VerifyCodeRegister());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: LightMode.splash,
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        "تأكيد الرقم",
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.registerText,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: LightMode.splash),
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        "إلغاء",
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.splash,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
+  }
+
   signUp(context) async {
     if (signUpGlobalKey.currentState!.validate() &&
         choose == true &&
@@ -285,17 +355,17 @@ class RegisterController extends GetxController {
         print("response :: $responseBody");
         sharedPreferences!.setString(
             "phone",
-            responseBody['phone'].toString().contains("+965")
-                ? responseBody['phone']
-                : "+965${responseBody['phone']}");
-        print(sharedPreferences!.setString(
-            "phone",
-            responseBody['phone'].toString().contains("+965")
-                ? responseBody['phone']
-                : "+965${responseBody['phone']}"));
+            phoneController.text.contains("+965")
+                ? phoneController.text
+                : "+965${phoneController.text}");
+        print(sharedPreferences!.getString("phone"));
         Get.to(() => const VerifyCodeRegister());
       } else if (statuesRequest == StatuesRequest.unprocessableException) {
         messageHandleException("رقم الهاتف مسجل من قبل", context);
+      } else if (statuesRequest == StatuesRequest.phoneNotVerify) {
+        messageHandleException_2("تأكيد رقم الهاتف", context);
+      } else if (statuesRequest == StatuesRequest.phoneValid) {
+        messageHandleException("رقم الهاتف المدخل خطأ", context);
       } else if (statuesRequest == StatuesRequest.socketException) {
         messageHandleException(S.of(context).noInternetApi, context);
       } else if (statuesRequest == StatuesRequest.serverException) {

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get/get.dart';
+import 'package:mas_app/data/model/service_model.dart';
 
 class FirebaseNotification {
   // create instanse
@@ -16,8 +18,10 @@ class FirebaseNotification {
   // handel notification
   void handelMassage(RemoteMessage? remotemess) {
     if (remotemess == null) return;
+    log("1");
     log("${remotemess.data}");
-    // Get.to(() => ChatPage(), arguments: {});
+
+    Get.to(() => Categories());
   }
 
   // hande notification back greound

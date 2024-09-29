@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mas_app/controller/register/verify_code_controller.dart';
 import 'package:mas_app/core/class/api.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
@@ -12,10 +13,12 @@ import 'package:mas_app/data/data%20source/register.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/login/succcess_login.dart';
+import 'package:mas_app/view/screens/register/signup/verify_code_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 class LoginController extends GetxController {
   GlobalKey<FormState> loginGlobalKey = GlobalKey();
+  VerifyCodeController controller = Get.put(VerifyCodeController());
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -128,9 +131,80 @@ class LoginController extends GetxController {
         messageHandleException(S.of(context).timeOutException, context);
       } else if (statuesRequest == StatuesRequest.unauthorizedException) {
         messageHandleException(S.of(context).passwordNotCorrect, context);
+      } else if (statuesRequest == StatuesRequest.phoneNotVerify) {
+        messageHandleException_2("يرجي تأكيد الرقم", context);
       }
       update();
     }
+  }
+
+  messageHandleException_2(message, context) {
+    Get.defaultDialog(
+        title: S.of(context).error,
+        content: Column(
+          children: [
+            Text(
+              message,
+              style: GoogleFonts.tajawal(
+                  fontSize: 3.5.w,
+                  color: LightMode.registerButtonBorder,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 5.w,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await controller.reSendOtp(context);
+                    Get.to(() => const VerifyCodeRegister());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: LightMode.splash,
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        "تأكيد الرقم",
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.registerText,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: LightMode.splash),
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        "إلغاء",
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.splash,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
   }
 
   messageHandleException(message, context) {

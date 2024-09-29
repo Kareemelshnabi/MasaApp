@@ -19,66 +19,77 @@ class VerifyCodeRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(VerifyCodeController());
-    return Localizations(
-      locale: const Locale("en"),
-      delegates: const [
-        DefaultMaterialLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-        DefaultMaterialLocalizations.delegate
-      ],
-      child: Scaffold(
-          backgroundColor: sharedPreferences!.getBool("darkMode") == false
-              ? LightMode.registerText
-              : DarkMode.darkModeSplash,
-          body: OfflineBuilder(
-            connectivityBuilder: (context, ConnectivityResult value, child) {
-              final bool connected = value != ConnectivityResult.none;
+    return
+        //  Localizations(
+        //   locale: const Locale("en"),
+        //   delegates: const [
+        //     S.delegate,
+        //     DefaultMaterialLocalizations.delegate,
+        //     DefaultWidgetsLocalizations.delegate,
+        //     DefaultMaterialLocalizations.delegate
+        //   ],
+        // child:
+        Scaffold(
+            backgroundColor: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerText
+                : DarkMode.darkModeSplash,
+            body: OfflineBuilder(
+              connectivityBuilder: (context, ConnectivityResult value, child) {
+                final bool connected = value != ConnectivityResult.none;
 
-              if (connected) {
-                return GetBuilder<VerifyCodeController>(
-                  builder: (controller) => controller.statuesRequest ==
-                          StatuesRequest.loading
-                      ? SizedBox(
-                          width: 100.w,
-                          height: 100.h,
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              appBarForgetPass(),
-                              Image.asset(
-                                ImagesLink.verifyImage,
-                                width: 60.w,
-                                height: 30.h,
-                                fit: BoxFit.fill,
+                if (connected) {
+                  return GetBuilder<VerifyCodeController>(
+                    builder: (controller) =>
+                        controller.statuesRequest == StatuesRequest.loading
+                            ? SizedBox(
+                                width: 100.w,
+                                height: 100.h,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    appBarForgetPass(),
+                                    Image.asset(
+                                      ImagesLink.verifyImage,
+                                      width: 60.w,
+                                      height: 30.h,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    bodyVerifyCode(),
+                                    otpRegister(controller.verifyCodeRegister,
+                                        (String verificationCode) {
+                                      controller.verifyCodeRegister =
+                                          verificationCode;
+                                    }),
+                                    onBtnClick(
+                                        sharedPreferences!.getString("local") ==
+                                                "ar"
+                                            ? "إرسال"
+                                            : "Send", () {
+                                      // Get.off(() => const SuccessRegister());
+
+                                      print(controller.verifyCodeRegister);
+                                      controller.verifySign(context);
+                                    })
+                                  ],
+                                ),
                               ),
-                              bodyVerifyCode(),
-                              otpRegister(controller.verifyCodeRegister),
-                              onBtnClick(
-                                  sharedPreferences!.getString("local") == "ar"
-                                      ? "إرسال"
-                                      : "Send", () {
-                                // Get.off(() => const SuccessRegister());
-                                controller.verifySign(context);
-                              })
-                            ],
-                          ),
-                        ),
-                );
-              } else {
-                return SizedBox(
-                    height: 100.h,
-                    width: 100.w,
-                    child: const Center(
-                        child: Text("no internet ............ !")));
-              }
-            },
-            child: const CircularProgressIndicator(),
-          )),
-    );
+                  );
+                } else {
+                  return SizedBox(
+                      height: 100.h,
+                      width: 100.w,
+                      child: const Center(
+                          child: Text("no internet ............ !")));
+                }
+              },
+              child: const CircularProgressIndicator(),
+            )
+            //),
+            );
   }
 
   Widget onBtnClick(text, onPress) {
@@ -121,42 +132,42 @@ class VerifyCodeRegister extends StatelessWidget {
     );
   }
 
-  Widget otpRegister(verifyCode) {
+  Widget otpRegister(verifyCode, onSubmit) {
     return Center(
       child: SizedBox(
         height: 12.h,
         width: 90.w,
-        child: OtpTextField(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: OtpTextField(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-          textStyle: GoogleFonts.tajawal(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w500,
-              color: sharedPreferences!.getBool("darkMode") == false
-                  ? LightMode.splash
-                  : DarkMode.whiteDarkColor),
-          fieldWidth: 12.w,
-          fieldHeight: 7.h,
-          borderColor: sharedPreferences!.getBool("darkMode") == false
-              ? LightMode.registerButton
-              : DarkMode.buttonDarkColor,
-          borderWidth: 2,
-          numberOfFields: 4,
-          margin: EdgeInsets.only(right: 2.w, left: 2.w),
-          fillColor: sharedPreferences!.getBool("darkMode") == false
-              ? Colors.white
-              : DarkMode.darkModeSplash,
-          filled: false,
+            textStyle: GoogleFonts.tajawal(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w500,
+                color: sharedPreferences!.getBool("darkMode") == false
+                    ? LightMode.splash
+                    : DarkMode.whiteDarkColor),
+            fieldWidth: 12.w,
+            fieldHeight: 7.h,
+            borderColor: sharedPreferences!.getBool("darkMode") == false
+                ? LightMode.registerButton
+                : DarkMode.buttonDarkColor,
+            borderWidth: 2,
+            numberOfFields: 4,
+            margin: EdgeInsets.only(right: 2.w, left: 2.w),
+            fillColor: sharedPreferences!.getBool("darkMode") == false
+                ? Colors.white
+                : DarkMode.darkModeSplash,
+            filled: false,
 
-          borderRadius: BorderRadius.circular(20),
-          showFieldAsBox: true,
-          disabledBorderColor: LightMode.registerButton,
-          enabledBorderColor: LightMode.registerButton,
+            borderRadius: BorderRadius.circular(20),
+            showFieldAsBox: true,
+            disabledBorderColor: LightMode.registerButton,
+            enabledBorderColor: LightMode.registerButton,
 
-          onSubmit: (String verificationCode) {
-            verifyCode = verificationCode;
-            print("  cooooode   ===??? ${verifyCode}");
-          }, // end onSubmit
+            onSubmit: onSubmit, // end onSubmit
+          ),
         ),
       ),
     );
@@ -168,7 +179,7 @@ class VerifyCodeRegister extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          sharedPreferences!.getString("local") == "ar"
+          sharedPreferences!.getString("local") != "en"
               ? SizedBox(width: 20.w)
               : SizedBox(
                   width: 20.w,
@@ -194,7 +205,7 @@ class VerifyCodeRegister extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
               child: Text(
-                sharedPreferences!.getString("local") == "ar"
+                sharedPreferences!.getString("local") != "en"
                     ? "التحقق من الرمز"
                     : "verify code",
                 style: GoogleFonts.tajawal(
@@ -207,7 +218,7 @@ class VerifyCodeRegister extends StatelessWidget {
               ),
             ),
           ),
-          sharedPreferences!.getString("local") == "ar"
+          sharedPreferences!.getString("local") != "en"
               ? SizedBox(
                   width: 20.w,
                   child: Padding(

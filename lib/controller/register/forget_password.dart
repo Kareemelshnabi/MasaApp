@@ -8,6 +8,7 @@ import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/forget_pass/verify_code_forgetpass.dart';
 import 'package:mas_app/view/screens/register/login/login.dart';
+import 'package:mas_app/view/screens/register/main_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 import '../../core/class/status_request.dart';
@@ -17,7 +18,7 @@ import '../../data/data source/register.dart';
 
 class ForgetPasswordController extends GetxController {
   GlobalKey<FormState> addNewPassGlobalKey = GlobalKey();
-   GlobalKey<FormState> forgetPassGlobalKey = GlobalKey();
+  GlobalKey<FormState> forgetPassGlobalKey = GlobalKey();
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -80,12 +81,9 @@ class ForgetPasswordController extends GetxController {
   phoneValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
-
     } else if (val.length < 8 || val.length > 8) {
       return "رقم الهاتف المدخل خطأ";
-    }
-    
-    else {
+    } else {
       return null;
     }
   }
@@ -102,9 +100,29 @@ class ForgetPasswordController extends GetxController {
       if (statuesRequest == StatuesRequest.success) {
         Map responseBody = response['data'];
         print("response :: $responseBody");
+        sharedPreferences!.setString(
+            "phone",
+            responseBody['phone'].toString().contains("+965")
+                ? responseBody['phone']
+                : "+965${responseBody['phone']}");
+        sharedPreferences!.setString("email", responseBody['email']);
+
+        sharedPreferences!.setString("token", "${responseBody['token']}");
+        sharedPreferences!
+            .setString("country", "${responseBody['country']['name']}");
+        sharedPreferences!.setString("address", "${responseBody['address']}");
+        sharedPreferences!.setString("nameEn", "${responseBody['name']}");
+        sharedPreferences!.setString("img", "${responseBody['image']}");
+
+        sharedPreferences!
+            .setString("governorateId", "${responseBody['governorate']['id']}");
+
+        sharedPreferences!
+            .setString("governorate", "${responseBody['governorate']['name']}");
+        print(sharedPreferences!.getString("governorate"));
 
         sharedPreferences!.setString("pageStart", "typeOfUser");
-        Get.off(() => const LoginPage());
+        Get.off(() => const MainRegister());
       } else if (statuesRequest == StatuesRequest.unprocessableException) {
         messageHandleException("رقم الهاتف المستخدم غير مسجل", context);
       } else if (statuesRequest == StatuesRequest.socketException) {
@@ -128,19 +146,13 @@ class ForgetPasswordController extends GetxController {
     update();
   }
 
-
- 
-
-
-
   forgetPass(context) async {
     if (forgetPassGlobalKey.currentState!.validate()) {
       statuesRequest = StatuesRequest.loading;
       update();
       var response = await registerRemoteData.sendOtpToResetPass(
-          phoneController.text,
-
-         );
+        phoneController.text,
+      );
       print(response);
       statuesRequest = handlingData(response);
       if (statuesRequest == StatuesRequest.success) {
@@ -149,7 +161,7 @@ class ForgetPasswordController extends GetxController {
 
         sharedPreferences!.setString("pageStart", "verifyForgetPass");
         Get.to(() => const VerifyCodeForgetpass());
-      }  else if (statuesRequest == StatuesRequest.unprocessableException) {
+      } else if (statuesRequest == StatuesRequest.unprocessableException) {
         messageHandleException("${response['message']}", context);
       } else if (statuesRequest == StatuesRequest.socketException) {
         messageHandleException(S.of(context).noInternetApi, context);
@@ -165,6 +177,8 @@ class ForgetPasswordController extends GetxController {
         messageHandleException(S.of(context).timeOutException, context);
       } else if (statuesRequest == StatuesRequest.unauthorizedException) {
         messageHandleException(S.of(context).passwordNotCorrect, context);
+      } else if (statuesRequest == StatuesRequest.badRequestException) {
+        messageHandleException("رقم الهاتف غير مسجل", context);
       }
     } else {
       messageHandleException(S.of(context).errorConfirmPrivacy, context);

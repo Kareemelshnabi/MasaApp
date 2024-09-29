@@ -35,40 +35,42 @@ class _SuccessRegisterState extends State<SuccessRegister> {
 
   @override
   Widget build(BuildContext context) {
-    return Localizations(
-      locale: sharedPreferences!.getString("local") == "ar"
-          ? const Locale("ar")
-          : sharedPreferences!.getString("local") == "en"
-              ? const Locale("en")
-              : const Locale("ar"),
-      delegates: const [
-        S.delegate,
-        DefaultMaterialLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-        DefaultMaterialLocalizations.delegate
-      ],
-      child: Scaffold(
-        backgroundColor: sharedPreferences!.getBool("darkMode") == false
-            ? LightMode.registerText
-            : DarkMode.darkModeSplash,
-        body: SizedBox(
-          height: 100.h,
-          width: 100.w,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                ImagesLink.successLoginImage,
-                width: 50.w,
-                height: 15.h,
-                fit: BoxFit.fill,
-              ),
-              textSuccess()
-            ],
-          ),
+    return
+        // Localizations(
+        //   locale: sharedPreferences!.getString("local") == "ar"
+        //       ? const Locale("ar")
+        //       : sharedPreferences!.getString("local") == "en"
+        //           ? const Locale("en")
+        //           : const Locale("ar"),
+        //   delegates: const [
+        //     S.delegate,
+        //     DefaultMaterialLocalizations.delegate,
+        //     DefaultWidgetsLocalizations.delegate,
+        //     DefaultMaterialLocalizations.delegate
+        //   ],
+        //child:
+        Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
+      body: SizedBox(
+        height: 100.h,
+        width: 100.w,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              ImagesLink.successLoginImage,
+              width: 50.w,
+              height: 15.h,
+              fit: BoxFit.fill,
+            ),
+            textSuccess()
+          ],
         ),
       ),
+      //     ),
     );
   }
 
