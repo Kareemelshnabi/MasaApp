@@ -9,6 +9,7 @@ import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/function/handling_data.dart';
 import 'package:mas_app/data/data%20source/services.dart';
 import 'package:mas_app/data/model/service_model.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 class OtherServicesController extends GetxController {
@@ -29,32 +30,31 @@ class OtherServicesController extends GetxController {
       }
       return services;
 
-      //services.addAll(responseBody.map((e) => ServiceModel.fromJson(e)));      print("response :: $responseBody");
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+         S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
 
   messageHandleException(message) {
     Get.defaultDialog(
-        title: "خطأ",
+        title:S.of(Get.context!).error,
         content: Column(
           children: [
             Text(
@@ -77,7 +77,7 @@ class OtherServicesController extends GetxController {
                 height: 5.h,
                 child: Center(
                   child: Text(
-                    "اعادة المحاولة",
+                   S.of(Get.context!).tryAgain,
                     style: GoogleFonts.tajawal(
                         fontSize: 4.w,
                         color: LightMode.registerText,

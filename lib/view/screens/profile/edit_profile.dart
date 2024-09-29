@@ -8,6 +8,7 @@ import 'package:mas_app/controller/profile/profile_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -101,47 +102,59 @@ class EditProfile extends StatelessWidget {
                             children: [
                               rowTitle(() {
                                 controller.canEdit();
-                              }, "المعلومات الشخصية", controller.edit),
-                              field("الاسم", controller.englishNameController,
-                                  "الاسم الأخير", controller.edit, (val) {
+                              }, S.of(context).personalInfo, controller.edit),
+                              field(
+                                  S.of(context).name,
+                                  controller.englishNameController,
+                                  S.of(context).name,
+                                  controller.edit, (val) {
                                 return controller.nameValidate(val!);
                               }, false, null, null, false),
                               SizedBox(
                                 height: 3.w,
                               ),
                               field(
-                                  "البريد الإلكتروني",
+                                  S.of(context).email,
                                   controller.emailController,
-                                  "البريد الإلكتروني",
+                                  S.of(context).email,
                                   controller.edit, (val) {
                                 return controller.emailValidate(val!);
                               }, false, null, null, false),
                               SizedBox(
                                 height: 3.w,
                               ),
-                              field("رقم الهاتف", controller.phoneController,
-                                  "رقم الهاتف", false, (val) {
+                              field(
+                                  S.of(context).phone,
+                                  controller.phoneController,
+                                  S.of(context).phone,
+                                  false, (val) {
                                 return null;
                               }, false, null, null, false),
                               SizedBox(
                                 height: 3.w,
                               ),
-                              field("العنوان", controller.addressController,
-                                  "العنوان", controller.edit, (val) {
+                              field(
+                                  S.of(context).address,
+                                  controller.addressController,
+                                  S.of(context).address,
+                                  controller.edit, (val) {
                                 return controller.addressValidate(val!);
                               }, false, null, null, false),
                               SizedBox(
                                 height: 3.w,
                               ),
-                              field("الدولة", controller.countryController,
-                                  "الدولة", false, (val) {
+                              field(
+                                  S.of(context).country,
+                                  controller.countryController,
+                                  S.of(context).country,
+                                  false, (val) {
                                 return null;
                               }, false, null, null, false),
                               SizedBox(
                                 height: 3.w,
                               ),
                               Text(
-                                "المحافظة",
+                                S.of(context).governorate,
                                 style: GoogleFonts.tajawal(
                                     fontSize: 3.w, fontWeight: FontWeight.w500),
                               ),
@@ -157,11 +170,12 @@ class EditProfile extends StatelessWidget {
                                   controller.governorateController),
                               rowTitle(() {
                                 controller.canEdit();
-                              }, "معلومات الحساب", controller.edit),
+                              }, S.of(context).profileInfoTitle,
+                                  controller.edit),
                               field(
-                                  "كلمة المرور الحالية",
+                                  S.of(context).currentPass,
                                   controller.currentPasswordController,
-                                  "كلمة المرور الحالية",
+                                  S.of(context).currentPass,
                                   controller.edit,
                                   (val) {
                                     return null;
@@ -178,9 +192,9 @@ class EditProfile extends StatelessWidget {
                                 height: 3.w,
                               ),
                               field(
-                                  "كلمة المرور الجديدة",
+                                  S.of(context).newPass,
                                   controller.newPasswordController,
-                                  "كلمة المرور الجديدة",
+                                  S.of(context).newPass,
                                   controller.edit,
                                   (val) {
                                     return null;
@@ -197,9 +211,9 @@ class EditProfile extends StatelessWidget {
                                 height: 3.w,
                               ),
                               field(
-                                  "تأكيد كلمة المرور",
+                                  S.of(context).confirmPass,
                                   controller.passwordConfirmationController,
-                                  "تأكيد كلمة المرور",
+                                  S.of(context).confirmPass,
                                   controller.edit,
                                   (val) {
                                     return controller
@@ -217,7 +231,8 @@ class EditProfile extends StatelessWidget {
                                 height: 5.w,
                               ),
                               controller.edit == true
-                                  ? onBtnClickSave("حفظ التغييرات", () async {
+                                  ? onBtnClickSave(S.of(context).saveChange,
+                                      () async {
                                       controller.canEdit();
                                       await controller.updateProfile();
                                       if (controller.succsess == true) {
@@ -268,7 +283,7 @@ Widget textFieldChooseGovernate(onPress, governateController) {
               color: LightMode.splash,
               fontSize: 4.w,
               fontWeight: FontWeight.w500),
-          hintText: "اضغط لاختيار المحافظة",
+          hintText: S.of(Get.context!).chhoseGovernorate,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
@@ -319,9 +334,10 @@ Widget appBarProfile() {
         SizedBox(
           width: 60.w,
           child: Container(
-            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 17.w),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
             child: Text(
-              "تعديل البروفايل ",
+              S.of(Get.context!).editProfile,
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,
@@ -352,14 +368,14 @@ Widget topOfProfile(img, onPress) {
     child: Column(
       children: [
         Text(
-          "صورة",
+          S.of(Get.context!).image,
           style: GoogleFonts.tajawal(
               fontSize: 3.w,
               fontWeight: FontWeight.w700,
               color: LightMode.splash),
         ),
         img,
-        onBtnClick("تغيير الصورة", onPress)
+        onBtnClick(S.of(Get.context!).changeImage, onPress)
       ],
     ),
   );
@@ -367,7 +383,7 @@ Widget topOfProfile(img, onPress) {
 
 Widget onBtnClick(text, onPress) {
   return SizedBox(
-    width: 30.w,
+    width: 35.w,
     height: 3.h,
     child: ElevatedButton(
         style:
@@ -454,7 +470,7 @@ Widget textField(controller, text, edit, String? Function(String?)? onValidate,
                   color: LightMode.splash,
                 ))
             : null,
-        contentPadding: EdgeInsets.only(top: 1.w, right: 2.w),
+        contentPadding: EdgeInsets.only(top: 1.w, right: 2.w, left: 2.w),
         hintStyle: GoogleFonts.tajawal(
             color: LightMode.splash,
             fontSize: 3.w,
@@ -506,7 +522,7 @@ Widget rowTitle(onPress, text, edit) {
       TextButton(
           onPressed: onPress,
           child: Text(
-            edit == true ? "" : "تعديل",
+            edit == true ? "" : S.of(Get.context!).edit,
             style: GoogleFonts.tajawal(
               color: LightMode.splash,
               fontSize: 3.w,

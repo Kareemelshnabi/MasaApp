@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/home/favourite_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/items/item_info.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -61,7 +62,7 @@ class FavouritePage extends StatelessWidget {
             height: 3.w,
           ),
           Text(
-            "لا يوجد مفضلات",
+            S.of(Get.context!).noFav,
             style: GoogleFonts.tajawal(
               fontSize: 4.w,
               fontWeight: FontWeight.bold,
@@ -73,7 +74,7 @@ class FavouritePage extends StatelessWidget {
           ),
           Text(
             textAlign: TextAlign.center,
-            "يمكنك إضافة عنصر إلى المفضلة لديك عن طريق النقر على رمز القلب",
+            S.of(Get.context!).descripFav,
             style: GoogleFonts.tajawal(
               fontSize: 3.5.w,
               fontWeight: FontWeight.w500,
@@ -92,7 +93,7 @@ class FavouritePage extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
           child: Text(
-            "المنتجات المحفوظة",
+            S.of(Get.context!).favItems,
             style: GoogleFonts.tajawal(
               fontSize: 5.w,
               fontWeight: FontWeight.bold,

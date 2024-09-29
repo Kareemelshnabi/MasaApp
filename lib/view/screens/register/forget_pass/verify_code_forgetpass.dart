@@ -20,18 +20,8 @@ class VerifyCodeForgetpass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(VerifyCodeController());
-    return
-        //  Localizations(
-        //   locale: const Locale("en"),
-        //   delegates: const [
-
-        //     DefaultMaterialLocalizations.delegate,
-        //     DefaultWidgetsLocalizations.delegate,
-        //     DefaultMaterialLocalizations.delegate
-        //   ],
-        //   child:
-        Scaffold(
-            body: OfflineBuilder(
+    return Scaffold(
+        body: OfflineBuilder(
       connectivityBuilder: (context, ConnectivityResult value, child) {
         final bool connected = value != ConnectivityResult.none;
 
@@ -46,27 +36,31 @@ class VerifyCodeForgetpass extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         ),
                       )
-                    : Column(
-                        children: [
-                          appBarForgetPass(),
-                          Image.asset(
-                            ImagesLink.verifyImage,
-                            width: 60.w,
-                            height: 30.h,
-                            fit: BoxFit.fill,
-                          ),
-                          bodyVerifyCode(),
-                          otpRegister(controller.verifyCodeForgetPass,
-                              (String verificationCode) {
-                            controller.verifyCodeForgetPass = verificationCode;
-                          }),
-                          onBtnClick(
-                              sharedPreferences!.getString("local") == "ar"
-                                  ? "إرسال"
-                                  : "Send", () {
-                            Get.offAll(() => const AddNewPassword());
-                          })
-                        ],
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            appBarForgetPass(),
+                            Image.asset(
+                              ImagesLink.verifyImage,
+                              width: 60.w,
+                              height: 30.h,
+                              fit: BoxFit.fill,
+                            ),
+                            bodyVerifyCode(),
+                            otpRegister(controller.verifyCodeForgetPass,
+                                (String verificationCode) {
+                              controller.verifyCodeForgetPass =
+                                  verificationCode;
+                            }),
+                            onBtnClick(
+                                sharedPreferences!.getString("local") == "ar"
+                                    ? "إرسال"
+                                    : "Send", () {
+                              //controller.verifyResetPass(context);
+                              Get.offAll(() => const AddNewPassword());
+                            })
+                          ],
+                        ),
                       ),
           );
         } else {
@@ -78,8 +72,8 @@ class VerifyCodeForgetpass extends StatelessWidget {
       },
       child: const CircularProgressIndicator(),
     )
-            // ),
-            );
+        // ),
+        );
   }
 
   Widget onBtnClick(text, onPress) {
@@ -167,25 +161,23 @@ class VerifyCodeForgetpass extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          sharedPreferences!.getString("local") == "ar"
-              ? SizedBox(width: 20.w, child: Container())
-              : SizedBox(
-                  width: 20.w,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 7.w),
-                    child: IconButton(
-                        onPressed: () {
-                          sharedPreferences!
-                              .setString("pageStart", "typeOfUser");
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.arrow_back_ios)),
-                  ),
-                ),
+          SizedBox(
+            width: 20.w,
+            child: Padding(
+              padding: EdgeInsets.only(top: 7.w),
+              child: IconButton(
+                  onPressed: () {
+                    sharedPreferences!.setString("pageStart", "typeOfUser");
+                    Get.back();
+                  },
+                  icon: const Icon(Icons.arrow_back_ios)),
+            ),
+          ),
           SizedBox(
             width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, left: 13.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
               child: Text(
                 sharedPreferences!.getString("local") == "ar"
                     ? "التحقق من الرمز"
@@ -198,21 +190,7 @@ class VerifyCodeForgetpass extends StatelessWidget {
               ),
             ),
           ),
-          sharedPreferences!.getString("local") == "ar"
-              ? SizedBox(
-                  width: 20.w,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 7.w),
-                    child: IconButton(
-                        onPressed: () {
-                          sharedPreferences!
-                              .setString("pageStart", "typeOfUser");
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.arrow_forward_ios)),
-                  ),
-                )
-              : SizedBox(width: 20.w, child: Container()),
+          SizedBox(width: 20.w, child: Container()),
         ],
       ),
     );

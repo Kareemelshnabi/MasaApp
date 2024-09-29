@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/profile/contact_us.dart';
@@ -22,20 +23,20 @@ class InfoAboutUs extends StatelessWidget {
       body: Column(
         children: [
           appBarMyOrders(context),
-          boxClick("الأسئلة الشائعة", () {
+          boxClick(S.of(context).faq, () {
             Get.to(() => const FaqPage());
           }),
-          boxClick("سياسة الخصوصية", () {
+          boxClick(S.of(context).privacy, () {
             Get.to(() => const PolicyPage());
           }),
-          boxClick("شروط الخدمة", () {
+          boxClick(S.of(context).termOfServic, () {
             Get.to(() => const ServicesPage());
           }),
-          boxClick("تواصل معنا", () {
+          boxClick(S.of(context).contact, () {
             Get.to(() => const ContactUs());
           }),
-          boxClick("انستقرام", () {}),
-          boxClick("فيسبوك", () {}),
+          boxClick(S.of(context).instaIcon, () {}),
+          boxClick(S.of(context).faceIcon, () {}),
           //     boxClick("منصة ماسا", () {}),
         ],
       ),
@@ -112,7 +113,7 @@ Widget appBarMyOrders(context) {
             alignment: Alignment.center,
             margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
             child: Text(
-              "معلومات عنا",
+              S.of(context).infoAboutUs,
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,

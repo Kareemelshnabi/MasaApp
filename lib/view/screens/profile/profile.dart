@@ -7,6 +7,7 @@ import 'package:mas_app/controller/profile/profile_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/orders/my_orders.dart';
 import 'package:mas_app/view/screens/profile/chooseLunguage.dart';
@@ -91,14 +92,14 @@ class ProfilePage extends StatelessWidget {
                                   }, () {
                                     //logout
                                     sharedPreferences!.getBool("visit") == true
-                                        ? onBoardingController.message(
-                                            "الرجاء تسجيل الدخول أو إنشاء الحساب لإستكمال الإجراء")
+                                        ? onBoardingController
+                                            .message(S.of(context).erroGuest)
                                         : controller.showBottomSheet(context);
                                   }, () {
                                     if (sharedPreferences!.getBool("visit") ==
                                         true) {
-                                      onBoardingController.message(
-                                          "الرجاء تسجيل الدخول أو إنشاء الحساب لإستكمال الإجراء");
+                                      onBoardingController
+                                          .message(S.of(context).erroGuest);
                                     } else {
                                       controller.englishNameController.text =
                                           sharedPreferences!
@@ -192,7 +193,7 @@ class ProfilePage extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "طلباتي",
+                      S.of(Get.context!).orders,
                       style: GoogleFonts.tajawal(
                           color: sharedPreferences!.getBool("darkMode") == false
                               ? LightMode.registerButtonBorder
@@ -393,7 +394,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget titleField(text) {
     return Container(
-      margin: EdgeInsets.only(right: 4.w, top: 4.w, bottom: 1.w),
+      margin: EdgeInsets.only(right: 4.w, top: 4.w, bottom: 1.w, left: 4.w),
       child: Text(
         text,
         style: GoogleFonts.tajawal(
@@ -428,20 +429,24 @@ class ProfilePage extends StatelessWidget {
           SizedBox(
             height: 10.w,
           ),
-          fieldProfile(onPressProfile, "بيانات حسابي", Icons.person_3_outlined),
+          fieldProfile(onPressProfile, S.of(Get.context!).profileInfoTitle,
+              Icons.person_3_outlined),
           titleField(
-            "الدعم",
+            S.of(Get.context!).support,
+          ),
+          fieldProfile(onPressCommunication, S.of(Get.context!).contact,
+              Icons.phone_outlined),
+          fieldProfile(
+              onPressInfo, S.of(Get.context!).infoAboutUs, Icons.info_outline),
+          titleField(
+            S.of(Get.context!).setting,
           ),
           fieldProfile(
-              onPressCommunication, "تواصل معنا", Icons.phone_outlined),
-          fieldProfile(onPressInfo, "معلومات عنا", Icons.info_outline),
-          titleField(
-            "الإعدادات",
-          ),
-          fieldProfile(onPressLang, "اللغة", Icons.language_outlined),
-          darkFieldProfile(() {}, "الوضع الليلي", Icons.dark_mode_outlined,
-              onPressDark, value),
-          fieldProfile(logOut, "تسجيل خروج", Icons.logout_outlined),
+              onPressLang, S.of(Get.context!).lang, Icons.language_outlined),
+          darkFieldProfile(() {}, S.of(Get.context!).darkMode,
+              Icons.dark_mode_outlined, onPressDark, value),
+          fieldProfile(
+              logOut, S.of(Get.context!).logOut, Icons.logout_outlined),
         ],
       ),
     );
@@ -469,7 +474,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "أهلا بك , $name",
+                "${S.of(Get.context!).hello} , $name",
                 textAlign: TextAlign.right,
                 style: GoogleFonts.tajawal(
                     color: LightMode.registerText,

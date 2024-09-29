@@ -179,30 +179,28 @@ class VerifyCodeRegister extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          sharedPreferences!.getString("local") != "en"
-              ? SizedBox(width: 20.w)
-              : SizedBox(
-                  width: 20.w,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 7.w),
-                    child: IconButton(
-                        onPressed: () {
-                          sharedPreferences!
-                              .setString("pageStart", "typeOfUser");
-                          Get.back();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          size: 6.w,
-                          color: sharedPreferences!.getBool("darkMode") == false
-                              ? LightMode.registerButtonBorder
-                              : DarkMode.whiteDarkColor,
-                        )),
-                  ),
-                ),
+          SizedBox(
+            width: 20.w,
+            child: Padding(
+              padding: EdgeInsets.only(top: 7.w),
+              child: IconButton(
+                  onPressed: () {
+                    sharedPreferences!.setString("pageStart", "typeOfUser");
+                    Get.back();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 6.w,
+                    color: sharedPreferences!.getBool("darkMode") == false
+                        ? LightMode.registerButtonBorder
+                        : DarkMode.whiteDarkColor,
+                  )),
+            ),
+          ),
           SizedBox(
             width: 60.w,
             child: Container(
+              alignment: Alignment.center,
               margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
               child: Text(
                 sharedPreferences!.getString("local") != "en"
@@ -218,29 +216,9 @@ class VerifyCodeRegister extends StatelessWidget {
               ),
             ),
           ),
-          sharedPreferences!.getString("local") != "en"
-              ? SizedBox(
-                  width: 20.w,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 7.w),
-                    child: IconButton(
-                        onPressed: () {
-                          sharedPreferences!
-                              .setString("pageStart", "typeOfUser");
-                          Get.back();
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 6.w,
-                          color: sharedPreferences!.getBool("darkMode") == false
-                              ? LightMode.registerButtonBorder
-                              : DarkMode.whiteDarkColor,
-                        )),
-                  ),
-                )
-              : SizedBox(
-                  width: 20.w,
-                ),
+          SizedBox(
+            width: 20.w,
+          ),
         ],
       ),
     );

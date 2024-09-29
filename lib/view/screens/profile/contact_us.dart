@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -20,12 +21,11 @@ class ContactUs extends StatelessWidget {
         child: Column(
           children: [
             appBarMyOrders(context),
-            bodyText(
-                "إذا كان لديك أي استفسار، تواصل معنا. سنكون سعداء بمساعدتك."),
+            bodyText(S.of(context).bodyContact),
             cardOfInfo(
                 Icons.phone,
-                "رقم الهاتف",
-                "يمكنك الاتصال بنا أو إرسال رسالة نصية أو واتساب إلينا على الأرقام أدناه، وسيتم تطبيق الرسوم وفقًا لمزودي الشبكة لديك.",
+                S.of(context).phone,
+                S.of(context).mobileInfo,
                 "+20 0100 310 5824",
                 () {},
                 false,
@@ -38,8 +38,8 @@ class ContactUs extends StatelessWidget {
             ),
             cardOfInfo(
                 Icons.email,
-                "البريد الإلكتروني",
-                "نرد على رسائل البريد الإلكتروني خلال 24 ساعة.",
+                S.of(context).email,
+                S.of(context).emailInfo,
                 "nabilgehad13@gmail.com",
                 () {},
                 false,
@@ -50,13 +50,8 @@ class ContactUs extends StatelessWidget {
             SizedBox(
               height: 5.w,
             ),
-            cardOfInfo(
-                Icons.people,
-                "مواقع التواصل",
-                "تابعنا على مواقع التواصل الاجتماعي الخاصة بنا للحصول على إشعارات بالتحديثات والعروض المثيرة.",
-                "",
-                null,
-                true, () {
+            cardOfInfo(Icons.people, S.of(context).socialMedia,
+                S.of(context).socialInfo, "", null, true, () {
               //facebook
             }, () {
               //instegram
@@ -278,7 +273,7 @@ Widget appBarMyOrders(context) {
             alignment: Alignment.center,
             margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
             child: Text(
-              "تواصل معنا",
+              S.of(context).contact,
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,

@@ -6,7 +6,6 @@ import 'package:mas_app/controller/register/login_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
-import 'package:mas_app/view/screens/register/forget_pass/add_new_password.dart';
 import 'package:mas_app/view/screens/register/forget_pass/forget_password.dart';
 import 'package:mas_app/view/screens/register/signup/signup.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -20,98 +19,97 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginController loginController = Get.put(LoginController());
     return
-    //  Localizations(
-    //    locale:const Locale("ar"),
-    //   delegates:const [
-    //       S.delegate,
-    //     DefaultMaterialLocalizations.delegate,
-    //     DefaultWidgetsLocalizations.delegate,
-    //     DefaultMaterialLocalizations.delegate
-    //   ],
-      // child:
-       Scaffold(
-          backgroundColor: sharedPreferences!.getBool("darkMode") == false
-              ? LightMode.registerText
-              : DarkMode.darkModeSplash,
-          body: OfflineBuilder(
-            connectivityBuilder: (context, ConnectivityResult value, child) {
-              final bool connected = value != ConnectivityResult.none;
-      
-              if (connected) {
-                return GetBuilder<LoginController>(
-                  builder: (controller) =>
-                      controller.statuesRequest == StatuesRequest.loading
-                          ? SizedBox(
-                              width: 100.w,
-                              height: 100.h,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                          : SingleChildScrollView(
-                              child: Form(
-                                key: controller.loginGlobalKey,
-                                child: Column(
-                                  children: [
-                                    appBarLogin(context),
-                                    bodyLogin(context),
-                                    textField((val) {
-                                      return loginController.phoneValidate(
-                                          val!, context);
-                                    },
-                                        loginController.phoneController,
-                                        TextInputType.phone,
-                                        S.of(context).phone,
-                                        false,
-                                        false,
-                                        null,
-                                        null),
-                                    textField(
-                                      (val) {
-                                        return loginController.passwordValidate(
-                                            val!, context);
-                                      },
-                                      loginController.passwordController,
-                                      TextInputType.visiblePassword,
-                                      S.of(context).password,
-                                      true,
-                                      controller.showPass,
-                                      controller.showPass == false
-                                          ? Icons.visibility_off_outlined
-                                          : Icons.visibility_outlined,
-                                      () {
-                                        controller.showPassword();
-                                      },
-                                    ),
-                                    multiTextSignUp(() {
-                                      Get.to(() => const ForgetPassword());
-                                    }, S.of(context).forgetPass),
-                                    SizedBox(
-                                      height: 6.w,
-                                    ),
-                                    onBtnClick(S.of(context).login, () {
-                                      print("object");
-                                      controller.login(context);
-                                    }),
-                                    bottomText(() {
-                                      Get.off(() => const SignUp());
-                                    }, context),
-                                  ],
+        //  Localizations(
+        //    locale:const Locale("ar"),
+        //   delegates:const [
+        //       S.delegate,
+        //     DefaultMaterialLocalizations.delegate,
+        //     DefaultWidgetsLocalizations.delegate,
+        //     DefaultMaterialLocalizations.delegate
+        //   ],
+        // child:
+        Scaffold(
+      backgroundColor: sharedPreferences!.getBool("darkMode") == false
+          ? LightMode.registerText
+          : DarkMode.darkModeSplash,
+      body: OfflineBuilder(
+        connectivityBuilder: (context, ConnectivityResult value, child) {
+          final bool connected = value != ConnectivityResult.none;
+
+          if (connected) {
+            return GetBuilder<LoginController>(
+              builder: (controller) =>
+                  controller.statuesRequest == StatuesRequest.loading
+                      ? SizedBox(
+                          width: 100.w,
+                          height: 100.h,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: Form(
+                            key: controller.loginGlobalKey,
+                            child: Column(
+                              children: [
+                                appBarLogin(context),
+                                bodyLogin(context),
+                                textField((val) {
+                                  return loginController.phoneValidate(
+                                      val!, context);
+                                },
+                                    loginController.phoneController,
+                                    TextInputType.phone,
+                                    S.of(context).phone,
+                                    false,
+                                    false,
+                                    null,
+                                    null),
+                                textField(
+                                  (val) {
+                                    return loginController.passwordValidate(
+                                        val!, context);
+                                  },
+                                  loginController.passwordController,
+                                  TextInputType.visiblePassword,
+                                  S.of(context).password,
+                                  true,
+                                  controller.showPass,
+                                  controller.showPass == false
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  () {
+                                    controller.showPassword();
+                                  },
                                 ),
-                              ),
+                                multiTextSignUp(() {
+                                  Get.to(() => const ForgetPassword());
+                                }, S.of(context).forgetPass),
+                                SizedBox(
+                                  height: 6.w,
+                                ),
+                                onBtnClick(S.of(context).login, () {
+                                  print("object");
+                                  controller.login(context);
+                                }),
+                                bottomText(() {
+                                  Get.off(() => const SignUp());
+                                }, context),
+                              ],
                             ),
-                );
-              } else {
-                return SizedBox(
-                    height: 100.h,
-                    width: 100.w,
-                    child:
-                        const Center(child: Text("no internet ............ !")));
-              }
-            },
-            child: const CircularProgressIndicator(),
-          //)
-          ),
+                          ),
+                        ),
+            );
+          } else {
+            return SizedBox(
+                height: 100.h,
+                width: 100.w,
+                child: const Center(child: Text("no internet ............ !")));
+          }
+        },
+        child: const CircularProgressIndicator(),
+        //)
+      ),
     );
   }
 
@@ -184,7 +182,8 @@ class LoginPage extends StatelessWidget {
           SizedBox(
             width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 7.h, bottom: 2.h, right: 13.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 7.h, bottom: 2.h),
               child: Text(
                 S.of(context).titleLoginPage,
                 style: GoogleFonts.tajawal(

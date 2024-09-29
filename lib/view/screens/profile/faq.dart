@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/profile/faq_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -138,7 +139,7 @@ Widget appBarMyOrders(context) {
               bottom: 2.h,
             ),
             child: Text(
-              "الأسئلة الشائعة",
+              S.of(context).faq,
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,

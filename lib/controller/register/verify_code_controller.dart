@@ -9,7 +9,6 @@ import 'package:mas_app/data/data%20source/register.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/forget_pass/add_new_password.dart';
-import 'package:mas_app/view/screens/register/login/login.dart';
 import 'package:mas_app/view/screens/register/signup/success_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -102,7 +101,7 @@ class VerifyCodeController extends GetxController {
       sharedPreferences!.setString("pageStart", "Home");
       Get.offAll(() => const SuccessRegister());
     } else if (statuesRequest == StatuesRequest.unprocessableException) {
-      messageHandleException("رقم الهاتف مسجل من قبل", context);
+      messageHandleException(S.of(context).phoneRegister, context);
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(S.of(context).noInternetApi, context);
     } else if (statuesRequest == StatuesRequest.serverException) {
@@ -133,7 +132,7 @@ class VerifyCodeController extends GetxController {
       dynamic responseBody = response['data'];
       print("response :: $responseBody");
     } else if (statuesRequest == StatuesRequest.unprocessableException) {
-      messageHandleException("رقم الهاتف مسجل من قبل", context);
+      messageHandleException(S.of(context).phoneRegister, context);
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(S.of(context).noInternetApi, context);
     } else if (statuesRequest == StatuesRequest.serverException) {
@@ -152,8 +151,7 @@ class VerifyCodeController extends GetxController {
   }
 
   verifyResetPass(context) async {
-print(verifyCodeForgetPass);
-//print(sharedPreferences!.getString("phone"));
+    print(verifyCodeForgetPass);
     statuesRequest = StatuesRequest.loading;
     update();
     var response = await registerRemoteData.verifyForgetPass(
@@ -167,9 +165,9 @@ print(verifyCodeForgetPass);
       dynamic responseBody = response['data'];
       print("response :: $responseBody");
 
-     Get.offAll(() => const AddNewPassword());
+      Get.offAll(() => const AddNewPassword());
     } else if (statuesRequest == StatuesRequest.unprocessableException) {
-      messageHandleException("رقم الهاتف مسجل من قبل", context);
+      messageHandleException(S.of(context).phoneRegister, context);
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(S.of(context).noInternetApi, context);
     } else if (statuesRequest == StatuesRequest.serverException) {
@@ -183,9 +181,7 @@ print(verifyCodeForgetPass);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(S.of(context).timeOutException, context);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(S.of(context).errorUnAuthorized, context);
+      messageHandleException(S.of(context).codeVerifyIncorrect, context);
     }
-
-
   }
 }

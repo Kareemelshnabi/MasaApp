@@ -85,7 +85,7 @@ class ItemsController extends GetxController {
   StoreOrderModel? storeOrderModel;
   message(message) {
     Get.defaultDialog(
-        title: "خطأ",
+        title: S.of(Get.context!).error,
         content: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -117,7 +117,7 @@ class ItemsController extends GetxController {
                       height: 5.h,
                       child: Center(
                         child: Text(
-                          "إنشاء حساب",
+                          S.of(Get.context!).signup,
                           style: GoogleFonts.tajawal(
                               fontSize: 4.w,
                               color: LightMode.registerText,
@@ -139,7 +139,7 @@ class ItemsController extends GetxController {
                       height: 5.h,
                       child: Center(
                         child: Text(
-                          "إلغاء",
+                          S.of(Get.context!).cancel,
                           style: GoogleFonts.tajawal(
                               fontSize: 4.w,
                               color: LightMode.splash,
@@ -175,24 +175,24 @@ class ItemsController extends GetxController {
       storeOrderModel = StoreOrderModel.fromJson(responseBody);
       print("succse store order");
       succsess = true;
-    } else if (statuesRequest == StatuesRequest.socketException) {
+    }else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -220,24 +220,24 @@ class ItemsController extends GetxController {
       searchItems = [];
 
       searchItems.addAll(responseBody.map((e) => ProductModel.fromJson(e)));
-    } else if (statuesRequest == StatuesRequest.socketException) {
+    }else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -254,31 +254,31 @@ class ItemsController extends GetxController {
 
       products.addAll(responseBody.map((e) => ProductModel.fromJson(e)));
       print("response :: $products");
-    } else if (statuesRequest == StatuesRequest.socketException) {
+    }else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
 
   messageHandleException(message) {
     Get.defaultDialog(
-        title: "خطأ",
+        title: S.of(Get.context!).error,
         content: Column(
           children: [
             Text(
@@ -301,7 +301,7 @@ class ItemsController extends GetxController {
                 height: 5.h,
                 child: Center(
                   child: Text(
-                    "اعادة المحاولة",
+                    S.of(Get.context!).tryAgain,
                     style: GoogleFonts.tajawal(
                         fontSize: 4.w,
                         color: LightMode.registerText,
@@ -325,7 +325,7 @@ class ItemsController extends GetxController {
       countryMoodel = CountryMoodel.fromJson(responseBody);
     } else if (statuesRequest == StatuesRequest.unprocessableException) {
       messageHandleException(
-        "خطأ",
+        S.of(context).error,
       );
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
@@ -382,7 +382,7 @@ class ItemsController extends GetxController {
                 width: 80.w,
                 height: 8.h,
                 child: Text(
-                  "اختار محافظتك",
+                  S.of(context).chooseGovernorateList,
                   style: GoogleFonts.tajawal(
                       fontSize: 5.w,
                       color: LightMode.registerText,
@@ -430,13 +430,13 @@ class ItemsController extends GetxController {
     );
   }
 
-   messageAddressDelivery(onPressConfirm) {
+  messageAddressDelivery(onPressConfirm) {
     Get.defaultDialog(
         onWillPop: () async {
           return false;
         },
         barrierDismissible: false,
-        title: "تأكيد العنوان",
+        title: S.of(Get.context!).confirmAddress,
         titleStyle: GoogleFonts.tajawal(
             fontSize: 5.w,
             color: LightMode.registerButtonBorder,
@@ -455,7 +455,6 @@ class ItemsController extends GetxController {
                     },
                     child: Container(
                       padding: EdgeInsets.only(right: 5.w),
-
                       alignment: Alignment.centerRight,
                       width: 70.w,
                       height: 6.h,
@@ -489,7 +488,7 @@ class ItemsController extends GetxController {
                               border: Border.all(
                                   color: LightMode.splash, width: 2)),
                           child: Text(
-                            "تأكيد",
+                            S.of(context).bottomOfTypePage,
                             style: GoogleFonts.tajawal(
                                 fontSize: 4.w,
                                 color: LightMode.registerText,
@@ -511,7 +510,7 @@ class ItemsController extends GetxController {
                               border: Border.all(
                                   color: LightMode.splash, width: 2)),
                           child: Text(
-                            "إلغاء",
+                            S.of(context).cancel,
                             style: GoogleFonts.tajawal(
                                 fontSize: 4.w,
                                 color: LightMode.splash,
@@ -527,7 +526,7 @@ class ItemsController extends GetxController {
           );
         }));
   }
- 
+
   @override
   void onInit() {
     governorateName = sharedPreferences!.getString("governorate") == null

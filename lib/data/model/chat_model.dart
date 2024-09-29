@@ -29,37 +29,37 @@ class ChatModel {
     createdAt = json['created_at'];
     merchantAssigned = json['merchant_assigned'];
     client =
-        json['client'] != null ? new Client.fromJson(json['client']) : null;
-    order = json['order'] != null ? new OrderModel.fromJson(json['order']) : null;
+        json['client'] != null ? Client.fromJson(json['client']) : null;
+    order = json['order'] != null ? OrderModel.fromJson(json['order']) : null;
     lastMessage = json['last_message'] != null
-        ? new LastMessage.fromJson(json['last_message'])
+        ? LastMessage.fromJson(json['last_message'])
         : null;
     if (json['messages'] != null) {
       messages = <Messages>[];
       json['messages'].forEach((v) {
-        messages!.add(new Messages.fromJson(v));
+        messages!.add(Messages.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['active'] = this.active;
-    data['created_at'] = this.createdAt;
-    data['merchant_assigned'] = this.merchantAssigned;
-    if (this.client != null) {
-      data['client'] = this.client!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['active'] = active;
+    data['created_at'] = createdAt;
+    data['merchant_assigned'] = merchantAssigned;
+    if (client != null) {
+      data['client'] = client!.toJson();
     }
-    if (this.order != null) {
-      data['order'] = this.order!.toJson();
+    if (order != null) {
+      data['order'] = order!.toJson();
     }
-    if (this.lastMessage != null) {
-      data['last_message'] = this.lastMessage!.toJson();
+    if (lastMessage != null) {
+      data['last_message'] = lastMessage!.toJson();
     }
-    if (this.messages != null) {
-      data['messages'] = this.messages!.map((v) => v.toJson()).toList();
+    if (messages != null) {
+      data['messages'] = messages!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -93,14 +93,14 @@ class Messages {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['content'] = this.content;
-    data['seen'] = this.seen;
-    data['type'] = this.type;
-    data['attachment'] = this.attachment;
-    data['sender'] = this.sender;
-    data['created_at'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['content'] = content;
+    data['seen'] = seen;
+    data['type'] = type;
+    data['attachment'] = attachment;
+    data['sender'] = sender;
+    data['created_at'] = createdAt;
     return data;
   }
 }
@@ -138,15 +138,15 @@ class Client {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['image'] = this.image;
-    data['address'] = this.address;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['image'] = image;
+    data['address'] = address;
+    data['lat'] = lat;
+    data['lng'] = lng;
     return data;
   }
 }
@@ -190,27 +190,27 @@ class Order {
     if (json['order_items'] != null) {
       orderItems = <OrderItems>[];
       json['order_items'].forEach((v) {
-        orderItems!.add(new OrderItems.fromJson(v));
+        orderItems!.add(OrderItems.fromJson(v));
       });
     }
     createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['status'] = this.status;
-    data['payment_method'] = this.paymentMethod;
-    data['code'] = this.code;
-    data['tax'] = this.tax;
-    data['delivery_fee'] = this.deliveryFee;
-    data['sub_total'] = this.subTotal;
-    data['total'] = this.total;
-    data['user_address'] = this.userAddress;
-    if (this.orderItems != null) {
-      data['order_items'] = this.orderItems!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['status'] = status;
+    data['payment_method'] = paymentMethod;
+    data['code'] = code;
+    data['tax'] = tax;
+    data['delivery_fee'] = deliveryFee;
+    data['sub_total'] = subTotal;
+    data['total'] = total;
+    data['user_address'] = userAddress;
+    if (orderItems != null) {
+      data['order_items'] = orderItems!.map((v) => v.toJson()).toList();
     }
-    data['created_at'] = this.createdAt;
+    data['created_at'] = createdAt;
     return data;
   }
 }
@@ -227,16 +227,16 @@ class OrderItems {
     id = json['id'];
     quantity = json['quantity'];
     price = json['price'];
-    item = json['item'] != null ? new Item.fromJson(json['item']) : null;
+    item = json['item'] != null ? Item.fromJson(json['item']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['quantity'] = this.quantity;
-    data['price'] = this.price;
-    if (this.item != null) {
-      data['item'] = this.item!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['quantity'] = quantity;
+    data['price'] = price;
+    if (item != null) {
+      data['item'] = item!.toJson();
     }
     return data;
   }
@@ -249,7 +249,7 @@ class Item {
   int? rating;
   String? price;
   String? image;
-  Null? specification;
+  Null specification;
 
   Item(
       {this.id,
@@ -271,14 +271,14 @@ class Item {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['rating'] = this.rating;
-    data['price'] = this.price;
-    data['image'] = this.image;
-    data['specification'] = this.specification;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['rating'] = rating;
+    data['price'] = price;
+    data['image'] = image;
+    data['specification'] = specification;
     return data;
   }
 }
@@ -312,14 +312,14 @@ class LastMessage {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['content'] = this.content;
-    data['seen'] = this.seen;
-    data['type'] = this.type;
-    data['attachment'] = this.attachment;
-    data['sender'] = this.sender;
-    data['created_at'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['content'] = content;
+    data['seen'] = seen;
+    data['type'] = type;
+    data['attachment'] = attachment;
+    data['sender'] = sender;
+    data['created_at'] = createdAt;
     return data;
   }
 }

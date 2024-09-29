@@ -8,6 +8,7 @@ import 'package:mas_app/controller/items/items_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:mas_app/view/screens/items/item_info.dart';
@@ -37,10 +38,10 @@ class ItemsPage extends StatelessWidget {
                     topOfItemesPage(
                       controller.searchController,
                       controller.speechToText.isListening
-                          ? "جاري الاستماع..."
+                          ? S.of(context).listenSearch
                           : controller.speechEnabled
-                              ? "ابحث معنا"
-                              : "Speech not available",
+                              ? S.of(context).search
+                              : S.of(context).errorListenSearch,
                       (val) {
                         controller.checkSearch(val);
                       },
@@ -75,7 +76,7 @@ class ItemsPage extends StatelessWidget {
                                           : DarkMode.whiteDarkColor,
                                       child: Center(
                                         child: Text(
-                                          "لا يوجد منتجات",
+                                          S.of(context).noProduct,
                                           textDirection: TextDirection.rtl,
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.tajawal(
@@ -106,8 +107,9 @@ class ItemsPage extends StatelessWidget {
                                                     if (sharedPreferences!
                                                             .getBool("visit") ==
                                                         true) {
-                                                      controller.message(
-                                                          "الرجاء تسجيل الدخول أو انشاء الحساب");
+                                                      controller.message(S
+                                                          .of(context)
+                                                          .erroGuest);
                                                     } else {
                                                       controller
                                                           .messageAddressDelivery(
@@ -195,7 +197,7 @@ class ItemsPage extends StatelessWidget {
                                 child: const Center(
                                     child: CircularProgressIndicator()))
                             : controller.products.isEmpty
-                                ? noData("لا يوجد منتجات بعد")
+                                ? noData(S.of(context).noProduct)
                                 : SizedBox(
                                     height: 73.h,
                                     child: ListView.builder(
@@ -205,7 +207,7 @@ class ItemsPage extends StatelessWidget {
                                                     .getBool("visit") ==
                                                 true) {
                                               controller.message(
-                                                  "الرجاء تسجيل الدخول أو انشاء حساب");
+                                                  S.of(context).erroGuest);
                                             } else {
                                               controller.messageAddressDelivery(
                                                   () async {
@@ -347,7 +349,7 @@ class ItemsPage extends StatelessWidget {
                     : DarkMode.whiteDarkColor,
                 size: 5.w,
               )),
-          contentPadding: EdgeInsets.only(top: 1.w),
+          contentPadding: EdgeInsets.only(top: 2.w),
           hintStyle: GoogleFonts.tajawal(
               color: sharedPreferences!.getBool("darkMode") == false
                   ? LightMode.registerButtonBorder
@@ -493,7 +495,9 @@ class ItemsPage extends StatelessWidget {
                       discription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.right,
+                      textAlign: sharedPreferences!.getString("local") == "ar"
+                          ? TextAlign.right
+                          : TextAlign.left,
                       style: GoogleFonts.tajawal(
                           color: sharedPreferences!.getBool("darkMode") == false
                               ? LightMode.registerButtonBorder
@@ -554,7 +558,7 @@ class ItemsPage extends StatelessWidget {
                                 border: Border.all(color: LightMode.splash)),
                             child: Center(
                               child: Text(
-                                "شراء الأن",
+                                S.of(Get.context!).buy,
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.tajawal(
                                   fontSize: 3.w,

@@ -7,6 +7,7 @@ import 'package:mas_app/controller/items/items_info_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -29,10 +30,10 @@ class ItemInfo extends StatelessWidget {
               topOfItemesInfoPage(
                 controller.searchController,
                 controller.speechToText.isListening
-                    ? "جاري الاستماع..."
+                    ? S.of(context).listenSearch
                     : controller.speechEnabled
-                        ? "ابحث معنا"
-                        : "Speech not available",
+                        ? S.of(context).search
+                        : S.of(context).errorListenSearch,
                 (val) {
                   controller.checkSearch(val);
                 },
@@ -68,7 +69,7 @@ class ItemInfo extends StatelessWidget {
                                           : DarkMode.whiteDarkColor,
                                   child: Center(
                                     child: Text(
-                                      "لا يوجد منتجات",
+                                      S.of(context).noProduct,
                                       textDirection: TextDirection.rtl,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.tajawal(
@@ -99,7 +100,7 @@ class ItemInfo extends StatelessWidget {
                                                   .getBool("visit") ==
                                               true) {
                                             controller.message(
-                                                "الرجاء تسجيل الدخول أو انشاء حساب");
+                                                S.of(context).erroGuest);
                                           } else {
                                             controller.messageAddressDelivery(
                                                 () async {
@@ -339,11 +340,10 @@ class ItemInfo extends StatelessWidget {
                             controller.changeQuantity(val);
                           },
                         ),
-                        onBtnClick("اشتر الأن", () async {
+                        onBtnClick(S.of(context).buy, () async {
                           if (controller.quantity != null) {
                             if (sharedPreferences!.getBool("visit") == true) {
-                              controller.message(
-                                  "الرجاء  تسجيل الدخول أو انشاء حساب");
+                              controller.message(S.of(context).erroGuest);
                             } else {
                               controller.messageAddressDelivery(() async {
                                 controller.index == null
@@ -378,9 +378,9 @@ class ItemInfo extends StatelessWidget {
                         divider(.5.w),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 3.w, right: 5.w, bottom: 2.w),
+                              top: 3.w, right: 5.w, left: 5.w, bottom: 2.w),
                           child: Text(
-                            "التسوق بثقة",
+                            S.of(context).confidence,
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
                                 color: sharedPreferences!.getBool("darkMode") ==
@@ -399,9 +399,9 @@ class ItemInfo extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   rowWithIcon(Icons.attach_money_outlined,
-                                      "الدفع عند الاستلام"),
-                                  rowWithIcon(
-                                      Icons.delivery_dining, "تشحن من Mas")
+                                      S.of(context).cashOnDelivery),
+                                  rowWithIcon(Icons.delivery_dining,
+                                      S.of(context).shipFromMas)
                                 ],
                               ),
                               SizedBox(
@@ -412,8 +412,9 @@ class ItemInfo extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   rowWithIcon(Icons.delivery_dining_outlined,
-                                      "الشحن مجاني"),
-                                  rowWithIcon(Icons.lock, "معاملتك آمنة")
+                                      S.of(context).freeShipping),
+                                  rowWithIcon(
+                                      Icons.lock, S.of(context).transactionSafe)
                                 ],
                               )
                             ],
@@ -422,9 +423,9 @@ class ItemInfo extends StatelessWidget {
                         divider(.5.w),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 3.w, right: 5.w, bottom: 2.w),
+                              top: 3.w, right: 5.w, left: 5.w, bottom: 2.w),
                           child: Text(
-                            "تفاصيل المنتج",
+                            S.of(context).detailProduct,
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
                                 color: sharedPreferences!.getBool("darkMode") ==
@@ -453,9 +454,9 @@ class ItemInfo extends StatelessWidget {
                         divider(.5.w),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 3.w, right: 5.w, bottom: 2.w),
+                              top: 3.w, right: 5.w, left: 5.w, bottom: 2.w),
                           child: Text(
-                            "تفاصيل إضافية",
+                            S.of(context).additionalDeatail,
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
                                 color: sharedPreferences!.getBool("darkMode") ==
@@ -484,9 +485,9 @@ class ItemInfo extends StatelessWidget {
                         divider(.5.w),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 3.w, right: 5.w, bottom: 2.w),
+                              top: 3.w, right: 5.w, left: 5.w, bottom: 2.w),
                           child: Text(
-                            "مراجعة المستخدمين",
+                            S.of(context).review,
                             style: GoogleFonts.tajawal(
                                 fontSize: 3.w,
                                 color: sharedPreferences!.getBool("darkMode") ==
@@ -602,7 +603,7 @@ class ItemInfo extends StatelessWidget {
 
   Widget keyValueWidget(key, value) {
     return Container(
-      margin: EdgeInsets.only(right: 5.w, top: 3.w),
+      margin: EdgeInsets.only(right: 5.w, top: 3.w, left: 4.w),
       width: 60.w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -675,7 +676,7 @@ class ItemInfo extends StatelessWidget {
 
   Widget cardOfItem(img, color, price, status, colorBorder) {
     return Container(
-      margin: EdgeInsets.only(right: 3.w),
+      margin: EdgeInsets.only(right: 3.w, left: 3.w),
       width: 25.w,
       height: 15.h,
       decoration: BoxDecoration(
@@ -739,7 +740,11 @@ class ItemInfo extends StatelessWidget {
       child: Row(
         children: [
           Container(
-              margin: EdgeInsets.only(right: 4.w, top: 3.h),
+              margin: EdgeInsets.only(
+                right: sharedPreferences!.getString("local") == "ar" ? 4.w : 0,
+                left: sharedPreferences!.getString("local") == "ar" ? 0 : 4.w,
+                top: 3.h,
+              ),
               child: IconButton(
                   onPressed: () {
                     Get.back();
@@ -792,7 +797,7 @@ class ItemInfo extends StatelessWidget {
                     : DarkMode.whiteDarkColor,
                 size: 5.w,
               )),
-          contentPadding: EdgeInsets.only(top: 1.w),
+          contentPadding: EdgeInsets.only(top: 2.w),
           hintStyle: GoogleFonts.tajawal(
               color: sharedPreferences!.getBool("darkMode") == false
                   ? LightMode.registerButtonBorder
@@ -834,7 +839,7 @@ class ItemInfo extends StatelessWidget {
                   children: [
                     if (brand != null || brand != "" || brand != "null")
                       Text(
-                        "العلامة التجارية : $brand",
+                        "${S.of(Get.context!).brand} : $brand",
                         style: GoogleFonts.tajawal(
                             fontSize: 3.5.w,
                             color: LightMode.splash,
@@ -992,7 +997,7 @@ class ItemInfo extends StatelessWidget {
       placeOfArrive,
       status) {
     return Container(
-      margin: EdgeInsets.only(right: 4.w, top: 3.h),
+      margin: EdgeInsets.only(right: 4.w, top: 3.h, left: 4.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1047,7 +1052,7 @@ class ItemInfo extends StatelessWidget {
           Row(
             children: [
               Text(
-                "السعر بدون خصم :",
+                S.of(Get.context!).priceWithoutDiscount,
                 style: GoogleFonts.tajawal(
                     color: sharedPreferences!.getBool("darkMode") == false
                         ? LightMode.registerButtonBorder
@@ -1072,7 +1077,7 @@ class ItemInfo extends StatelessWidget {
             height: 2.w,
           ),
           Text(
-            "الاسعار تشمل الضريبة",
+            S.of(Get.context!).tax,
             textAlign: TextAlign.right,
             style: GoogleFonts.tajawal(
                 fontSize: 3.w,
@@ -1154,7 +1159,7 @@ class ItemInfo extends StatelessWidget {
                 : DarkMode.whiteDarkColor,
             menuMaxHeight: 20.h,
             hint: Text(
-              "الكمية",
+              S.of(Get.context!).quantity,
               textAlign: TextAlign.end,
               textDirection: TextDirection.rtl,
               style: GoogleFonts.tajawal(
@@ -1210,7 +1215,7 @@ class ItemInfo extends StatelessWidget {
 
   Widget bottomPage(text1, text2) {
     return Container(
-      margin: EdgeInsets.only(right: 4.w, top: 4.w, bottom: 4.w),
+      margin: EdgeInsets.only(right: 4.w, top: 4.w, bottom: 4.w, left: 4.w),
       width: 50.w,
       child: Column(
         children: [
@@ -1218,7 +1223,7 @@ class ItemInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "يشحن من ",
+                S.of(Get.context!).shipFrom,
                 style: GoogleFonts.tajawal(
                     color: sharedPreferences!.getBool("darkMode") == false
                         ? LightMode.registerButtonBorder
@@ -1244,7 +1249,7 @@ class ItemInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "يباع من ",
+                S.of(Get.context!).soldBy,
                 style: GoogleFonts.tajawal(
                     color: sharedPreferences!.getBool("darkMode") == false
                         ? LightMode.registerButtonBorder
@@ -1388,7 +1393,9 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
                     discription,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.right,
+                    textAlign: sharedPreferences!.getString("token") == "ar"
+                        ? TextAlign.right
+                        : TextAlign.left,
                     style: GoogleFonts.tajawal(
                         color: sharedPreferences!.getBool("darkMode") == false
                             ? LightMode.registerButtonBorder
@@ -1446,7 +1453,7 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
                               border: Border.all(color: LightMode.splash)),
                           child: Center(
                             child: Text(
-                              "شراء الأن",
+                              S.of(Get.context!).buy,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.tajawal(
                                 fontSize: 3.w,

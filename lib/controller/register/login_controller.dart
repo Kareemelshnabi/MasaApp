@@ -54,7 +54,7 @@ class LoginController extends GetxController {
       // } else if (!val.isPhoneNumber) {
       // return S.of(context).errorPhone_2;
     } else if (val.length < 8 || val.length > 8) {
-      return "رقم الهاتف المدخل خطأ";
+      return S.of(context).errorPhone_3;
     }
     //  else if (!isValidPhoneNumber(val)) {
     //   return S.of(context).errorPhone_3;
@@ -116,7 +116,7 @@ class LoginController extends GetxController {
         sharedPreferences!.setString("pageStart", "Home");
         Get.offAll(() => const SuccessLogin());
       } else if (statuesRequest == StatuesRequest.forbiddenException) {
-        messageHandleException(" لم يتم التحقق من الحساب", context);
+        messageHandleException(S.of(context).notVerify, context);
       } else if (statuesRequest == StatuesRequest.socketException) {
         messageHandleException(S.of(context).noInternetApi, context);
       } else if (statuesRequest == StatuesRequest.serverException) {
@@ -132,7 +132,7 @@ class LoginController extends GetxController {
       } else if (statuesRequest == StatuesRequest.unauthorizedException) {
         messageHandleException(S.of(context).passwordNotCorrect, context);
       } else if (statuesRequest == StatuesRequest.phoneNotVerify) {
-        messageHandleException_2("يرجي تأكيد الرقم", context);
+        messageHandleException_2(S.of(context).confirmNum, context);
       }
       update();
     }
@@ -170,7 +170,7 @@ class LoginController extends GetxController {
                     height: 5.h,
                     child: Center(
                       child: Text(
-                        "تأكيد الرقم",
+                        S.of(context).verifyPhone,
                         style: GoogleFonts.tajawal(
                             fontSize: 4.w,
                             color: LightMode.registerText,
@@ -192,7 +192,7 @@ class LoginController extends GetxController {
                     height: 5.h,
                     child: Center(
                       child: Text(
-                        "إلغاء",
+                       S.of(context).cancel,
                         style: GoogleFonts.tajawal(
                             fontSize: 4.w,
                             color: LightMode.splash,

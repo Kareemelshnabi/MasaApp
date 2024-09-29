@@ -20,7 +20,7 @@
     "notHaveAccount":" ? Don't have an account",
     "errorPhone_1":"Please enter your phone number",
      "errorPhone_2":"Invalid phone number",
-      "errorPhone_3":"Please start with [5,6,9,2]965+",
+      "errorPhone_3":"The phone number entered is incorrect",
       "errorPass_1":"Please enter your password",
 "errorPass_2":"Password is short",
 "errorPass_3": "password is long",
@@ -70,7 +70,191 @@
 "bodyForgetPass": "Please enter your phone number to send the secret code.",
 "errorForgetPass": "The phone number used is not registered..!",
 "titleAddNewPass": "New Password",
-"bodyAddNewPass": "Please enter your new password."
+"bodyAddNewPass": "Please enter your new password.",
+"mainAutrhVisitLogin":"Login as a guest?",
+"mainAutrhVisitClick":"Login",
+"chhoseGovernorate":"Click to select the governorate",
+"chooseGovernorateList": "Choose your governorate",
+"erroGuest":"Please log in or create an account",
+"listenSearch":"Listening...",
+"search":"Search with us",
+"errorListenSearch":"Speech not available",
+"you":"you",
+"noProduct":"No products",
+"anotherServices":"Other services",
+"anotherServiceDescrip":"Browse our selection of different services that will help you with everything you need.",
+"hello":"Hello",
+"services":"Our Services",
+"buy":"Buy Now",
+"cancel":"Cancel",
+"confirmAddress":"Confirm address",
+"homePage":"Home",
+"favouritePage":"Favourite",
+"cardPage":"My Wallet",
+"profilePage":"Profile",
+"favItems":"Favourite Products",
+"noFav":"No favorites",
+"descripFav":"You can add an item to your favorites by clicking on the heart icon.",
+"orders":"My Orders",
+"profileInfoTitle":"My account details",
+"support":"Support",
+"contact":"Contact us",
+"infoAboutUs":"About us",
+"setting":"Settings",
+"lang":"Language",
+"darkMode":"Dark Mode",
+"logOut":"LogOut",
+"personalInfo":"Personal Information",
+"name":"Name",
+"governorate":"Governorate",
+"country":"State",
+"currentPass":"Current Password",
+"newPass":"New Password",
+"saveChange":"Save changes",
+"editProfile":"Edit Profile",
+"image":"Image",
+"changeImage":"Change Image",
+"edit":"Edit",
+"bodyContact":"If you have any questions, please contact us. We will be happy to assist you.",
+"mobileInfo":"You can call, text or WhatsApp us on the numbers below, charges will apply according to your network providers.",
+"emailInfo":"We respond to emails within 24 hours.",
+"socialMedia":"Social Media",
+"socialInfo":"Follow us on our social media sites to get notifications of exciting updates and offers.",
+"faq":"FAQ",
+"privacy":"privacy policy",
+"termOfServic":"Terms of Service",
+"faceIcon":"Facebook",
+"instaIcon":"Instegram",
+"noCategory":"No categories yet",
+"bodyCategoryPage":"Explore our diverse collection of categories to find the services and products that fit your individual needs.",
+"category":"Categories",
+"confidence":"Shop with confidence",
+"cashOnDelivery": "Cash on Delivery",
+"shipFromMas":"Ship from Mas",
+"freeShipping":"Free shipping",
+"transactionSafe":"Your transaction is safe",
+"detailProduct": "Product Details",
+"additionalDeatail":"Additional Details",
+"review":"User Reviews",
+"brand":"Brand",
+"priceWithoutDiscount": "Price without discount : ",
+"tax": "Prices include tax",
+"quantity": "Quantity",
+"shipFrom": "Ships From ",
+"soldBy": "Sold by ",
+"specifyQuantity":"Please specify quantity",
+"currentOrder":"Current",
+"periviousOrder":"Previous",
+"canceledOrder":"Canceled",
+"noOrder":"No Orders Yet",
+"valid":"Valid",
+"delivered":"Delivered",
+"noCancelOrder":"There are no cancelled orders yet",
+"canceled":"Canceled",
+"totalPrice":"Total Price",
+"date":"Date",
+"free":"Free",
+"confirmStatus":"Your request has been confirmed",
+"paidStatus":"Paid",
+"deliverStatus": "Out for delivery",
+"deliveredStatus": "Delivered",
+"returnChat":"Back to chat",
+"detailOrder": "Your order details",
+"orderDetail":"Order Details",
+"orderNum": "Order Number",
+"orderDate": "order date",
+"shippingAddress":"Shipping Address",
+"area":"Area",
+"subtotalPrice":"Subtotal Price",
+"taxVAlue":"Tax Value",
+"delivery":"Delivery",
+"deliveryAddress":"Delivery Address",
+"messageAddress": "Are you sure you want to change the delivery address?",
+"yes":"Yes",
+"no":"No",
+"noChats":"No Chats Yet",
+"voiceMessage": "You: Voice Message",
+"reviewOrder": "Review Order",
+"confirmOrder":"Confirm Order",
+"cancelOrder":"Cancel Order",
+"choosePayment":"Choose Payment",
+"payyOnline": "Pay Online",
+"payCash": "Payment by cash",
+"clickWrite":"Click to write...",
+"bottomPartOneChat":"This conversation has ended and",
+"bottomPartTwoChat":"Your request",
+"additionalOption": "Additional Options",
+"phoneNoteRegister":"Phone number not registered",
+"notVerify": "The account has not been verified",
+"confirmNum":"Please verify the number",
+"verifyPhone":"Verify the number",
+"phoneRegister":"The phone number is already registered",
+"chooseGovernorateError":"Please choose the governorate",
+"codeVerifyIncorrect":"The entered code is incorrect",
+"fromCamera": "From the camera",
+"fromGallery": "From the Gallery",
+"errorCurrentPass":"The current password entered is incorrect","succsesUpdate":"Your account information has been successfully changed. In a few moments you will be redirected to your home page.",
+"messageLogOut":"Are you sure you want to log out?",
+"file":"File"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
  }  

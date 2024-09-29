@@ -71,7 +71,7 @@ class ProfileController extends GetxController {
                 width: 80.w,
                 height: 8.h,
                 child: Text(
-                  "اختار محافظتك",
+                  S.of(context).chooseGovernorateList,
                   style: GoogleFonts.tajawal(
                       fontSize: 5.w,
                       color: LightMode.registerText,
@@ -96,7 +96,8 @@ class ProfileController extends GetxController {
                             update();
                           },
                           child: Container(
-                            padding: EdgeInsets.only(top: 4.w, right: 5.w),
+                            padding: EdgeInsets.only(
+                                top: 4.w, right: 5.w, left: 5.w),
                             height: 5.h,
                             width: 80.w,
                             child: Text(
@@ -135,7 +136,7 @@ class ProfileController extends GetxController {
       print("response :: $responseBody");
       countryMoodel = CountryMoodel.fromJson(responseBody);
     } else if (statuesRequest == StatuesRequest.unprocessableException) {
-      messageHandleException("خطأ");
+      messageHandleException(S.of(context).error);
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(S.of(context).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
@@ -165,7 +166,7 @@ class ProfileController extends GetxController {
 
   passwordConfirmationValidate(String val) {
     if (newPasswordController.text != passwordConfirmationController.text) {
-      return "كلمة السر غير متطابقة";
+      return S.of(Get.context!).errorConfirmPass_2;
     } else {
       return null;
     }
@@ -173,11 +174,11 @@ class ProfileController extends GetxController {
 
   emailValidate(String val) {
     if (val.isEmpty) {
-      return "الرجاء ادخال البريد";
+      return S.of(Get.context!).errorEmail_1;
     } else if (!val.isEmail) {
-      return "البريد غير صالح";
+      return S.of(Get.context!).errorEmail_2;
     } else if (val.contains(RegExp(r'[\u0600-\u06FF]'))) {
-      return "البريد غير صالح";
+      return S.of(Get.context!).errorEmail_3;
     } else {
       return null;
     }
@@ -185,9 +186,9 @@ class ProfileController extends GetxController {
 
   addressValidate(String val) {
     if (val.isEmpty) {
-      return 'الرجاء ادخال العنوان';
+      return S.of(Get.context!).errorAddress_1;
     } else if (val.length < 10) {
-      return 'العنوان قصير جدا';
+      return S.of(Get.context!).errorAddress_2;
     } else {
       return null;
     }
@@ -195,11 +196,11 @@ class ProfileController extends GetxController {
 
   nameValidate(String val) {
     if (val.isEmpty) {
-      return "الرجاء إدخال الإسم";
+      return S.of(Get.context!).errorUserName_1;
     } else if (val.length < 3) {
-      return " الإسم قصير للغاية";
+      return S.of(Get.context!).errorUserName_2;
     } else if (val.length > 40) {
-      return "الإسم طويل للغاية";
+      return S.of(Get.context!).errorUserName_3;
     } else {
       return null;
     }
@@ -270,7 +271,7 @@ class ProfileController extends GetxController {
                       width: 4.w,
                     ),
                     Text(
-                      "مــن الكــامــيـــرا",
+                     S.of(context).fromCamera,
                       style: GoogleFonts.tajawal(
                           color: LightMode.splash,
                           fontSize: 4.w,
@@ -299,7 +300,7 @@ class ProfileController extends GetxController {
                       width: 4.w,
                     ),
                     Text(
-                      "مــن المعـــرض",
+                     S.of(context).fromGallery,
                       style: GoogleFonts.tajawal(
                           color: LightMode.splash,
                           fontSize: 4.w,
@@ -356,25 +357,25 @@ class ProfileController extends GetxController {
         sharedPreferences!.setString("pageStart", "Home");
         succsess = true;
       } else if (statuesRequest == StatuesRequest.badRequestException) {
-        messageHandleException("كلمة السر الحالية المدخلة خاطئة");
+        messageHandleException(S.of(Get.context!).errorCurrentPass);
       } else if (statuesRequest == StatuesRequest.socketException) {
         messageHandleException(
-            "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+            S.of(Get.context!).noInternetApi);
       } else if (statuesRequest == StatuesRequest.serverException) {
-        messageHandleException("لم يتم العثور على المورد المطلوب.");
+        messageHandleException(S.of(Get.context!).serverException);
       } else if (statuesRequest == StatuesRequest.unExpectedException) {
-        messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+        messageHandleException(S.of(Get.context!).unExcepectedException);
       } else if (statuesRequest == StatuesRequest.defaultException) {
-        messageHandleException("كلمة السر المدخلة قصيره");
+        messageHandleException(S.of(Get.context!).errorPass_2);
       } else if (statuesRequest == StatuesRequest.serverError) {
         messageHandleException(
-            "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+          S.of(Get.context!).serverError);
       } else if (statuesRequest == StatuesRequest.timeoutException) {
         messageHandleException(
-            "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+          S.of(Get.context!).timeOutException);
       } else if (statuesRequest == StatuesRequest.unauthorizedException) {
         messageHandleException(
-            "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+           S.of(Get.context!).errorUnAuthorized);
       }
     }
     update();
@@ -450,7 +451,7 @@ class ProfileController extends GetxController {
             height: 7.h,
             width: 60.w,
             child: Text(
-              "تم تغيير معلومات حسابك بنجاح. لحظات و سيتم تحويلك للصفحتك الرئيسية.",
+              S.of(Get.context!).succsesUpdate,
               textAlign: TextAlign.center,
               style: GoogleFonts.tajawal(
                   fontSize: 3.5.w,
@@ -481,22 +482,22 @@ class ProfileController extends GetxController {
       Get.offAll(() => const MainRegister());
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+         S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException( S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException( S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException( S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+          S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+           S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+          S.of(Get.context!).errorUnAuthorized);
     }
 
     update();
@@ -504,7 +505,7 @@ class ProfileController extends GetxController {
 
   messageHandleException(message) {
     Get.defaultDialog(
-      title: "خطأ",
+      title:  S.of(Get.context!).error,
       content: Column(
         children: [
           Text(
@@ -528,7 +529,7 @@ class ProfileController extends GetxController {
               height: 5.h,
               child: Center(
                 child: Text(
-                  "اعادة المحاولة",
+                  S.of(Get.context!).tryAgain,
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
                       color: LightMode.registerText,
@@ -561,7 +562,7 @@ class ProfileController extends GetxController {
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           Text(
-            "تسجيل الخروج",
+            S.of(Get.context!).logOut,
             style: GoogleFonts.tajawal(
                 letterSpacing: 2,
                 color: sharedPreferences!.getBool("darkMode") == false
@@ -572,7 +573,7 @@ class ProfileController extends GetxController {
                 fontWeight: FontWeight.bold),
           ),
           Text(
-            "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+            S.of(context).messageLogOut,
             textAlign: TextAlign.center,
             style: GoogleFonts.tajawal(
                 color: sharedPreferences!.getBool("darkMode") == false
@@ -602,7 +603,7 @@ class ProfileController extends GetxController {
                       homeController.currentIndex = 0;
                     },
                     child: Text(
-                      "تأكيد",
+                      S.of(Get.context!).bodyOftypePage,
                       style: GoogleFonts.tajawal(
                           color: sharedPreferences!.getBool("darkMode") == false
                               ? Colors.white
@@ -631,7 +632,7 @@ class ProfileController extends GetxController {
                       Get.back();
                     },
                     child: Text(
-                      "إلغاء",
+                      S.of(Get.context!).cancel,
                       style: GoogleFonts.tajawal(
                           color: sharedPreferences!.getBool("darkMode") == false
                               ? const Color.fromARGB(255, 41, 108, 186)

@@ -7,6 +7,7 @@ import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/function/handling_data.dart';
 import 'package:mas_app/data/data%20source/chats.dart';
 import 'package:mas_app/data/model/all_chats_model.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -51,7 +52,7 @@ class MyOrdersChatController extends GetxController {
 
   messageHandleException(message) {
     Get.defaultDialog(
-        title: "خطأ",
+        title:S.of(Get.context!).error,
         content: Column(
           children: [
             Text(
@@ -74,7 +75,7 @@ class MyOrdersChatController extends GetxController {
                 height: 5.h,
                 child: Center(
                   child: Text(
-                    "اعادة المحاولة",
+                   S.of(Get.context!).tryAgain,
                     style: GoogleFonts.tajawal(
                         fontSize: 4.w,
                         color: LightMode.registerText,

@@ -1,11 +1,13 @@
 // ignore_for_file: file_names
 
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mas_app/controller/dark_mode_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
-import 'package:mas_app/view/screens/home/home.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 class ChooseLunguage extends StatelessWidget {
@@ -13,6 +15,7 @@ class ChooseLunguage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DarkModeController());
     return Scaffold(
       backgroundColor: sharedPreferences!.getBool("darkMode") == false
           ? LightMode.splash
@@ -37,47 +40,48 @@ class ChooseLunguage extends StatelessWidget {
                     ? LightMode.registerText
                     : DarkMode.darkModeSplash,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "اللغة",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.tajawal(
-                          color: sharedPreferences!.getBool("darkMode") == false
-                              ? LightMode.registerButtonBorder
-                              : DarkMode.whiteDarkColor,
-                          fontSize: 4.w,
-                          fontWeight: FontWeight.w700,
+              child: GetBuilder<DarkModeController>(
+                builder: (controller) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          S.of(context).lang,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.tajawal(
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
+                            fontSize: 4.w,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 1.w,
-                      ),
-                      Icon(
-                        Icons.translate,
-                        color: LightMode.splash,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5.w,
-                  ),
-                  btnClick(() {
-                    //  sharedPreferences!.setString("local", "ar");
-                    Get.off(() => const Home());
-                  }, "العربية"),
-                  SizedBox(
-                    height: 3.w,
-                  ),
-                  btnClick(() {
-                    //   sharedPreferences!.setString("local", "en");
-                    Get.off(() => const Home());
-                  }, "English")
-                ],
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        Icon(
+                          Icons.translate,
+                          color: LightMode.splash,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5.w,
+                    ),
+                    btnClick(() async {
+                      controller.changLang("ar");
+                    }, "العربية"),
+                    SizedBox(
+                      height: 3.w,
+                    ),
+                    btnClick(() async {
+                      controller.changLang("en");
+                    }, "English")
+                  ],
+                ),
               ),
             ),
           ],
@@ -163,7 +167,7 @@ Widget appBarProfile() {
             alignment: Alignment.center,
             margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h),
             child: Text(
-              "اختر اللغة",
+              S.of(Get.context!).lang,
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,

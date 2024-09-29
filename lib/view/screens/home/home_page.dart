@@ -9,6 +9,7 @@ import 'package:mas_app/controller/on_boarding_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:mas_app/view/screens/chat/my_orders_chat.dart';
@@ -46,12 +47,11 @@ class HomePage extends StatelessWidget {
                     appBarHome(
                       () {
                         sharedPreferences!.getBool("visit") == true
-                            ? controller
-                                .message("الرجاء تسجيل الدخول أو انشاء الحساب")
+                            ? controller.message(S.of(context).erroGuest)
                             : Get.to(() => const MyOrdersChat());
                       },
                       sharedPreferences!.getBool("visit") == true
-                          ? "بك"
+                          ? S.of(context).you
                           : sharedPreferences!.getString("nameEn"),
                       sharedPreferences!.getBool("visit") == true
                           ? AssetImage(ImagesLink.noProfileImage)
@@ -66,10 +66,10 @@ class HomePage extends StatelessWidget {
                       builder: (controller) => searchField(
                         controller.searchController,
                         controller.speechToText.isListening
-                            ? "جاري الاستماع..."
+                            ? S.of(context).listenSearch
                             : controller.speechEnabled
-                                ? "ابحث معنا"
-                                : "Speech not available",
+                                ? S.of(context).search
+                                : S.of(context).errorListenSearch,
                         (val) {
                           controller.checkSearch(val);
                         },
@@ -110,7 +110,7 @@ class HomePage extends StatelessWidget {
                                       color: LightMode.splash,
                                       child: Center(
                                         child: Text(
-                                          "لا يوجد منتجات",
+                                          S.of(context).noProduct,
                                           textDirection: TextDirection.rtl,
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.tajawal(
@@ -137,8 +137,9 @@ class HomePage extends StatelessWidget {
                                                     if (sharedPreferences!
                                                             .getBool("visit") ==
                                                         true) {
-                                                      controller.message(
-                                                          "الرجاء تسجيل الخول أو انشاء حساب");
+                                                      controller.message(S
+                                                          .of(context)
+                                                          .erroGuest);
                                                     } else {
                                                       controller
                                                           .messageAddressDelivery(
@@ -244,7 +245,7 @@ class HomePage extends StatelessWidget {
                                                     .getBool("visit") ==
                                                 true) {
                                               controller.message(
-                                                  "الرجاء تسجيل الدخول أو انشاء حساب");
+                                                  S.of(context).erroGuest);
                                             } else {
                                               controller.messageAddressDelivery(
                                                   () async {
@@ -313,8 +314,8 @@ class HomePage extends StatelessWidget {
                                                 const OtherServices(),
                                           ));
                                     },
-                                      "خدمات اخري",
-                                      "تصفح مجموعتنا المختارة من الخدمات المختلفة التى سوف تساعدك فى كل ما تريد.",
+                                      S.of(context).anotherServices,
+                                      S.of(context).anotherServiceDescrip,
                                       AssetImage(
                                         ImagesLink.otherServicesImage,
                                       )),
@@ -361,11 +362,15 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(right: 4.w),
+            margin: sharedPreferences!.getString("local") == "ar"
+                ? EdgeInsets.only(right: 4.w)
+                : EdgeInsets.only(left: 4.w),
             width: 66.w,
             child: Text(
-              "اهلا، $name",
-              textAlign: TextAlign.right,
+              "${S.of(Get.context!).hello}، $name",
+              textAlign: sharedPreferences!.getString("local") == "ar"
+                  ? TextAlign.right
+                  : TextAlign.left,
               style: GoogleFonts.tajawal(
                   color: sharedPreferences!.getBool("darkMode") == false
                       ? LightMode.registerButtonBorder
@@ -411,6 +416,7 @@ class HomePage extends StatelessWidget {
             fontSize: 4.w,
             fontWeight: FontWeight.w500),
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(top: 3.w),
           prefixIcon: Icon(
             Icons.search,
             size: 5.w,
@@ -461,7 +467,7 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "خدماتنا",
+            S.of(Get.context!).services,
             style: GoogleFonts.tajawal(
               fontWeight: FontWeight.w700,
               fontSize: 5.w,
@@ -485,12 +491,17 @@ class HomePage extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.w),
           border: Border.all(color: LightMode.splash),
         ),
-        margin: EdgeInsets.only(left: 5.w, right: 10.w, bottom: 5.w),
+        margin: EdgeInsets.only(
+            left: sharedPreferences!.getString("local") == "ar" ? 5.w : 10.w,
+            right: sharedPreferences!.getString("local") == "ar" ? 10.w : 5.w,
+            bottom: 5.w),
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              right: -7.w,
+              right:
+                  sharedPreferences!.getString("local") == "ar" ? -7.w : null,
+              left: sharedPreferences!.getString("local") == "ar" ? null : -7.w,
               top: 2.w,
               bottom: 2.w,
               child: Container(
@@ -504,7 +515,14 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(right: 10.w, left: 2.w, top: 2.w),
+              margin: EdgeInsets.only(
+                  right: sharedPreferences!.getString("local") == "ar"
+                      ? 10.w
+                      : 2.w,
+                  left: sharedPreferences!.getString("local") == "ar"
+                      ? 2.w
+                      : 10.w,
+                  top: 2.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -662,7 +680,9 @@ Widget cardItemSearch(onTapBuy, priceWithoutDiscount, priceWithDiscount,
                     discription,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.right,
+                    textAlign: sharedPreferences!.getString("local") == "ar"
+                        ? TextAlign.right
+                        : TextAlign.left,
                     style: GoogleFonts.tajawal(
                         color: sharedPreferences!.getBool("darkMode") == false
                             ? LightMode.registerButtonBorder
@@ -721,7 +741,7 @@ Widget cardItemSearch(onTapBuy, priceWithoutDiscount, priceWithDiscount,
                               border: Border.all(color: LightMode.splash)),
                           child: Center(
                             child: Text(
-                              "شراء الأن",
+                              S.of(Get.context!).buy,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.tajawal(
                                 fontSize: 3.w,

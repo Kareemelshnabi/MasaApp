@@ -67,7 +67,7 @@ class RegisterController extends GetxController {
                 width: 80.w,
                 height: 8.h,
                 child: Text(
-                  "اختار محافظتك",
+                  S.of(context).chooseGovernorateList,
                   style: GoogleFonts.tajawal(
                       fontSize: 5.w,
                       color: LightMode.registerText,
@@ -92,7 +92,8 @@ class RegisterController extends GetxController {
                             update();
                           },
                           child: Container(
-                            padding: EdgeInsets.only(top: 3.w, right: 5.w),
+                            padding: EdgeInsets.only(
+                                top: 3.w, right: 5.w, left: 5.w),
                             height: 6.h,
                             width: 80.w,
                             child: Text(
@@ -181,7 +182,7 @@ class RegisterController extends GetxController {
       //} else if (!val.isPhoneNumber) {
       //   return S.of(context).errorPhone_2;
     } else if (val.length < 8 || val.length > 8) {
-      return "رقم الهاتف المدخل خطأ";
+      return S.of(context).errorPhone_3;
     }
     //  else if (!isValidPhoneNumber(val)) {
     //   return S.of(context).errorPhone_3;
@@ -292,7 +293,7 @@ class RegisterController extends GetxController {
                     height: 5.h,
                     child: Center(
                       child: Text(
-                        "تأكيد الرقم",
+                       S.of(context).verifyPhone,
                         style: GoogleFonts.tajawal(
                             fontSize: 4.w,
                             color: LightMode.registerText,
@@ -314,7 +315,7 @@ class RegisterController extends GetxController {
                     height: 5.h,
                     child: Center(
                       child: Text(
-                        "إلغاء",
+                        S.of(context).cancel,
                         style: GoogleFonts.tajawal(
                             fontSize: 4.w,
                             color: LightMode.splash,
@@ -361,11 +362,11 @@ class RegisterController extends GetxController {
         print(sharedPreferences!.getString("phone"));
         Get.to(() => const VerifyCodeRegister());
       } else if (statuesRequest == StatuesRequest.unprocessableException) {
-        messageHandleException("رقم الهاتف مسجل من قبل", context);
+        messageHandleException(S.of(context).phoneRegister, context);
       } else if (statuesRequest == StatuesRequest.phoneNotVerify) {
-        messageHandleException_2("تأكيد رقم الهاتف", context);
+        messageHandleException_2(S.of(context).verifyPhone, context);
       } else if (statuesRequest == StatuesRequest.phoneValid) {
-        messageHandleException("رقم الهاتف المدخل خطأ", context);
+        messageHandleException(S.of(context).phoneNoteRegister, context);
       } else if (statuesRequest == StatuesRequest.socketException) {
         messageHandleException(S.of(context).noInternetApi, context);
       } else if (statuesRequest == StatuesRequest.serverException) {
@@ -384,7 +385,7 @@ class RegisterController extends GetxController {
     } else if (choose == false) {
       messageHandleException(S.of(context).errorConfirmPrivacy, context);
     } else if (governateController.text == "") {
-      messageHandleException("يرجي اختيار المحافظة", context);
+      messageHandleException(S.of(context).chooseGovernorateError, context);
     }
     update();
   }
@@ -401,7 +402,7 @@ class RegisterController extends GetxController {
       print("response :: $responseBody");
       countryMoodel = CountryMoodel.fromJson(responseBody);
     } else if (statuesRequest == StatuesRequest.unprocessableException) {
-      messageHandleException("خطأ", context);
+      messageHandleException(S.of(context).error, context);
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(S.of(context).noInternetApi, context);
     } else if (statuesRequest == StatuesRequest.serverException) {

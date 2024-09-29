@@ -5,6 +5,7 @@ import 'package:mas_app/controller/chat/my_orders_chat_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:mas_app/view/screens/home/home.dart';
@@ -28,14 +29,14 @@ class MyOrdersChat extends StatelessWidget {
               appBarMyOrders(context),
               controller.statuesRequest == StatuesRequest.loading
                   ? SizedBox(
-                      height: 88.h,
+                      height: 100.h,
                       width: 100.w,
                       child: const Center(child: CircularProgressIndicator()))
                   : controller.chats.isEmpty
-                      ? noData("لا يوجد محادثات بعد")
+                      ? noData(S.of(context).noChats)
                       : SizedBox(
                           width: 100.w,
-                          height: 78.h,
+                          height: 100.h,
                           child: ListView.builder(
                             padding: EdgeInsets.only(top: 4.w),
                             itemBuilder: (context, index) => InkWell(
@@ -93,7 +94,9 @@ Widget chat(name, message, date, sender, type) {
         Container(
           width: 45.w,
           height: 6.h,
-          margin: EdgeInsets.only(right: 5.w, left: 10.w),
+          margin: EdgeInsets.only(
+              right: sharedPreferences!.getString("local") == "ar" ? 5.w : 10.w,
+              left: sharedPreferences!.getString("local") == "ar" ? 10.w : 5.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +124,7 @@ Widget chat(name, message, date, sender, type) {
                 ),
               if (sender == "user" && type == "file")
                 Text(
-                  "أنت: صورة",
+                  "${S.of(Get.context!).you}: ${S.of(Get.context!).image}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.tajawal(
@@ -131,7 +134,7 @@ Widget chat(name, message, date, sender, type) {
                 ),
               if (sender == "user" && type == "voice")
                 Text(
-                  "أنت: رسالة صوتية",
+                  S.of(Get.context!).voiceMessage,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.tajawal(
@@ -151,7 +154,7 @@ Widget chat(name, message, date, sender, type) {
                 ),
               if (sender != "user" && type == "file")
                 Text(
-                  "صورة",
+                  S.of(Get.context!).image,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.tajawal(
@@ -242,7 +245,7 @@ Widget appBarMyOrders(context) {
               bottom: 2.h,
             ),
             child: Text(
-              "طلباتي",
+              S.of(context).orders,
               style: GoogleFonts.tajawal(
                 fontSize: 5.w,
                 fontWeight: FontWeight.bold,

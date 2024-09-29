@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/orders/my_orders_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/orders/my_order_info.dart';
@@ -29,7 +30,7 @@ class MyOrders extends StatelessWidget {
                   () {
                     controller.changIndex(0);
                   },
-                  "الحالية",
+                  S.of(context).currentOrder,
                   controller.index == 0
                       ? LightMode.splash
                       : sharedPreferences!.getBool("darkMode") == false
@@ -38,7 +39,7 @@ class MyOrders extends StatelessWidget {
                   () {
                     controller.changIndex(1);
                   },
-                  "السابقة",
+                  S.of(context).periviousOrder,
                   controller.index == 1
                       ? LightMode.splash
                       : sharedPreferences!.getBool("darkMode") == false
@@ -47,7 +48,7 @@ class MyOrders extends StatelessWidget {
                   () {
                     controller.changIndex(2);
                   },
-                  "الملغاة",
+                  S.of(context).canceledOrder,
                   controller.index == 2
                       ? LightMode.splash
                       : sharedPreferences!.getBool("darkMode") == false
@@ -61,7 +62,7 @@ class MyOrders extends StatelessWidget {
                       child: const Center(child: CircularProgressIndicator()))
                   : controller.index == 0
                       ? controller.pendingOrdersList.isEmpty
-                          ? noData("لا يوجد طلبات بعد")
+                          ? noData(S.of(context).noOrder)
                           : SizedBox(
                               width: 100.w,
                               height: 79.h,
@@ -93,7 +94,7 @@ class MyOrders extends StatelessWidget {
                                               .item!
                                               .specification!
                                               .title,
-                                      "سارية",
+                                      S.of(context).valid,
                                       LightMode.btnYellow,
                                       controller.pendingOrdersList[index].total,
                                       controller
@@ -105,7 +106,7 @@ class MyOrders extends StatelessWidget {
                             )
                       : controller.index == 1
                           ? controller.completedOrdersList.isEmpty
-                              ? noData("لا يوجد طلبات ")
+                              ? noData(S.of(context).noOrder)
                               : SizedBox(
                                   width: 100.w,
                                   height: 79.h,
@@ -140,7 +141,7 @@ class MyOrders extends StatelessWidget {
                                                   .item!
                                                   .specification!
                                                   .title,
-                                          "نم التوصيل",
+                                          S.of(context).delivered,
                                           LightMode.btnGreen,
                                           controller
                                               .pendingOrdersList[index].total,
@@ -153,7 +154,7 @@ class MyOrders extends StatelessWidget {
                                 )
                           : controller.index == 2
                               ? controller.canceledOrdersList.isEmpty
-                                  ? noData("لا يوجد طلبات ملغاة بعد")
+                                  ? noData(S.of(context).noCancelOrder)
                                   : SizedBox(
                                       width: 100.w,
                                       height: 79.h,
@@ -190,7 +191,7 @@ class MyOrders extends StatelessWidget {
                                                       .item!
                                                       .specification!
                                                       .title,
-                                              "ملغاة",
+                                              S.of(context).canceled,
                                               LightMode.discountCollor,
                                               controller
                                                   .canceledOrdersList[index]
@@ -254,7 +255,7 @@ class MyOrders extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("إجمالي المبلغ",
+                    Text(S.of(Get.context!).totalPrice,
                         style: GoogleFonts.tajawal(
                           color: sharedPreferences!.getBool("darkMode") == false
                               ? LightMode.registerButtonBorder
@@ -286,7 +287,7 @@ class MyOrders extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("التاريخ",
+                    Text(S.of(Get.context!).date,
                         style: GoogleFonts.tajawal(
                             color:
                                 sharedPreferences!.getBool("darkMode") == false
@@ -382,7 +383,7 @@ class MyOrders extends StatelessWidget {
                 bottom: 2.h,
               ),
               child: Text(
-                "طلباتي",
+                S.of(context).orders,
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,

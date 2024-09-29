@@ -100,7 +100,7 @@ class MainRegister extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "تسجيل الدخول كزائر ؟ ",
+                          S.of(context).mainAutrhVisitLogin,
                           style: GoogleFonts.tajawal(
                               color: sharedPreferences!.getBool("darkMode") ==
                                       false
@@ -116,7 +116,7 @@ class MainRegister extends StatelessWidget {
                             Get.offAll(() => const Home());
                           },
                           child: Text(
-                            "نسجيل",
+                            S.of(context).login,
                             style: GoogleFonts.tajawal(
                                 color: LightMode.splash,
                                 fontSize: 4.5.w,

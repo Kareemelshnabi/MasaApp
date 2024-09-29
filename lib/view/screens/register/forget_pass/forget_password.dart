@@ -6,7 +6,6 @@ import 'package:mas_app/controller/register/forget_password.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/images.dart';
 import 'package:mas_app/generated/l10n.dart';
-import 'package:mas_app/main.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 import '../../../../core/constant/colors.dart';
@@ -115,8 +114,8 @@ class ForgetPassword extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            width: 20.w,
             child: Padding(
               padding: EdgeInsets.only(top: 1.h),
               child: IconButton(
@@ -129,10 +128,14 @@ class ForgetPassword extends StatelessWidget {
                   )),
             ),
           ),
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 7.h, bottom: 5.h, right: 13.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                top: 7.h,
+                bottom: 5.h,
+              ),
               child: Text(
                 S.of(context).titleForgetPass,
                 style: GoogleFonts.tajawal(
@@ -143,7 +146,7 @@ class ForgetPassword extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(flex: 1, child: Container()),
+          SizedBox(width: 20.w, child: Container()),
         ],
       ),
     );

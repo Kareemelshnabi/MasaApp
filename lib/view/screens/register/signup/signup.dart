@@ -348,7 +348,11 @@ Widget appBarRegister(context) {
         SizedBox(
           width: 60.w,
           child: Container(
-            margin: EdgeInsets.only(top: 7.h, bottom: 2.h, right: 13.w),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(
+              top: 7.h,
+              bottom: 2.h,
+            ),
             child: Text(
               S.of(context).titleSign,
               style: GoogleFonts.tajawal(
@@ -469,7 +473,7 @@ Widget textFieldChooseGovernate(onPress, governateController) {
               color: LightMode.splash,
               fontSize: 4.w,
               fontWeight: FontWeight.w500),
-          hintText: "اضغط لاختيار المحافظة",
+          hintText: S.of(Get.context!).chhoseGovernorate,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(

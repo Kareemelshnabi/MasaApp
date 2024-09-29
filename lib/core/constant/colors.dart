@@ -26,6 +26,6 @@ class DarkMode {
   static Color darkModeSplash = const Color(0xff024260);
   static Color buttonDarkColor = const Color(0xff016A9E);
   static Color whiteDarkColor = Colors.white;
-  static Color white_2DarkColor = const Color(0xff807C7C);
+  static Color white_2DarkColor = const Color(0xffD9D9D9).withOpacity(.35);
   static Color blackColor_1 = const Color(0xff807C7C);
 }

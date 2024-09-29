@@ -29,69 +29,69 @@ class AddNewPassword extends StatelessWidget {
 
             if (connected) {
               return GetBuilder<ForgetPasswordController>(
-                builder: (controller) =>
-                    controller.statuesRequest == StatuesRequest.loading
-                        ? SizedBox(
-                            width: 100.w,
-                            height: 100.h,
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        : Form(
-                            key: controller.addNewPassGlobalKey,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  appBarForgetPass(context),
-                                  bodyForgetPass(context),
-                                
-                                  textField(
-                                    (val) {
-                                      return forgetPasswordController
-                                          .passwordValidate(val!, context);
-                                    },
-                                    forgetPasswordController.passwordController,
-                                    TextInputType.visiblePassword,
-                                    S.of(context).password,
-                                    true,
-                                    controller.showPass_1,
-                                    controller.showPass_1 == false
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined,
-                                    () {
-                                      controller.showPassword_1();
-                                    },
-                                  ),
-                                  textField(
-                                    (val) {
-                                      return forgetPasswordController
-                                          .passwordConfirmationValidate(
-                                              val!, context);
-                                    },
-                                    forgetPasswordController
-                                        .passwordConfirmationController,
-                                    TextInputType.visiblePassword,
-                                    S.of(context).confirmPass,
-                                    true,
-                                    controller.showPass_2,
-                                    controller.showPass_2 == false
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined,
-                                    () {
-                                      controller.showPassword_2();
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 6.w,
-                                  ),
-                                  onBtnClick("تأكيد", () {Get.offAll(()=>const Home());
-                                   // controller.addNewPass(context);
-                                  }),
-                                ],
+                builder: (controller) => controller.statuesRequest ==
+                        StatuesRequest.loading
+                    ? SizedBox(
+                        width: 100.w,
+                        height: 100.h,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : Form(
+                        key: controller.addNewPassGlobalKey,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              appBarForgetPass(context),
+                              bodyForgetPass(context),
+                              textField(
+                                (val) {
+                                  return forgetPasswordController
+                                      .passwordValidate(val!, context);
+                                },
+                                forgetPasswordController.passwordController,
+                                TextInputType.visiblePassword,
+                                S.of(context).password,
+                                true,
+                                controller.showPass_1,
+                                controller.showPass_1 == false
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                () {
+                                  controller.showPassword_1();
+                                },
                               ),
-                            ),
+                              textField(
+                                (val) {
+                                  return forgetPasswordController
+                                      .passwordConfirmationValidate(
+                                          val!, context);
+                                },
+                                forgetPasswordController
+                                    .passwordConfirmationController,
+                                TextInputType.visiblePassword,
+                                S.of(context).confirmPass,
+                                true,
+                                controller.showPass_2,
+                                controller.showPass_2 == false
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                () {
+                                  controller.showPassword_2();
+                                },
+                              ),
+                              SizedBox(
+                                height: 6.w,
+                              ),
+                              onBtnClick(S.of(context).bottomOfTypePage, () {
+                                Get.offAll(() => const Home());
+                                // controller.addNewPass(context);
+                              }),
+                            ],
                           ),
+                        ),
+                      ),
               );
             } else {
               return SizedBox(
@@ -203,7 +203,11 @@ class AddNewPassword extends StatelessWidget {
           SizedBox(
             width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 7.h, bottom: 2.h, right: 13.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                top: 7.h,
+                bottom: 2.h,
+              ),
               child: Text(
                 S.of(context).titleAddNewPass,
                 style: GoogleFonts.tajawal(

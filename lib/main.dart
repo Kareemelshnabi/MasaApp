@@ -44,11 +44,7 @@ class MyApp extends StatelessWidget {
           builder: DevicePreview.appBuilder, // Add this line
           useInheritedMediaQuery: true, // Add this line
           //  useInheritedMediaQuery: true,
-          locale: sharedPreferences!.getString("local") == "ar"
-              ? const Locale("ar")
-              : sharedPreferences!.getString("local") == "en"
-                  ? const Locale("en")
-                  : const Locale("ar"),
+          locale: const Locale("ar"),
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,

@@ -7,7 +7,6 @@ import 'package:mas_app/core/class/api.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/forget_pass/verify_code_forgetpass.dart';
-import 'package:mas_app/view/screens/register/login/login.dart';
 import 'package:mas_app/view/screens/register/main_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -82,7 +81,7 @@ class ForgetPasswordController extends GetxController {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
     } else if (val.length < 8 || val.length > 8) {
-      return "رقم الهاتف المدخل خطأ";
+      return S.of(context).errorPhone_3;
     } else {
       return null;
     }
@@ -124,7 +123,7 @@ class ForgetPasswordController extends GetxController {
         sharedPreferences!.setString("pageStart", "typeOfUser");
         Get.off(() => const MainRegister());
       } else if (statuesRequest == StatuesRequest.unprocessableException) {
-        messageHandleException("رقم الهاتف المستخدم غير مسجل", context);
+        messageHandleException(S.of(context).phoneNoteRegister, context);
       } else if (statuesRequest == StatuesRequest.socketException) {
         messageHandleException(S.of(context).noInternetApi, context);
       } else if (statuesRequest == StatuesRequest.serverException) {
@@ -178,7 +177,7 @@ class ForgetPasswordController extends GetxController {
       } else if (statuesRequest == StatuesRequest.unauthorizedException) {
         messageHandleException(S.of(context).passwordNotCorrect, context);
       } else if (statuesRequest == StatuesRequest.badRequestException) {
-        messageHandleException("رقم الهاتف غير مسجل", context);
+        messageHandleException(S.of(context).phoneNoteRegister, context);
       }
     } else {
       messageHandleException(S.of(context).errorConfirmPrivacy, context);

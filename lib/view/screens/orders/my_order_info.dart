@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/orders/my_order_info_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/orders/my_orders.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -87,7 +88,7 @@ class MyOrderInfo extends StatelessWidget {
                 controller.orderModel!.orderItems![0].price,
                 controller.orderModel!.subTotal,
                 controller.orderModel!.tax,
-                "مجاني",
+                S.of(context).free,
                 controller.orderModel!.total),
             Container(
               decoration: BoxDecoration(
@@ -116,7 +117,7 @@ class MyOrderInfo extends StatelessWidget {
                         : (controller.orderModel!.status == "pending")
                             ? LightMode.registerButtonBorder.withOpacity(.3)
                             : LightMode.discountCollor,
-                    "تم تأكيد طلبك ",
+                    S.of(context).confirmStatus,
                     (controller.orderModel!.status == "confirmed" ||
                             controller.orderModel!.status == "completed" ||
                             controller.orderModel!.status == "delivery" ||
@@ -143,7 +144,7 @@ class MyOrderInfo extends StatelessWidget {
                                 controller.orderModel!.status == "confirmed")
                             ? LightMode.registerButtonBorder.withOpacity(.3)
                             : LightMode.discountCollor),
-                    "تم الدفع ",
+                    S.of(context).paidStatus,
                     (controller.orderModel!.status == "completed" ||
                             controller.orderModel!.status == "delivery" ||
                             controller.orderModel!.status == "paid")
@@ -170,7 +171,7 @@ class MyOrderInfo extends StatelessWidget {
                                 controller.orderModel!.status == "paid")
                             ? LightMode.registerButtonBorder.withOpacity(.3)
                             : LightMode.discountCollor),
-                    "خرج للتوصيل",
+                    S.of(context).deliverStatus,
                     (controller.orderModel!.status == "completed" ||
                             controller.orderModel!.status == "delivery")
                         ? FontWeight.bold
@@ -197,7 +198,7 @@ class MyOrderInfo extends StatelessWidget {
                                 controller.orderModel!.status == "delivery")
                             ? LightMode.registerButtonBorder.withOpacity(.3)
                             : LightMode.discountCollor),
-                    "تم التوصيل",
+                    S.of(context).deliveredStatus,
                     (controller.orderModel!.status == "completed")
                         ? FontWeight.bold
                         : ((controller.orderModel!.status == "pending" ||
@@ -213,16 +214,6 @@ class MyOrderInfo extends StatelessWidget {
             SizedBox(
               height: 8.w,
             ),
-            //  if (controller.page=="chart")     Container(
-            //         margin: EdgeInsets.only(right: 5.w, left: 5.w),
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             btnOrderLocation(() {}),
-            //             btnCancel("الغاء الطلب", () {})
-            //           ],
-            //         ),
-            //       ),
             if (controller.page == "chat")
               btnOrderLocation(() {
                 Get.back();
@@ -230,12 +221,6 @@ class MyOrderInfo extends StatelessWidget {
             SizedBox(
               height: 4.w,
             ),
-            // btnCancel("إلغاء الطلب", () {
-            //   controller.showMessage();
-            // }),
-            // SizedBox(
-            //   height: 4.w,
-            // ),
           ],
         ),
       ),
@@ -249,7 +234,6 @@ class MyOrderInfo extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.w),
               border: Border.all(color: LightMode.discountCollor)),
-          //   margin: EdgeInsets.only(top: 1.h),
           width: 40.w,
           height: 6.h,
           child: Center(
@@ -274,7 +258,7 @@ class MyOrderInfo extends StatelessWidget {
         width: 80.w,
         height: 6.h,
         child: Text(
-          "الرجوع الي الشات",
+          S.of(Get.context!).returnChat,
           style: GoogleFonts.tajawal(
               color: LightMode.registerText,
               fontSize: 4.w,
@@ -318,7 +302,7 @@ class MyOrderInfo extends StatelessWidget {
                 bottom: 2.h,
               ),
               child: Text(
-                "تفاصيل طلبك",
+                S.of(context).detailOrder,
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
@@ -410,7 +394,7 @@ class MyOrderInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "تفاصيل الطلب",
+                S.of(Get.context!).orderDetail,
                 style: GoogleFonts.tajawal(
                     fontSize: 5.w,
                     fontWeight: FontWeight.bold,
@@ -431,7 +415,7 @@ class MyOrderInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "رقم الطلب",
+                          S.of(Get.context!).orderNum,
                           style: GoogleFonts.tajawal(
                               fontSize: 4.w,
                               fontWeight: FontWeight.w600,
@@ -453,7 +437,7 @@ class MyOrderInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "تاريخ الطلب",
+                          S.of(Get.context!).orderDate,
                           style: GoogleFonts.tajawal(
                               fontSize: 4.w,
                               fontWeight: FontWeight.w600,
@@ -475,7 +459,7 @@ class MyOrderInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "إجمالي المبلغ",
+                          S.of(Get.context!).totalPrice,
                           style: GoogleFonts.tajawal(
                               fontSize: 4.w,
                               fontWeight: FontWeight.w600,
@@ -521,7 +505,7 @@ class MyOrderInfo extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              text("عنوان الشحن", FontWeight.bold, 5.w),
+              text(S.of(Get.context!).shippingAddress, FontWeight.bold, 5.w),
               IconButton(
                   onPressed: onPressDropAddress,
                   icon: Icon(
@@ -536,8 +520,9 @@ class MyOrderInfo extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        text("الدولة", FontWeight.bold, 3.5.w),
-                        text("المنطقة", FontWeight.bold, 3.5.w),
+                        text(
+                            S.of(Get.context!).country, FontWeight.bold, 3.5.w),
+                        text(S.of(Get.context!).area, FontWeight.bold, 3.5.w),
                       ],
                     ),
                     SizedBox(
@@ -569,7 +554,8 @@ class MyOrderInfo extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              text("المحافظة", FontWeight.bold, 3.5.w),
+                              text(S.of(Get.context!).governorate,
+                                  FontWeight.bold, 3.5.w),
                               SizedBox(
                                 height: 3.h,
                                 width: 40.w,
@@ -582,7 +568,7 @@ class MyOrderInfo extends StatelessWidget {
                         TextButton(
                             onPressed: onPressedEdit,
                             child: Text(
-                              "تعديل",
+                              S.of(Get.context!).edit,
                               style: GoogleFonts.tajawal(
                                   fontSize: 3.5.w,
                                   fontWeight: FontWeight.w500,
@@ -590,49 +576,6 @@ class MyOrderInfo extends StatelessWidget {
                             ))
                       ],
                     )
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     text("الشارع", FontWeight.bold, 3.5.w),
-                    //     text("رقم المنزل", FontWeight.bold, 3.5.w),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 1.w,
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     SizedBox(
-                    //       height: 3.h,
-                    //       width: 40.w,
-                    //       child: textField(controllerStreet, streetName, edit),
-                    //     ),
-                    //     SizedBox(
-                    //       height: 3.h,
-                    //       width: 40.w,
-                    //       child: textField(controllerHouseNum, houseName, edit),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 4.h,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.end,
-                    //     children: [
-                    //       TextButton(
-                    //         onPressed: onPressEdit,
-                    //         child: Text(
-                    //           edit == true ? "حفظ" : "تعديل",
-                    //           style: GoogleFonts.tajawal(
-                    //               fontSize: 3.5.w,
-                    //               fontWeight: FontWeight.bold,
-                    //               color: LightMode.splash),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // )
                   ],
                 )
               : const SizedBox()
@@ -704,7 +647,7 @@ class MyOrderInfo extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                text("الطلب رقم", FontWeight.w600, 4.w),
+                text(S.of(Get.context!).orderNum, FontWeight.w600, 4.w),
                 text("$numOfOrder", FontWeight.w600, 4.w),
               ],
             ),
@@ -738,7 +681,8 @@ class MyOrderInfo extends StatelessWidget {
                       width: 60.w,
                       child: text("$name", FontWeight.bold, 3.5.w),
                     ),
-                    text("الكمية: $quantity", FontWeight.w600, 3.w),
+                    text("${S.of(Get.context!).quantity}: $quantity",
+                        FontWeight.w600, 3.w),
                     text("$price دينار", FontWeight.w600, 3.w),
                     Divider(
                       color: LightMode.registerButtonBorder,
@@ -748,49 +692,6 @@ class MyOrderInfo extends StatelessWidget {
               ],
             ),
           ),
-          // Divider(
-          //   color: LightMode.registerButtonBorder,
-          // ),
-          // Container(
-          //   margin: EdgeInsets.only(right: 4.w, left: 4.w, top: 2.w),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     children: [
-          //       Container(
-          //         margin: EdgeInsets.only(bottom: 2.w),
-          //         width: 15.w,
-          //         height: 10.h,
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(3.w),
-          //           border: Border.all(color: LightMode.splash, width: 2),
-          //         ),
-          //         child: Image.asset(
-          //           img,
-          //           fit: BoxFit.fill,
-          //         ),
-          //       ),
-          //       SizedBox(
-          //         width: 3.w,
-          //       ),
-          //       Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           SizedBox(
-          //             height: 5.h,
-          //             width: 60.w,
-          //             child: text("$name", FontWeight.bold, 3.5.w),
-          //           ),
-          //           text("الكمية: $quantity", FontWeight.w600, 3.w),
-          //           text("$price \$", FontWeight.w600, 3.w),
-          //           Divider(
-          //             color: LightMode.registerButtonBorder,
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Divider(
             color: LightMode.registerButtonBorder,
           ),
@@ -800,7 +701,7 @@ class MyOrderInfo extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                text("المجموع الفرعي", FontWeight.w600, 4.w),
+                text(S.of(Get.context!).subtotalPrice, FontWeight.w600, 4.w),
                 text("$total", FontWeight.w600, 4.w),
               ],
             ),
@@ -811,7 +712,7 @@ class MyOrderInfo extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                text("قيمة الضريبة", FontWeight.w600, 4.w),
+                text(S.of(Get.context!).taxVAlue, FontWeight.w600, 4.w),
                 text("$nearBy", FontWeight.w600, 4.w)
               ],
             ),
@@ -822,7 +723,7 @@ class MyOrderInfo extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                text("التوصيل", FontWeight.w600, 4.w),
+                text(S.of(Get.context!).delivery, FontWeight.w600, 4.w),
                 Text(
                   "$delivery",
                   style: GoogleFonts.tajawal(
@@ -842,7 +743,7 @@ class MyOrderInfo extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                text("إجمالي المبلغ", FontWeight.bold, 4.w),
+                text(S.of(Get.context!).totalPrice, FontWeight.bold, 4.w),
                 text("$totalPrice", FontWeight.bold, 4.w),
               ],
             ),

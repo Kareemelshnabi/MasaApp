@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/home/home_controller.dart';
 import 'package:mas_app/controller/profile/profile_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -36,7 +37,7 @@ class Home extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  itemNavigationBar("الصفحة الرئيسية", () {
+                  itemNavigationBar(S.of(context).homePage, () {
                     controller.changePage(0);
                   },
                       controller.currentIndex == 0
@@ -48,7 +49,7 @@ class Home extends StatelessWidget {
                           : sharedPreferences!.getBool("darkMode") == false
                               ? LightMode.registerButtonBorder
                               : DarkMode.whiteDarkColor),
-                  itemNavigationBar("المفضلة", () {
+                  itemNavigationBar(S.of(context).favouritePage, () {
                     controller.changePage(1);
                   },
                       controller.currentIndex == 1
@@ -60,7 +61,7 @@ class Home extends StatelessWidget {
                           : sharedPreferences!.getBool("darkMode") == false
                               ? LightMode.registerButtonBorder
                               : DarkMode.whiteDarkColor),
-                  itemNavigationBar("محفظتي", () {
+                  itemNavigationBar(S.of(context).cardPage, () {
                     controller.changePage(3);
                   },
                       controller.currentIndex == 3
@@ -72,7 +73,7 @@ class Home extends StatelessWidget {
                           : sharedPreferences!.getBool("darkMode") == false
                               ? LightMode.registerButtonBorder
                               : DarkMode.whiteDarkColor),
-                  itemNavigationBar("صفحتي", () {
+                  itemNavigationBar(S.of(context).profilePage, () {
                     controller.changePage(4);
                   },
                       controller.currentIndex == 4

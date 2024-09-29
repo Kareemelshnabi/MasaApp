@@ -7,6 +7,7 @@ import 'package:mas_app/controller/home/home_controller.dart';
 import 'package:mas_app/controller/other_services/categories_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/widget/no_data.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
@@ -28,7 +29,7 @@ class CategoriesPage extends StatelessWidget {
             appBarCategories(context),
             bodyTitleCatigories(),
             categoriesController.categories.isEmpty
-                ? noData("لا يوجد منتجات بعد")
+                ? noData(S.of(context).noCategory)
                 : Container(
                     margin: EdgeInsets.only(right: 4.w, left: (4.w)),
                     height: 80.h,
@@ -156,9 +157,13 @@ class CategoriesPage extends StatelessWidget {
           SizedBox(
             width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 17.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                top: 6.5.h,
+                bottom: 2.h,
+              ),
               child: Text(
-                "التصنيفات",
+                S.of(context).category,
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
@@ -182,7 +187,7 @@ class CategoriesPage extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(top: 1.h, bottom: 2.h, right: 4.w, left: 4.w),
         child: Text(
-          "استكشف مجموعتنا المتنوعة من الفئات للعثور على الخدمات والمنتجات التي تناسب احتياجاتك الفردية.",
+          S.of(Get.context!).bodyCategoryPage,
           textAlign: TextAlign.center,
           style: GoogleFonts.tajawal(
             fontSize: 3.5.w,

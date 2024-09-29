@@ -6,6 +6,7 @@ import 'package:mas_app/controller/chat/chat_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -143,7 +144,7 @@ class ChatPage extends StatelessWidget {
                           if (controller.typeIndex == 0)
                             bottomBarChat(
                                 controller.messageController,
-                                "انقر للكتابة ...",
+                                S.of(context).clickWrite,
                                 () {
                                   controller.getImageFromGallery();
                                 },
@@ -161,10 +162,12 @@ class ChatPage extends StatelessWidget {
                                       : controller.stopRecord();
                                 }),
                           if (controller.typeIndex == 1)
-                            bottmBarChatWithText(" إتمام ", LightMode.btnGreen),
-                          if (controller.typeIndex == 2)
                             bottmBarChatWithText(
-                                " إلغاء ", LightMode.discountCollor),
+                                " ${S.of(context).bottomOfTypePage} ",
+                                LightMode.btnGreen),
+                          if (controller.typeIndex == 2)
+                            bottmBarChatWithText(" ${S.of(context).cancel} ",
+                                LightMode.discountCollor),
                         ],
                       ),
               ),
@@ -320,7 +323,7 @@ Widget bottmBarChatWithText(text, color) {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "تم الانتهاء من هذه المحادثة و ",
+            S.of(Get.context!).bottomPartOneChat,
             style: GoogleFonts.tajawal(
                 fontSize: 3.5.w,
                 fontWeight: FontWeight.w600,
@@ -332,7 +335,7 @@ Widget bottmBarChatWithText(text, color) {
                 fontSize: 3.5.w, fontWeight: FontWeight.w600, color: color),
           ),
           Text(
-            "طلبك بنجاح",
+            S.of(Get.context!).bottomPartTwoChat,
             style: GoogleFonts.tajawal(
                 fontSize: 3.5.w,
                 fontWeight: FontWeight.w600,
@@ -370,10 +373,8 @@ Widget bottomBarChat(
                 fontWeight: FontWeight.w500),
             controller: controller,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.only(
-                bottom: 6.w,
-                right: 2.w,
-              ),
+              contentPadding:
+                  EdgeInsets.only(bottom: 6.w, right: 2.w, left: 2.w),
               filled: true,
               fillColor: LightMode.registerText,
               hintStyle: GoogleFonts.tajawal(
@@ -444,7 +445,7 @@ Widget appBarChat(onPress, name, img, onPressText, colorText) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 60.w,
+          width: sharedPreferences!.getString("local") == "ar" ? 60.w : 50.w,
           child: Row(
             children: [
               SizedBox(
@@ -487,7 +488,7 @@ Widget appBarChat(onPress, name, img, onPressText, colorText) {
         TextButton(
           onPressed: onPressText,
           child: Text(
-            "خيارات إضافية",
+            S.of(Get.context!).additionalOption,
             style: TextStyle(
                 color: colorText,
                 fontSize: 3.5.w,

@@ -35,21 +35,7 @@ class _SuccessRegisterState extends State<SuccessRegister> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Localizations(
-        //   locale: sharedPreferences!.getString("local") == "ar"
-        //       ? const Locale("ar")
-        //       : sharedPreferences!.getString("local") == "en"
-        //           ? const Locale("en")
-        //           : const Locale("ar"),
-        //   delegates: const [
-        //     S.delegate,
-        //     DefaultMaterialLocalizations.delegate,
-        //     DefaultWidgetsLocalizations.delegate,
-        //     DefaultMaterialLocalizations.delegate
-        //   ],
-        //child:
-        Scaffold(
+    return Scaffold(
       backgroundColor: sharedPreferences!.getBool("darkMode") == false
           ? LightMode.registerText
           : DarkMode.darkModeSplash,

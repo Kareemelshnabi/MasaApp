@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/other_services/other_services_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:mas_app/view/screens/home/home.dart';
@@ -92,9 +93,10 @@ class OtherServices extends StatelessWidget {
 
             width: 60.w,
             child: Container(
-              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h, right: 16.w),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 6.5.h, bottom: 2.h,),
               child: Text(
-                "خدمات اخرى",
+                S.of(Get.context!).anotherServices,
                 style: GoogleFonts.tajawal(
                   fontSize: 5.w,
                   fontWeight: FontWeight.bold,
@@ -125,9 +127,10 @@ class OtherServices extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              right: -7.w,
+              right:sharedPreferences!.getString("local")=="ar"? -7.w:null,
               top: 2.w,
               bottom: 2.w,
+              left: sharedPreferences!.getString("local")=="ar"?null:-7.w,
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: LightMode.splash),
@@ -139,7 +142,7 @@ class OtherServices extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(right: 10.w, left: 2.w, top: 2.w),
+              margin: EdgeInsets.only(right:sharedPreferences!.getString("local")=="ar"? 10.w:2.w, left:sharedPreferences!.getString("local")=="ar"? 2.w:10.w, top: 2.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

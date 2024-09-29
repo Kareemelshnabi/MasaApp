@@ -18,6 +18,7 @@ import 'package:mas_app/data/data%20source/orders.dart';
 import 'package:mas_app/data/model/chat_model.dart';
 import 'package:mas_app/data/model/order_model.dart';
 import 'package:mas_app/data/model/payment_model.dart';
+import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/orders/my_order_info.dart';
 import 'package:mas_app/view/screens/payment/payment.dart';
@@ -78,9 +79,9 @@ class ChatController extends GetxController {
 
   stopRecord() async {
     print("${File(voice)}stopppppppppppppppppppppppppppppppppppp");
-    String? final_path = await record.stop();
+    String? finalPath = await record.stop();
 
-    voice = final_path!;
+    voice = finalPath!;
     update();
     print(voice);
     print("stopppppppppppppppppppppppppppppppppppp      222222");
@@ -92,20 +93,22 @@ class ChatController extends GetxController {
   }
 
   play(link, index) async {
+    isPlayer = true;
     isPlay[messages[index].id.toString()] = "1";
 
     await audioPlayer.play(UrlSource(link));
     audioPlayer.onPlayerComplete.listen((event) {
-      log("Audio finished playing");
-      isPlay[messages[index].id.toString()] = "0";
+      stop(index);
     });
     update();
     log("audio Play");
   }
 
   stop(index) async {
-    await audioPlayer.stop();
+    isPlayer = false;
     isPlay[messages[index].id.toString()] = "0";
+    await audioPlayer.stop();
+
     update();
 
     log("audio stop");
@@ -142,7 +145,7 @@ class ChatController extends GetxController {
   showImageChooseToSend() {
     Get.defaultDialog(
         barrierDismissible: false,
-        title: "ملف",
+        title: S.of(Get.context!).file,
         content: Column(
           children: [
             SizedBox(
@@ -174,7 +177,7 @@ class ChatController extends GetxController {
                         ),
                         color: LightMode.splash),
                     child: Text(
-                      "ارسال",
+                     S.of(Get.context!).send,
                       style: GoogleFonts.tajawal(
                           fontSize: 4.w,
                           fontWeight: FontWeight.w700,
@@ -197,7 +200,7 @@ class ChatController extends GetxController {
                         ),
                         border: Border.all(color: LightMode.splash)),
                     child: Text(
-                      "الغاء",
+                     S.of(Get.context!).cancel,
                       style: GoogleFonts.tajawal(
                           fontSize: 4.w,
                           fontWeight: FontWeight.w700,
@@ -247,22 +250,22 @@ class ChatController extends GetxController {
       //  getChatById();
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -281,22 +284,22 @@ class ChatController extends GetxController {
       //  getChatById();
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -315,22 +318,22 @@ class ChatController extends GetxController {
       //  getChatById();
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -360,22 +363,22 @@ class ChatController extends GetxController {
       print(typeIndex);
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -414,24 +417,24 @@ class ChatController extends GetxController {
       Map<String, dynamic> responseBody = response['data'];
 
       orderModel = OrderModel.fromJson(responseBody);
-    } else if (statuesRequest == StatuesRequest.socketException) {
+    }else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -468,24 +471,24 @@ class ChatController extends GetxController {
                 ),
             arguments: {"orderModel": paymentModel});
       }
-    } else if (statuesRequest == StatuesRequest.socketException) {
+    }else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -502,29 +505,29 @@ class ChatController extends GetxController {
       succsessCancel = true;
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
-          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+        S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException("لم يتم العثور على المورد المطلوب.");
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
       messageHandleException(
-          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+         S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
       messageHandleException(
-          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+         S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
       messageHandleException(
-          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+         S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
 
   messageHandleException(message) {
     Get.defaultDialog(
-        title: "خطأ",
+        title: S.of(Get.context!).error,
         content: Column(
           children: [
             Text(
@@ -547,7 +550,7 @@ class ChatController extends GetxController {
                 height: 5.h,
                 child: Center(
                   child: Text(
-                    "اعادة المحاولة",
+                   S.of(Get.context!).tryAgain,
                     style: GoogleFonts.tajawal(
                         fontSize: 4.w,
                         color: LightMode.registerText,
@@ -585,7 +588,7 @@ class ChatController extends GetxController {
               height: 5.h,
               child: Center(
                 child: Text(
-                  "مراجعة الطلب",
+                  S.of(Get.context!).reviewOrder,
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
                       color: sharedPreferences!.getBool("darkMode") == false
@@ -613,7 +616,7 @@ class ChatController extends GetxController {
               height: 5.h,
               child: Center(
                 child: Text(
-                  "تأكيد الطلب",
+                  S.of(Get.context!).confirmOrder,
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
                       color: sharedPreferences!.getBool("darkMode") == false
@@ -643,7 +646,7 @@ class ChatController extends GetxController {
               height: 5.h,
               child: Center(
                 child: Text(
-                  "إلغاء الطلب",
+                  S.of(Get.context!).cancelOrder,
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
                       color: LightMode.discountCollor,
@@ -659,7 +662,7 @@ class ChatController extends GetxController {
 
   secondMessage() {
     Get.defaultDialog(
-      title: "اختار عملية الدفع",
+      title: S.of(Get.context!).choosePayment,
       contentPadding: EdgeInsets.only(bottom: 3.w, right: 2.w, left: 2.w),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -680,7 +683,7 @@ class ChatController extends GetxController {
               height: 5.h,
               child: Center(
                 child: Text(
-                  "الدفع أونلاين",
+                  S.of(Get.context!).payyOnline,
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
                       color: LightMode.registerText,
@@ -705,7 +708,7 @@ class ChatController extends GetxController {
               height: 5.h,
               child: Center(
                 child: Text(
-                  "الدفع كاش",
+                  S.of(Get.context!).payCash,
                   style: GoogleFonts.tajawal(
                       fontSize: 4.w,
                       color: LightMode.splash,
