@@ -11,4 +11,70 @@ class ServicesController extends GetxController {
       update();
     }
   }
+
+  bool show_1 = false;
+  showText_1() {
+    if (show_1 == false) {
+      show_1 = true;
+      update();
+    } else {
+      show_1 = false;
+      update();
+    }
+  }
+
+  bool show_2 = false;
+  showText_2() {
+    if (show == false) {
+      show_2 = true;
+      update();
+    } else {
+      show_2 = false;
+      update();
+    }
+  }
+
+  bool show_3 = false;
+  showText_3() {
+    if (show_3 == false) {
+      show_3 = true;
+      update();
+    } else {
+      show_3 = false;
+      update();
+    }
+  }
+
+  bool show_4 = false;
+  showText_4() {
+    if (show_4 == false) {
+      show_4 = true;
+      update();
+    } else {
+      show_4 = false;
+      update();
+    }
+  }
+
+  bool show_5 = false;
+  showText_5() {
+    if (show_5 == false) {
+      show_5 = true;
+      update();
+    } else {
+      show_5 = false;
+      update();
+    }
+  }
+
+  bool show_6 = false;
+  showText_6() {
+    if (show_6 == false) {
+      show_6 = true;
+      update();
+    } else {
+      show_6 = false;
+      update();
+    }
+  }
 }

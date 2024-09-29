@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mas_app/controller/profile/contact_us_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
 import 'package:mas_app/generated/l10n.dart';
@@ -13,6 +14,7 @@ class ContactUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ContactUsController controller = Get.put(ContactUsController());
     return Scaffold(
       backgroundColor: sharedPreferences!.getBool("darkMode") == false
           ? LightMode.registerText
@@ -22,42 +24,35 @@ class ContactUs extends StatelessWidget {
           children: [
             appBarMyOrders(context),
             bodyText(S.of(context).bodyContact),
-            cardOfInfo(
-                Icons.phone,
-                S.of(context).phone,
-                S.of(context).mobileInfo,
-                "+20 0100 310 5824",
-                () {},
-                false,
-                null,
-                null,
-                null,
-                null),
+            cardOfInfo(Icons.phone, S.of(context).phone,
+                S.of(context).mobileInfo, "+20 0100 310 5824", () {
+              controller.urlLuncher("phone");
+            }, false, null, null, null, null),
             SizedBox(
               height: 5.w,
             ),
-            cardOfInfo(
-                Icons.email,
-                S.of(context).email,
-                S.of(context).emailInfo,
-                "nabilgehad13@gmail.com",
-                () {},
-                false,
-                null,
-                null,
-                null,
-                null),
+            cardOfInfo(Icons.email, S.of(context).email,
+                S.of(context).emailInfo, "nabilgehad13@gmail.com", () {
+              controller.urlLuncher("gmail");
+            }, false, null, null, null, null),
             SizedBox(
               height: 5.w,
             ),
             cardOfInfo(Icons.people, S.of(context).socialMedia,
                 S.of(context).socialInfo, "", null, true, () {
+              controller.urlLuncher("facebook");
               //facebook
             }, () {
+                            controller.urlLuncher("instagram");
+
               //instegram
             }, () {
+                                          controller.urlLuncher("youtup");
+
               //youtube
             }, () {
+                                                        controller.urlLuncher("twitter");
+
               //twitter
             }),
           ],

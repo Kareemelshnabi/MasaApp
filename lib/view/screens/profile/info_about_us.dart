@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mas_app/controller/profile/contact_us_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
@@ -16,6 +17,7 @@ class InfoAboutUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ContactUsController controller = Get.put(ContactUsController());
     return Scaffold(
       backgroundColor: sharedPreferences!.getBool("darkMode") == false
           ? LightMode.registerText
@@ -35,9 +37,13 @@ class InfoAboutUs extends StatelessWidget {
           boxClick(S.of(context).contact, () {
             Get.to(() => const ContactUs());
           }),
-          boxClick(S.of(context).instaIcon, () {}),
-          boxClick(S.of(context).faceIcon, () {}),
-          //     boxClick("منصة ماسا", () {}),
+          boxClick(S.of(context).instaIcon, () {
+            controller.urlLuncher("instegram");
+          }),
+          boxClick(S.of(context).faceIcon, () {
+             controller.urlLuncher("facebook");
+          }),
+         
         ],
       ),
     );

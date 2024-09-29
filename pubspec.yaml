@@ -33,7 +33,7 @@ dependencies:
   image_picker: null
   cached_network_image: null
   path: null
-  url_launcher: null
+  url_launcher: ^6.3.0
   get: null
   google_fonts: null
   flutter_launcher_icons: ^0.13.1
