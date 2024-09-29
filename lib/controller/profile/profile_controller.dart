@@ -271,7 +271,7 @@ class ProfileController extends GetxController {
                       width: 4.w,
                     ),
                     Text(
-                     S.of(context).fromCamera,
+                      S.of(context).fromCamera,
                       style: GoogleFonts.tajawal(
                           color: LightMode.splash,
                           fontSize: 4.w,
@@ -300,7 +300,7 @@ class ProfileController extends GetxController {
                       width: 4.w,
                     ),
                     Text(
-                     S.of(context).fromGallery,
+                      S.of(context).fromGallery,
                       style: GoogleFonts.tajawal(
                           color: LightMode.splash,
                           fontSize: 4.w,
@@ -359,8 +359,7 @@ class ProfileController extends GetxController {
       } else if (statuesRequest == StatuesRequest.badRequestException) {
         messageHandleException(S.of(Get.context!).errorCurrentPass);
       } else if (statuesRequest == StatuesRequest.socketException) {
-        messageHandleException(
-            S.of(Get.context!).noInternetApi);
+        messageHandleException(S.of(Get.context!).noInternetApi);
       } else if (statuesRequest == StatuesRequest.serverException) {
         messageHandleException(S.of(Get.context!).serverException);
       } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -368,14 +367,11 @@ class ProfileController extends GetxController {
       } else if (statuesRequest == StatuesRequest.defaultException) {
         messageHandleException(S.of(Get.context!).errorPass_2);
       } else if (statuesRequest == StatuesRequest.serverError) {
-        messageHandleException(
-          S.of(Get.context!).serverError);
+        messageHandleException(S.of(Get.context!).serverError);
       } else if (statuesRequest == StatuesRequest.timeoutException) {
-        messageHandleException(
-          S.of(Get.context!).timeOutException);
+        messageHandleException(S.of(Get.context!).timeOutException);
       } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-        messageHandleException(
-           S.of(Get.context!).errorUnAuthorized);
+        messageHandleException(S.of(Get.context!).errorUnAuthorized);
       }
     }
     update();
@@ -481,23 +477,19 @@ class ProfileController extends GetxController {
 
       Get.offAll(() => const MainRegister());
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-         S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
-      messageHandleException( S.of(Get.context!).serverException);
+      messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
-      messageHandleException( S.of(Get.context!).unExcepectedException);
+      messageHandleException(S.of(Get.context!).unExcepectedException);
     } else if (statuesRequest == StatuesRequest.defaultException) {
-      messageHandleException( S.of(Get.context!).defultException);
+      messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-          S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-           S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-          S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
 
     update();
@@ -505,7 +497,7 @@ class ProfileController extends GetxController {
 
   messageHandleException(message) {
     Get.defaultDialog(
-      title:  S.of(Get.context!).error,
+      title: S.of(Get.context!).error,
       content: Column(
         children: [
           Text(
@@ -603,7 +595,7 @@ class ProfileController extends GetxController {
                       homeController.currentIndex = 0;
                     },
                     child: Text(
-                      S.of(Get.context!).bodyOftypePage,
+                      S.of(Get.context!).bottomOfTypePage,
                       style: GoogleFonts.tajawal(
                           color: sharedPreferences!.getBool("darkMode") == false
                               ? Colors.white

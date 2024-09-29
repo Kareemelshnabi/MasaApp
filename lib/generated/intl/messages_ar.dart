@@ -45,8 +45,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "من فضلك قم بإدخال رقم الهاتف الخاص بك ﻹرسال الرمز السرى."),
         "bodyLoginPage": MessageLookupByLibrary.simpleMessage(
             "اهلا بعودتك.برجاء إدخال  رقم الهاتف و الباسورد الخاص بك لتسجيل دخولك."),
-        "bodyOftypePage": MessageLookupByLibrary.simpleMessage(
-            "من فضلك حدد نوع المستخدم الذي يصف دورك بشكل أفضل لمساعدتك بأفضل شكل."),
         "bodySign": MessageLookupByLibrary.simpleMessage(
             "من فضلك اكمل بياناتك.لا تقلق، ستظل بياناتك خاصة ولن يتمكن أحد سواك من رؤيتها."),
         "bodyVerifyLogin": MessageLookupByLibrary.simpleMessage(
@@ -126,6 +124,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء ادخال البريد"),
         "errorEmail_2": MessageLookupByLibrary.simpleMessage("البريد غير صالح"),
         "errorEmail_3": MessageLookupByLibrary.simpleMessage("البريد غير صالح"),
+        "errorEnterCode":
+            MessageLookupByLibrary.simpleMessage("يرجي ادخال الكود"),
         "errorForgetPass": MessageLookupByLibrary.simpleMessage(
             "رقم الهاتف المستخدم  غير مسجل ..!"),
         "errorListenSearch":
@@ -234,6 +234,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalInfo":
             MessageLookupByLibrary.simpleMessage("المعلومات الشخصية"),
         "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+        "phoneNotVerify":
+            MessageLookupByLibrary.simpleMessage("لم بام تأكيد رقم الهاتف"),
         "phoneNoteRegister":
             MessageLookupByLibrary.simpleMessage("رقم الهاتف غير مسجل"),
         "phoneRegister":

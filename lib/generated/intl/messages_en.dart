@@ -46,8 +46,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter your phone number to send the secret code."),
         "bodyLoginPage": MessageLookupByLibrary.simpleMessage(
             "Welcome back. Please enter your phone number and password to log in."),
-        "bodyOftypePage": MessageLookupByLibrary.simpleMessage(
-            "Please select the user type that best describes your role to best assist you."),
         "bodySign": MessageLookupByLibrary.simpleMessage(
             "Please complete your information. Don\'t worry, your information will remain private and only you will be able to see it."),
         "bodyVerifyLogin": MessageLookupByLibrary.simpleMessage(
@@ -133,6 +131,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your email"),
         "errorEmail_2": MessageLookupByLibrary.simpleMessage("Invalid mail"),
         "errorEmail_3": MessageLookupByLibrary.simpleMessage("Invalid mail"),
+        "errorEnterCode":
+            MessageLookupByLibrary.simpleMessage("please enter code"),
         "errorForgetPass": MessageLookupByLibrary.simpleMessage(
             "The phone number used is not registered..!"),
         "errorListenSearch":
@@ -234,6 +234,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalInfo":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "phone": MessageLookupByLibrary.simpleMessage("Phone Number"),
+        "phoneNotVerify":
+            MessageLookupByLibrary.simpleMessage("the phone not verified"),
         "phoneNoteRegister":
             MessageLookupByLibrary.simpleMessage("Phone number not registered"),
         "phoneRegister": MessageLookupByLibrary.simpleMessage(

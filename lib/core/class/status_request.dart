@@ -3,7 +3,7 @@ enum StatuesRequest{
   success,
   loading,
   socketException,
-
+phoneNotFound,
   timeoutException,
   badRequestException,
   unauthorizedException,

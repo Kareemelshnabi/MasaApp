@@ -60,16 +60,6 @@ class S {
     );
   }
 
-  /// `Please select the user type that best describes your role to best assist you.`
-  String get bodyOftypePage {
-    return Intl.message(
-      'Please select the user type that best describes your role to best assist you.',
-      name: 'bodyOftypePage',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Confirm`
   String get bottomOfTypePage {
     return Intl.message(
@@ -2025,6 +2015,26 @@ class S {
     return Intl.message(
       'File',
       name: 'file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `the phone not verified`
+  String get phoneNotVerify {
+    return Intl.message(
+      'the phone not verified',
+      name: 'phoneNotVerify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter code`
+  String get errorEnterCode {
+    return Intl.message(
+      'please enter code',
+      name: 'errorEnterCode',
       desc: '',
       args: [],
     );

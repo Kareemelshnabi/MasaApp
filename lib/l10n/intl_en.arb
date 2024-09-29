@@ -1,6 +1,5 @@
  {
  "titleOftypePage":"Select user type",
- "bodyOftypePage":"Please select the user type that best describes your role to best assist you.",
  "bottomOfTypePage":"Confirm",
  "visit":"Visitor",
  "seller":"Seller",
@@ -195,7 +194,10 @@
 "fromGallery": "From the Gallery",
 "errorCurrentPass":"The current password entered is incorrect","succsesUpdate":"Your account information has been successfully changed. In a few moments you will be redirected to your home page.",
 "messageLogOut":"Are you sure you want to log out?",
-"file":"File"
+"file":"File",
+"phoneNotVerify":"the phone not verified",
+"errorEnterCode":"please enter code"
+
 
 
 

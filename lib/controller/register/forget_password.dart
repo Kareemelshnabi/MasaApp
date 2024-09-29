@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mas_app/controller/register/verify_code_controller.dart';
 import 'package:mas_app/core/class/api.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/forget_pass/verify_code_forgetpass.dart';
 import 'package:mas_app/view/screens/register/main_register.dart';
+import 'package:mas_app/view/screens/register/signup/verify_code_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 import '../../core/class/status_request.dart';
@@ -18,6 +20,7 @@ import '../../data/data source/register.dart';
 class ForgetPasswordController extends GetxController {
   GlobalKey<FormState> addNewPassGlobalKey = GlobalKey();
   GlobalKey<FormState> forgetPassGlobalKey = GlobalKey();
+  VerifyCodeController controller = Get.put(VerifyCodeController());
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -177,12 +180,81 @@ class ForgetPasswordController extends GetxController {
       } else if (statuesRequest == StatuesRequest.unauthorizedException) {
         messageHandleException(S.of(context).passwordNotCorrect, context);
       } else if (statuesRequest == StatuesRequest.badRequestException) {
+        messageHandleException_2(S.of(context).phoneNotVerify, context);
+      } else if (statuesRequest == StatuesRequest.phoneNotFound) {
         messageHandleException(S.of(context).phoneNoteRegister, context);
       }
-    } else {
-      messageHandleException(S.of(context).errorConfirmPrivacy, context);
     }
     update();
+  }
+
+  messageHandleException_2(message, context) {
+    Get.defaultDialog(
+        title: S.of(context).error,
+        content: Column(
+          children: [
+            Text(
+              message,
+              style: GoogleFonts.tajawal(
+                  fontSize: 3.5.w,
+                  color: LightMode.registerButtonBorder,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 5.w,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await controller.reSendOtp(context);
+                    Get.to(() => const VerifyCodeForgetpass());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: LightMode.splash,
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        S.of(context).verifyPhone,
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.registerText,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: LightMode.splash),
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        S.of(context).cancel,
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.splash,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
   }
 
   messageHandleException(message, context) {

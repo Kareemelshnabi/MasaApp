@@ -82,7 +82,12 @@ class Api {
         }
       } else if (response.statusCode == 400) {
         print(response.body);
-        throw BadRequestException();
+        if(response.body=="{\"message\":\"User Not Found\"}"){
+                return left(StatuesRequest.phoneNotFound);
+        }else{
+throw BadRequestException();
+        }
+        
       } else if (response.statusCode == 401) {
         print(response.body);
         if (response.body ==
