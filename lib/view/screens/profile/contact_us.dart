@@ -25,14 +25,14 @@ class ContactUs extends StatelessWidget {
             appBarMyOrders(context),
             bodyText(S.of(context).bodyContact),
             cardOfInfo(Icons.phone, S.of(context).phone,
-                S.of(context).mobileInfo, "+20 0100 310 5824", () {
+                S.of(context).mobileInfo, "+965 6576 6660", () {
               controller.urlLuncher("phone");
             }, false, null, null, null, null),
             SizedBox(
               height: 5.w,
             ),
             cardOfInfo(Icons.email, S.of(context).email,
-                S.of(context).emailInfo, "nabilgehad13@gmail.com", () {
+                S.of(context).emailInfo, "online.almasyaa@gmail.com", () {
               controller.urlLuncher("gmail");
             }, false, null, null, null, null),
             SizedBox(
@@ -171,27 +171,27 @@ Widget cardOfInfo(icon, title, body, textOnPress, onPress, icons,
                                     : DarkMode.darkModeSplash,
                             fit: BoxFit.fill,
                           ))),
-                  Container(
-                      margin: EdgeInsets.only(right: 2.w),
-                      height: 7.w,
-                      width: 7.w,
-                      padding: EdgeInsets.all(1.w),
-                      decoration: BoxDecoration(
-                        color: LightMode.splash,
-                        shape: BoxShape.circle,
-                      ),
-                      child: InkWell(
-                          onTap: onPressTwitter,
-                          child: Image.asset(
-                            ImagesLink.youtubeImage,
-                            height: 7.w,
-                            width: 7.w,
-                            color:
-                                sharedPreferences!.getBool("darkMode") == false
-                                    ? LightMode.registerText
-                                    : DarkMode.darkModeSplash,
-                            fit: BoxFit.fill,
-                          ))),
+                  // Container(
+                  //     margin: EdgeInsets.only(right: 2.w),
+                  //     height: 7.w,
+                  //     width: 7.w,
+                  //     padding: EdgeInsets.all(1.w),
+                  //     decoration: BoxDecoration(
+                  //       color: LightMode.splash,
+                  //       shape: BoxShape.circle,
+                  //     ),
+                  //     child: InkWell(
+                  //         onTap: onPressTwitter,
+                  //         child: Image.asset(
+                  //           ImagesLink.youtubeImage,
+                  //           height: 7.w,
+                  //           width: 7.w,
+                  //           color:
+                  //               sharedPreferences!.getBool("darkMode") == false
+                  //                   ? LightMode.registerText
+                  //                   : DarkMode.darkModeSplash,
+                  //           fit: BoxFit.fill,
+                  //         ))),
                   Container(
                       margin: EdgeInsets.only(right: 2.w),
                       height: 7.w,

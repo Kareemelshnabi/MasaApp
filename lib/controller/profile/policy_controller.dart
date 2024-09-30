@@ -25,7 +25,7 @@ class PolicyController extends GetxController {
 
   bool show_2 = false;
   showText_2() {
-    if (show == false) {
+    if (show_2 == false) {
       show_2 = true;
       update();
     } else {
@@ -74,6 +74,28 @@ class PolicyController extends GetxController {
       update();
     } else {
       show_6 = false;
+      update();
+    }
+  }
+
+  bool show_7 = false;
+  showText_7() {
+    if (show_7 == false) {
+      show_7 = true;
+      update();
+    } else {
+      show_7 = false;
+      update();
+    }
+  }
+
+  bool show_8 = false;
+  showText_8() {
+    if (show_8 == false) {
+      show_8 = true;
+      update();
+    } else {
+      show_8 = false;
       update();
     }
   }
