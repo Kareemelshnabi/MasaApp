@@ -197,7 +197,12 @@
 "messageLogOut":"هل أنت متأكد أنك تريد تسجيل الخروج؟",
 "file":"ملف",
 "phoneNotVerify":"لم بام تأكيد رقم الهاتف",
-"errorEnterCode":"يرجي ادخال الكود"
+"errorEnterCode":"يرجي ادخال الكود",
+"deleteAccount":"حذف الحساب",
+"delete":"حذف",
+"messageDeleteAccount":"هل أنت متأكد أنك تريد حذف الحساب؟",
+"more":"المزيد"
+
 
 
 

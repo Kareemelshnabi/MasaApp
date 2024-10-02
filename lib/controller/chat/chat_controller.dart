@@ -177,7 +177,7 @@ class ChatController extends GetxController {
                         ),
                         color: LightMode.splash),
                     child: Text(
-                     S.of(Get.context!).send,
+                      S.of(Get.context!).send,
                       style: GoogleFonts.tajawal(
                           fontSize: 4.w,
                           fontWeight: FontWeight.w700,
@@ -200,7 +200,7 @@ class ChatController extends GetxController {
                         ),
                         border: Border.all(color: LightMode.splash)),
                     child: Text(
-                     S.of(Get.context!).cancel,
+                      S.of(Get.context!).cancel,
                       style: GoogleFonts.tajawal(
                           fontSize: 4.w,
                           fontWeight: FontWeight.w700,
@@ -249,8 +249,7 @@ class ChatController extends GetxController {
       getChatByIdStream();
       //  getChatById();
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -258,14 +257,11 @@ class ChatController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -283,8 +279,7 @@ class ChatController extends GetxController {
       getChatByIdStream();
       //  getChatById();
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -292,14 +287,11 @@ class ChatController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -317,8 +309,7 @@ class ChatController extends GetxController {
       getChatByIdStream();
       //  getChatById();
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -326,14 +317,11 @@ class ChatController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -362,8 +350,7 @@ class ChatController extends GetxController {
       print(chatId);
       print(typeIndex);
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -371,14 +358,11 @@ class ChatController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -417,9 +401,8 @@ class ChatController extends GetxController {
       Map<String, dynamic> responseBody = response['data'];
 
       orderModel = OrderModel.fromJson(responseBody);
-    }else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -427,14 +410,11 @@ class ChatController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -471,9 +451,8 @@ class ChatController extends GetxController {
                 ),
             arguments: {"orderModel": paymentModel});
       }
-    }else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -481,14 +460,11 @@ class ChatController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -504,8 +480,7 @@ class ChatController extends GetxController {
     if (statuesRequest == StatuesRequest.success) {
       succsessCancel = true;
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -513,14 +488,11 @@ class ChatController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -550,7 +522,7 @@ class ChatController extends GetxController {
                 height: 5.h,
                 child: Center(
                   child: Text(
-                   S.of(Get.context!).tryAgain,
+                    S.of(Get.context!).tryAgain,
                     style: GoogleFonts.tajawal(
                         fontSize: 4.w,
                         color: LightMode.registerText,
@@ -669,9 +641,10 @@ class ChatController extends GetxController {
         children: [
           InkWell(
             onTap: () async {
+              Get.back();
+
               await confirmOrder("sadadpay");
               succsessConfirm == true ? typeIndex = 1 : null;
-              Get.back();
               update();
             },
             child: Container(
@@ -694,9 +667,10 @@ class ChatController extends GetxController {
           ),
           InkWell(
             onTap: () async {
+              Get.back();
+
               await confirmOrder("cash");
               succsessConfirm == true ? typeIndex = 1 : null;
-              Get.back();
               update();
             },
             child: Container(

@@ -57,16 +57,16 @@ class Api {
       String linkUrl, Map<String, String>? headers, Map data) async {
     final url = linkUrl;
 
-    // final dataPost = jsonEncode(data);
+    final dataPost = jsonEncode(data);
     try {
       final response = await http
-          .post(Uri.parse(url), headers: headers, body: data)
+          .post(Uri.parse(url), headers: headers, body: dataPost)
           .timeout(const Duration(seconds: 20));
-      print(response.statusCode);
+      print(">>>> ${response.statusCode}");
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        print(data);
-        return right(data);
+        final responseData = jsonDecode(response.body);
+        print(responseData);
+        return right(responseData);
       } else if (response.statusCode == 422) {
         print(response.body);
         if (response.body.toString() ==
@@ -82,12 +82,11 @@ class Api {
         }
       } else if (response.statusCode == 400) {
         print(response.body);
-        if(response.body=="{\"message\":\"User Not Found\"}"){
-                return left(StatuesRequest.phoneNotFound);
-        }else{
-throw BadRequestException();
+        if (response.body == "{\"message\":\"User Not Found\"}") {
+          return left(StatuesRequest.phoneNotFound);
+        } else {
+          throw BadRequestException();
         }
-        
       } else if (response.statusCode == 401) {
         print(response.body);
         if (response.body ==
@@ -125,20 +124,23 @@ throw BadRequestException();
       String linkUrl, Map<String, String>? headers, Map data) async {
     final url = linkUrl;
 
-    // final dataPost = jsonEncode(data);
+    final dataPost = jsonEncode(data);
     try {
       final response = await http
-          .put(Uri.parse(url), headers: headers, body: data)
+          .put(Uri.parse(url), headers: headers, body: dataPost)
           .timeout(const Duration(seconds: 20));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         print(data);
         return right(data);
       } else if (response.statusCode == 400) {
+        print(response.body);
         throw BadRequestException();
       } else if (response.statusCode == 401) {
         throw UnauthorizedException();
       } else if (response.statusCode == 404) {
+        print(response.body);
+
         return left(StatuesRequest.serverException);
       } else if (response.statusCode == 403) {
         throw ForbiddenException();

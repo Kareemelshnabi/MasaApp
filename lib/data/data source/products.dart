@@ -11,5 +11,12 @@ class ProductsRemoteData {
     var response = await api.getData("${AppLinks.getProductByCategory}?category_id=$catId", {"Accept": "application/json", "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"});
     return response.fold((l) => l, (r) => r);
   }
-
+getMoreProducts(token,link) async {
+    var response = await api.getData(link, {
+      "authorization": "Bearer $token",
+    "Accept": "application/json", 
+    "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
+    });
+    return response.fold((l) => l, (r) => r);
+  }
 }

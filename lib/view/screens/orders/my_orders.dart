@@ -8,6 +8,7 @@ import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/home/home.dart';
 import 'package:mas_app/view/screens/orders/my_order_info.dart';
+import 'package:mas_app/view/screens/register/signup/signup.dart';
 import 'package:mas_app/view/widget/no_data.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -63,53 +64,11 @@ class MyOrders extends StatelessWidget {
                   : controller.index == 0
                       ? controller.pendingOrdersList.isEmpty
                           ? noData(S.of(context).noOrder)
-                          : SizedBox(
-                              width: 100.w,
-                              height: 79.h,
-                              child: ListView.builder(
-                                padding: EdgeInsets.only(top: 4.w),
-                                itemBuilder: (context, index) => InkWell(
-                                  onTap: () {
-                                    Get.to(() => const MyOrderInfo(),
-                                        arguments: {
-                                          "page": "order",
-                                          "type": controller.index,
-                                          "data": controller
-                                              .pendingOrdersList[index]
-                                              .toJson()
-                                        });
-                                  },
-                                  child: cardOrder(
-                                      controller
-                                                  .pendingOrdersList[index]
-                                                  .orderItems![0]
-                                                  .item!
-                                                  .specification ==
-                                              null
-                                          ? controller.pendingOrdersList[index]
-                                              .orderItems![0].item!.name
-                                          : controller
-                                              .pendingOrdersList[index]
-                                              .orderItems![0]
-                                              .item!
-                                              .specification!
-                                              .title,
-                                      S.of(context).valid,
-                                      LightMode.btnYellow,
-                                      controller.pendingOrdersList[index].total,
-                                      controller
-                                          .pendingOrdersList[index].createdAt),
-                                ),
-                                itemCount: controller.pendingOrdersList.length,
-                                shrinkWrap: true,
-                              ),
-                            )
-                      : controller.index == 1
-                          ? controller.completedOrdersList.isEmpty
-                              ? noData(S.of(context).noOrder)
-                              : SizedBox(
+                          : Column(
+                              children: [
+                                SizedBox(
                                   width: 100.w,
-                                  height: 79.h,
+                                  height: 70.h,
                                   child: ListView.builder(
                                     padding: EdgeInsets.only(top: 4.w),
                                     itemBuilder: (context, index) => InkWell(
@@ -119,7 +78,7 @@ class MyOrders extends StatelessWidget {
                                               "page": "order",
                                               "type": controller.index,
                                               "data": controller
-                                                  .canceledOrdersList[index]
+                                                  .pendingOrdersList[index]
                                                   .toJson()
                                             });
                                       },
@@ -141,23 +100,33 @@ class MyOrders extends StatelessWidget {
                                                   .item!
                                                   .specification!
                                                   .title,
-                                          S.of(context).delivered,
-                                          LightMode.btnGreen,
+                                          S.of(context).valid,
+                                          LightMode.btnYellow,
                                           controller
                                               .pendingOrdersList[index].total,
                                           controller.pendingOrdersList[index]
                                               .createdAt),
                                     ),
-                                    itemCount: 8,
+                                    itemCount:
+                                        controller.pendingOrdersList.length,
                                     shrinkWrap: true,
                                   ),
-                                )
-                          : controller.index == 2
-                              ? controller.canceledOrdersList.isEmpty
-                                  ? noData(S.of(context).noCancelOrder)
-                                  : SizedBox(
+                                ),
+                                controller.linkMorePending == ""
+                                    ? const SizedBox()
+                                    : onBtnClick(S.of(context).more, () {
+                                        controller.getMorePendingOrders();
+                                      })
+                              ],
+                            )
+                      : controller.index == 1
+                          ? controller.completedOrdersList.isEmpty
+                              ? noData(S.of(context).noOrder)
+                              : Column(
+                                  children: [
+                                    SizedBox(
                                       width: 100.w,
-                                      height: 79.h,
+                                      height: 70.h,
                                       child: ListView.builder(
                                         padding: EdgeInsets.only(top: 4.w),
                                         itemBuilder: (context, index) =>
@@ -168,42 +137,119 @@ class MyOrders extends StatelessWidget {
                                                   "page": "order",
                                                   "type": controller.index,
                                                   "data": controller
-                                                      .canceledOrdersList[index]
+                                                      .completedOrdersList[
+                                                          index]
                                                       .toJson()
                                                 });
                                           },
                                           child: cardOrder(
                                               controller
-                                                          .canceledOrdersList[
+                                                          .completedOrdersList[
                                                               index]
                                                           .orderItems![0]
                                                           .item!
                                                           .specification ==
                                                       null
                                                   ? controller
-                                                      .canceledOrdersList[index]
+                                                      .completedOrdersList[
+                                                          index]
                                                       .orderItems![0]
                                                       .item!
                                                       .name
                                                   : controller
-                                                      .canceledOrdersList[index]
+                                                      .completedOrdersList[
+                                                          index]
                                                       .orderItems![0]
                                                       .item!
                                                       .specification!
                                                       .title,
-                                              S.of(context).canceled,
-                                              LightMode.discountCollor,
+                                              S.of(context).delivered,
+                                              LightMode.btnGreen,
                                               controller
-                                                  .canceledOrdersList[index]
+                                                  .completedOrdersList[index]
                                                   .total,
                                               controller
-                                                  .canceledOrdersList[index]
+                                                  .completedOrdersList[index]
                                                   .createdAt),
                                         ),
                                         itemCount: controller
-                                            .canceledOrdersList.length,
+                                            .completedOrdersList.length,
                                         shrinkWrap: true,
                                       ),
+                                    ),
+                                    controller.linkMoreDone == ""
+                                        ? const SizedBox()
+                                        : onBtnClick(S.of(context).more, () {
+                                            controller.getMoreDoneOrders();
+                                          })
+                                  ],
+                                )
+                          : controller.index == 2
+                              ? controller.canceledOrdersList.isEmpty
+                                  ? noData(S.of(context).noCancelOrder)
+                                  : Column(
+                                      children: [
+                                        SizedBox(
+                                          width: 100.w,
+                                          height: 70.h,
+                                          child: ListView.builder(
+                                            padding: EdgeInsets.only(top: 4.w),
+                                            itemBuilder: (context, index) =>
+                                                InkWell(
+                                              onTap: () {
+                                                Get.to(
+                                                    () => const MyOrderInfo(),
+                                                    arguments: {
+                                                      "page": "order",
+                                                      "type": controller.index,
+                                                      "data": controller
+                                                          .canceledOrdersList[
+                                                              index]
+                                                          .toJson()
+                                                    });
+                                              },
+                                              child: cardOrder(
+                                                  controller
+                                                              .canceledOrdersList[
+                                                                  index]
+                                                              .orderItems![0]
+                                                              .item!
+                                                              .specification ==
+                                                          null
+                                                      ? controller
+                                                          .canceledOrdersList[
+                                                              index]
+                                                          .orderItems![0]
+                                                          .item!
+                                                          .name
+                                                      : controller
+                                                          .canceledOrdersList[
+                                                              index]
+                                                          .orderItems![0]
+                                                          .item!
+                                                          .specification!
+                                                          .title,
+                                                  S.of(context).canceled,
+                                                  LightMode.discountCollor,
+                                                  controller
+                                                      .canceledOrdersList[index]
+                                                      .total,
+                                                  controller
+                                                      .canceledOrdersList[index]
+                                                      .createdAt),
+                                            ),
+                                            itemCount: controller
+                                                .canceledOrdersList.length,
+                                            shrinkWrap: true,
+                                          ),
+                                        ),
+                                        controller.linkMoreCancel == ""
+                                            ? const SizedBox()
+                                            : onBtnClick(S.of(context).more,
+                                                () {
+                                                controller.getCanceledOrder();
+                                              })
+                                      ],
                                     )
                               : Container()
             ],

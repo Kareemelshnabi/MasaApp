@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/orders/my_order_info_controller.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
+import 'package:mas_app/data/model/order_model.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/orders/my_orders.dart';
@@ -73,22 +74,13 @@ class MyOrderInfo extends StatelessWidget {
                     })),
             order(
                 controller.orderModel!.code,
-                controller.orderModel!.orderItems![0].item!.image == "" ||
-                        controller.orderModel!.orderItems![0].item!.image ==
-                            null
-                    ? Image.asset(
-                        ImagesLink.noImage,
-                        fit: BoxFit.fill,
-                      )
-                    : CachedNetworkImageProvider(
-                        controller.orderModel!.orderItems![0].item!.image!,
-                      ),
-                controller.orderModel!.orderItems![0].item!.description,
-                controller.orderModel!.orderItems![0].quantity,
-                controller.orderModel!.orderItems![0].price,
+                controller.orderModel!,
                 controller.orderModel!.subTotal,
                 controller.orderModel!.tax,
-                S.of(context).free,
+                controller.orderModel!.deliveryFee == null ||
+                        controller.orderModel!.deliveryFee == ""
+                    ? S.of(context).free
+                    : controller.orderModel!.deliveryFee,
                 controller.orderModel!.total),
             Container(
               decoration: BoxDecoration(
@@ -627,10 +619,10 @@ class MyOrderInfo extends StatelessWidget {
     );
   }
 
-  Widget order(numOfOrder, img, name, quantity, price, total, nearBy, delivery,
-      totalPrice) {
+  Widget order(
+      numOfOrder, OrderModel listOfItems, total, nearBy, delivery, totalPrice) {
     return Container(
-      height: 43.h,
+      height: 48.h,
       width: 100.w,
       margin: EdgeInsets.only(right: 4.w, left: 4.w, top: 2.w, bottom: 3.w),
       decoration: BoxDecoration(
@@ -655,42 +647,76 @@ class MyOrderInfo extends StatelessWidget {
           Divider(
             color: LightMode.registerButtonBorder,
           ),
-          Container(
-            margin: EdgeInsets.only(right: 4.w, left: 4.w, top: 2.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 2.w),
-                  width: 15.w,
-                  height: 10.h,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3.w),
-                      border: Border.all(color: LightMode.splash, width: 2),
-                      image: DecorationImage(image: img, fit: BoxFit.fill)),
-                ),
-                SizedBox(
-                  width: 3.w,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 5.h,
-                      width: 60.w,
-                      child: text("$name", FontWeight.bold, 3.5.w),
+          SizedBox(
+            height: 20.h,
+            width: 100.w,
+            child: ListView.separated(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => Container(
+                      margin: EdgeInsets.only(right: 4.w, left: 4.w, top: 2.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 2.w),
+                            width: 15.w,
+                            height: 10.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3.w),
+                                border: Border.all(
+                                    color: LightMode.splash, width: 2),
+                                image: DecorationImage(
+                                    image: listOfItems.orderItems![index].item!
+                                                    .image ==
+                                                "" ||
+                                            listOfItems.orderItems![index].item!
+                                                    .image ==
+                                                null
+                                        ? AssetImage(
+                                            ImagesLink.noImage,
+                                          )
+                                        : CachedNetworkImageProvider(
+                                            listOfItems.orderItems![index].item!
+                                                .image!,
+                                          ),
+                                    fit: BoxFit.fill)),
+                          ),
+                          SizedBox(
+                            width: 3.w,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 5.h,
+                                width: 60.w,
+                                child: text(
+                                    "${listOfItems.orderItems![index].item!.description}",
+                                    FontWeight.bold,
+                                    3.5.w),
+                              ),
+                              text(
+                                  "${S.of(Get.context!).quantity}: ${listOfItems.orderItems![index].quantity}",
+                                  FontWeight.w600,
+                                  3.w),
+                              text(
+                                  "${listOfItems.orderItems![index].item!.price} دينار",
+                                  FontWeight.w600,
+                                  3.w),
+                              Divider(
+                                color: LightMode.registerButtonBorder,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    text("${S.of(Get.context!).quantity}: $quantity",
-                        FontWeight.w600, 3.w),
-                    text("$price دينار", FontWeight.w600, 3.w),
-                    Divider(
-                      color: LightMode.registerButtonBorder,
+                separatorBuilder: (context, index) => SizedBox(
+                      height: 5.w,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                itemCount: listOfItems.orderItems!.length),
           ),
           Divider(
             color: LightMode.registerButtonBorder,

@@ -9,7 +9,6 @@ import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/forget_pass/verify_code_forgetpass.dart';
 import 'package:mas_app/view/screens/register/main_register.dart';
-import 'package:mas_app/view/screens/register/signup/verify_code_register.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 import '../../core/class/status_request.dart';

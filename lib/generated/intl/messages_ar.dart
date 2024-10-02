@@ -90,6 +90,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "defultException": MessageLookupByLibrary.simpleMessage(
             "فشل إكمال العملية. الرجاء المحاولة مرة أخرى"),
+        "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
         "deliverStatus": MessageLookupByLibrary.simpleMessage("خرج للتوصيل"),
         "delivered": MessageLookupByLibrary.simpleMessage("نم التوصيل"),
         "deliveredStatus": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
@@ -188,12 +190,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول كزائر ؟ "),
         "messageAddress": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد تغيير عنوان التوصيل؟"),
+        "messageDeleteAccount": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد أنك تريد حذف الحساب؟"),
         "messageLocation":
             MessageLookupByLibrary.simpleMessage("الرجاء السماح بتحديد الموقع"),
         "messageLogOut": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد تسجيل الخروج؟"),
         "mobileInfo": MessageLookupByLibrary.simpleMessage(
             "يمكنك الاتصال بنا أو إرسال رسالة نصية أو واتساب إلينا على الأرقام أدناه، وسيتم تطبيق الرسوم وفقًا لمزودي الشبكة لديك."),
+        "more": MessageLookupByLibrary.simpleMessage("المزيد"),
         "multiText_1":
             MessageLookupByLibrary.simpleMessage("بالنقر هنا فإنك توافق علي"),
         "multiText_2":

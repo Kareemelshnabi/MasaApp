@@ -11,6 +11,7 @@ class RegisterRemoteData {
       String lng, String password, governorateId, tokenDevice) async {
     var response = await api.postData(AppLinks.registerLink, {
       "Accept": "application/json",
+      'Content-Type': 'application/json; charset=UTF-8'
     }, {
       "name": nameEn.toString(),
       "email": email.toString(),
@@ -29,7 +30,8 @@ class RegisterRemoteData {
 
   login(String phone, String password, tokenDevice) async {
     var response = await api.postData(AppLinks.loginLink, {
-      // "Accept": "application/json",
+      "Accept": "application/json",
+      'Content-Type': 'application/json; charset=UTF-8'
       // "Accept-Language":
       //     sharedPreferences!.getString("local") == "ar" ? "ar" : "en"
     }, {
@@ -43,7 +45,8 @@ class RegisterRemoteData {
   // forget pass
   forgetPassword(String phone, String password) async {
     var response = await api.updateData(AppLinks.forgetPassLink, {
-      // "Accept": "application/json",
+      "Accept": "application/json",
+      'Content-Type': 'application/json; charset=UTF-8'
       // "Accept-Language":
       //     sharedPreferences!.getString("local") == "ar" ? "ar" : "en"
     }, {
@@ -104,6 +107,7 @@ class RegisterRemoteData {
   verifySign(phone, otp) async {
     var response = await api.postData(AppLinks.verifySign, {
       "Accept": "application/json",
+      'Content-Type': 'application/json; charset=UTF-8'
       // "Accept-Language": "ar",
     }, {
       "phone": phone,
@@ -116,7 +120,7 @@ class RegisterRemoteData {
   reSendOtp(phone) async {
     var response = await api.postData(AppLinks.reSendOtp, {
       "Accept": "application/json",
-      "Accept-Language": "ar",
+      'Content-Type': 'application/json; charset=UTF-8',
     }, {
       "phone": phone,
     });
@@ -128,23 +132,32 @@ class RegisterRemoteData {
   sendOtpToResetPass(phone) async {
     var response = await api.postData(AppLinks.sendOtpToREsetPassLink, {
       "Accept": "application/json",
-      "Accept-Language": "ar",
+      'Content-Type': 'application/json; charset=UTF-8'
     }, {
       "phone": phone,
     });
     return response.fold((l) => l, (r) => r);
   }
+
   //verify forget pass
-  verifyForgetPass(phone,otp) async {
+  verifyForgetPass(phone, otp) async {
     var response = await api.postData(AppLinks.verifyForgetPass, {
       "Accept": "application/json",
+      'Content-Type': 'application/json; charset=UTF-8'
 //      "Accept-Language": "ar",
     }, {
       "phone": phone,
-      "otp":otp
+      "otp": otp
     });
     return response.fold((l) => l, (r) => r);
   }
-  
-  
+
+  //delete Account
+  deleteAccount(token) async {
+    var response = await api.deleteData(
+      AppLinks.deletAccountLink,
+      {"Accept": "application/json", "authorization": "Bearer $token"},
+    );
+    return response.fold((l) => l, (r) => r);
+  }
 }

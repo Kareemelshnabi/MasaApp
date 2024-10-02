@@ -196,7 +196,14 @@
 "messageLogOut":"Are you sure you want to log out?",
 "file":"File",
 "phoneNotVerify":"the phone not verified",
-"errorEnterCode":"please enter code"
+"errorEnterCode":"please enter code",
+"deleteAccount":"Delete Account",
+"delete":"Delete",
+"messageDeleteAccount":"Are you sure you want to delete your account?",
+"more":"More"
+
+
+
 
 
 

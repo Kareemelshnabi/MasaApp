@@ -42,25 +42,12 @@ class LoginController extends GetxController {
     }
   }
 
-  // bool isValidPhoneNumber(String phoneNumber) {
-  //   String p = r'^(?:\+965)?[5692]\d{7}$';
-  //   RegExp regExp = RegExp(p);
-  //   return regExp.hasMatch(phoneNumber);
-  // }
-
   phoneValidate(String val, context) {
     if (val.isEmpty) {
       return S.of(context).errorPhone_1;
-      // } else if (!val.isPhoneNumber) {
-      // return S.of(context).errorPhone_2;
     } else if (val.length < 8 || val.length > 8) {
       return S.of(context).errorPhone_3;
-    }
-    //  else if (!isValidPhoneNumber(val)) {
-    //   return S.of(context).errorPhone_3;
-    // }
-    else {
-      // if (isValidPhoneNumber(val)) {
+    } else {
       return null;
     }
   }
@@ -113,6 +100,8 @@ class LoginController extends GetxController {
             .setString("governorateId", "${responseBody['governorate']['id']}");
         String text = responseBody['governorate']['name'];
         print(text);
+        print("token1223 ${sharedPreferences!.getString("token")}");
+
         sharedPreferences!.setString("pageStart", "Home");
         Get.offAll(() => const SuccessLogin());
       } else if (statuesRequest == StatuesRequest.forbiddenException) {
@@ -192,7 +181,7 @@ class LoginController extends GetxController {
                     height: 5.h,
                     child: Center(
                       child: Text(
-                       S.of(context).cancel,
+                        S.of(context).cancel,
                         style: GoogleFonts.tajawal(
                             fontSize: 4.w,
                             color: LightMode.splash,

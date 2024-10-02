@@ -96,8 +96,8 @@ class VerifyCodeController extends GetxController {
         sharedPreferences!
             .setString("governorateId", "${responseBody['governorate']['id']}");
 
-        sharedPreferences!
-            .setString("governorate", "${responseBody['governorate']['name']}");
+        // sharedPreferences!
+        //     .setString("governorate", "${responseBody['governorate']['name']}");
         print(sharedPreferences!.getString("governorate"));
         sharedPreferences!.setString("pageStart", "Home");
         Get.offAll(() => const SuccessRegister());

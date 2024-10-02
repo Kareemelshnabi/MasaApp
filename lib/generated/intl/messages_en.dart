@@ -94,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "defultException": MessageLookupByLibrary.simpleMessage(
             "Failed to complete the operation. Please try again."),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deliverStatus":
             MessageLookupByLibrary.simpleMessage("Out for delivery"),
         "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
@@ -189,12 +191,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Login as a guest?"),
         "messageAddress": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to change the delivery address?"),
+        "messageDeleteAccount": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete your account?"),
         "messageLocation":
             MessageLookupByLibrary.simpleMessage("Please allow location"),
         "messageLogOut": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to log out?"),
         "mobileInfo": MessageLookupByLibrary.simpleMessage(
             "You can call, text or WhatsApp us on the numbers below, charges will apply according to your network providers."),
+        "more": MessageLookupByLibrary.simpleMessage("More"),
         "multiText_1": MessageLookupByLibrary.simpleMessage(
             "By clicking here you agree to"),
         "multiText_2":

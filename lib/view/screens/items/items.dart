@@ -12,6 +12,7 @@ import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/chat/chat.dart';
 import 'package:mas_app/view/screens/items/item_info.dart';
+import 'package:mas_app/view/screens/profile/edit_profile.dart';
 import 'package:mas_app/view/widget/no_data.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
@@ -271,7 +272,12 @@ class ItemsPage extends StatelessWidget {
                                       padding: EdgeInsets.only(top: 4.w),
                                       shrinkWrap: true,
                                     ),
-                                  )
+                                  ),
+                    controller.linkMore == ""
+                        ? const SizedBox()
+                        : onBtnClick(S.of(context).more, () {
+                            controller.getMoreItems();
+                          })
                   ],
                 ),
               ),

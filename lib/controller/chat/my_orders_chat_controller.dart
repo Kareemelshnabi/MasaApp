@@ -15,7 +15,7 @@ class MyOrdersChatController extends GetxController {
   StatuesRequest statuesRequest = StatuesRequest.none;
   ChatsRemoteData chatsRemoteData = ChatsRemoteData(Get.put(Api()));
   List<AllChatsModel> chats = [];
-
+  String linkNext = "";
   getAllChats() async {
     chats.clear();
     statuesRequest = StatuesRequest.loading;
@@ -27,6 +27,45 @@ class MyOrdersChatController extends GetxController {
     statuesRequest = handlingData(response);
     if (statuesRequest == StatuesRequest.success) {
       List responseBody = response['data']['items'];
+      dynamic pagination = response['data']['paginate'];
+      linkNext = pagination['next_page_url'];
+      chats.addAll(responseBody.map((e) => AllChatsModel.fromJson(e)));
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(
+          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverException) {
+      messageHandleException("لم يتم العثور على المورد المطلوب.");
+    } else if (statuesRequest == StatuesRequest.unExpectedException) {
+      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+    } else if (statuesRequest == StatuesRequest.defaultException) {
+      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverError) {
+      messageHandleException(
+          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+    } else if (statuesRequest == StatuesRequest.timeoutException) {
+      messageHandleException(
+          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+    } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+      messageHandleException(
+          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+    }
+    update();
+  }
+
+
+  getMoreChats()async{
+     statuesRequest = StatuesRequest.loading;
+    update();
+    var response = await chatsRemoteData.getMoreChats(
+      sharedPreferences!.getString("token"),
+      linkNext
+    );
+    print(response);
+    statuesRequest = handlingData(response);
+    if (statuesRequest == StatuesRequest.success) {
+      List responseBody = response['data']['items'];
+      dynamic pagination = response['data']['paginate'];
+      linkNext = pagination['next_page_url'];
       chats.addAll(responseBody.map((e) => AllChatsModel.fromJson(e)));
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
@@ -52,7 +91,7 @@ class MyOrdersChatController extends GetxController {
 
   messageHandleException(message) {
     Get.defaultDialog(
-        title:S.of(Get.context!).error,
+        title: S.of(Get.context!).error,
         content: Column(
           children: [
             Text(
@@ -75,7 +114,7 @@ class MyOrdersChatController extends GetxController {
                 height: 5.h,
                 child: Center(
                   child: Text(
-                   S.of(Get.context!).tryAgain,
+                    S.of(Get.context!).tryAgain,
                     style: GoogleFonts.tajawal(
                         fontSize: 4.w,
                         color: LightMode.registerText,

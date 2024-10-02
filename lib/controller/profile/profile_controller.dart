@@ -91,6 +91,13 @@ class ProfileController extends GetxController {
                                 .toString();
                             governorateController.text =
                                 countryMoodel!.governorates![index].name!;
+                            sharedPreferences!.setString(
+                                "governorate", governorateController.text);
+
+                            sharedPreferences!.setString(
+                                "governorateId",
+                                countryMoodel!.governorates![index].id
+                                    .toString());
 
                             Get.back();
                             update();
@@ -351,8 +358,8 @@ class ProfileController extends GetxController {
         sharedPreferences!.setString("phone", "${responseBody['phone']}");
         sharedPreferences!.setString("img", "${responseBody['avatar']}");
 
-        sharedPreferences!
-            .setString("governorate", "${responseBody['governorate_name']}");
+        // sharedPreferences!
+        //     .setString("governorate", "${responseBody['governorate_name']}");
         print(sharedPreferences!.getString("governorate"));
         sharedPreferences!.setString("pageStart", "Home");
         succsess = true;
@@ -493,6 +500,74 @@ class ProfileController extends GetxController {
     }
 
     update();
+  }
+
+  messageHandleException_2(context) {
+    Get.defaultDialog(
+        title: S.of(context).warning,
+        content: Column(
+          children: [
+            Text(
+              S.of(context).messageDeleteAccount,
+              style: GoogleFonts.tajawal(
+                  fontSize: 3.5.w,
+                  color: LightMode.registerButtonBorder,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 5.w,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await deleteAccount();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: LightMode.splash,
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        S.of(context).delete,
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.registerText,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: LightMode.splash),
+                      borderRadius: BorderRadius.circular(3.w),
+                    ),
+                    width: 30.w,
+                    height: 5.h,
+                    child: Center(
+                      child: Text(
+                        S.of(context).cancel,
+                        style: GoogleFonts.tajawal(
+                            fontSize: 4.w,
+                            color: LightMode.splash,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
   }
 
   messageHandleException(message) {
@@ -641,6 +716,39 @@ class ProfileController extends GetxController {
         ]),
       ),
     );
+  }
+
+  deleteAccount() async {
+    statuesRequest = StatuesRequest.loading;
+    update();
+    var response = await registerRemoteData
+        .deleteAccount(sharedPreferences!.getString("token").toString());
+    print(response);
+    statuesRequest = handlingData(response);
+    if (statuesRequest == StatuesRequest.success) {
+      dynamic responseBody = response;
+      print("response :: $responseBody");
+
+      sharedPreferences!.setString("pageStart", "typeofUser");
+
+      Get.offAll(() => const MainRegister());
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.serverException) {
+      messageHandleException(S.of(Get.context!).serverException);
+    } else if (statuesRequest == StatuesRequest.unExpectedException) {
+      messageHandleException(S.of(Get.context!).unExcepectedException);
+    } else if (statuesRequest == StatuesRequest.defaultException) {
+      messageHandleException(S.of(Get.context!).defultException);
+    } else if (statuesRequest == StatuesRequest.serverError) {
+      messageHandleException(S.of(Get.context!).serverError);
+    } else if (statuesRequest == StatuesRequest.timeoutException) {
+      messageHandleException(S.of(Get.context!).timeOutException);
+    } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
+    }
+
+    update();
   }
 
   @override

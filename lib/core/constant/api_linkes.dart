@@ -11,7 +11,9 @@ class AppLinks {
   static String reSendOtp = "$serverLink/domains/auth/resend-otp";
   static String sendOtpToREsetPassLink = "$serverLink/domains/auth/send-otp";
   static String verifyForgetPass = "$serverLink/domains/auth/verify-Phone";
+  static String deletAccountLink = "$serverLink/domains/auth/delete-account";
 
+ 
   //services
   static String getServicesLink = "$serverLink/domains/product/services";
 

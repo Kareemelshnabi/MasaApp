@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mas_app/controller/chat/chat_controller.dart';
+import 'package:mas_app/controller/chat/my_orders_chat_controller.dart';
 import 'package:mas_app/core/class/status_request.dart';
 import 'package:mas_app/core/constant/colors.dart';
 import 'package:mas_app/core/constant/images.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
+import 'package:mas_app/view/screens/chat/my_orders_chat.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 
 class ChatPage extends StatelessWidget {
@@ -33,8 +35,8 @@ class ChatPage extends StatelessWidget {
                         child: const Center(child: CircularProgressIndicator()))
                     : Column(
                         children: [
-                          appBarChat(() {
-                            Get.back();
+                          appBarChat(() async {
+                            Get.off(() => const MyOrdersChat());
                           },
                               controller.nameOfOrder,
                               ImagesLink.noProfileImage,

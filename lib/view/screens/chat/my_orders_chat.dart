@@ -36,41 +36,87 @@ class MyOrdersChat extends StatelessWidget {
                       ? noData(S.of(context).noChats)
                       : SizedBox(
                           width: 100.w,
-                          height: 100.h,
+                          height: 80.h,
                           child: ListView.builder(
-                            padding: EdgeInsets.only(top: 4.w),
-                            itemBuilder: (context, index) => InkWell(
-                                onTap: () {
-                                  Get.to(() => const ChatPage(), arguments: {
-                                    "chatId": controller.chats[index].id,
-                                    "nameOfOrder": controller.chats[index].name,
-                                    "imageUser":
-                                        controller.chats[index].client!.image,
-                                  });
-                                },
-                                child: chat(
-                                    controller.chats[index].name,
-                                    controller
-                                        .chats[index].lastMessage!.content,
-                                    controller
-                                        .chats[index].lastMessage!.createdAt!
-                                        .substring(
-                                            0,
-                                            controller.chats[index].lastMessage!
-                                                .createdAt!
-                                                .indexOf(" ")),
-                                    controller.chats[index].lastMessage!.sender,
-                                    controller.chats[index].lastMessage!.type)),
+                            padding: EdgeInsets.only(top: 4.w, bottom: 10.w),
+                            itemBuilder: (context, index) {
+                              controller.chats.sort((a, b) {
+                                DateTime timeA = DateTime.parse(
+                                    a.lastMessage!.createdAt!.replaceAll(
+                                        RegExp(r'\s?(AM|PM)',
+                                            caseSensitive: false),
+                                        ''));
+                                DateTime timeB = DateTime.parse(
+                                    b.lastMessage!.createdAt!.replaceAll(
+                                        RegExp(r'\s?(AM|PM)',
+                                            caseSensitive: false),
+                                        ''));
+                                return timeB.compareTo(
+                                    timeA); // Sort by descending time
+                              });
+                              return InkWell(
+                                  onTap: () {
+                                    print(controller.chats.length);
+                                    Get.off(() => const ChatPage(), arguments: {
+                                      "chatId": controller.chats[index].id,
+                                      "nameOfOrder":
+                                          controller.chats[index].name,
+                                      "imageUser":
+                                          controller.chats[index].client!.image,
+                                    });
+                                  },
+                                  child: chat(
+                                      controller.chats[index].name,
+                                      controller
+                                          .chats[index].lastMessage!.content,
+                                      controller
+                                          .chats[index].lastMessage!.createdAt!
+                                          .substring(
+                                              0,
+                                              controller.chats[index]
+                                                  .lastMessage!.createdAt!
+                                                  .indexOf(" ")),
+                                      controller
+                                          .chats[index].lastMessage!.sender,
+                                      controller
+                                          .chats[index].lastMessage!.type));
+                            },
                             itemCount: controller.chats.length,
                             shrinkWrap: true,
                           ),
                         ),
+              controller.linkNext == ""
+                  ? const SizedBox()
+                  : onBtnClick(S.of(context).more, () {
+                      controller.getMoreChats();
+                    })
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget onBtnClick(text, onPress) {
+  return Container(
+    margin: EdgeInsets.only(top: 1.h),
+    width: 90.w,
+    height: 6.h,
+    child: ElevatedButton(
+        style:
+            ElevatedButton.styleFrom(backgroundColor: LightMode.typeUserButton),
+        onPressed: onPress,
+        child: Text(
+          text,
+          style: GoogleFonts.tajawal(
+              color: sharedPreferences!.getBool("darkMode") == false
+                  ? LightMode.onBoardOneText
+                  : DarkMode.darkModeSplash,
+              fontSize: 4.w,
+              fontWeight: FontWeight.w500),
+        )),
+  );
 }
 
 Widget chat(name, message, date, sender, type) {

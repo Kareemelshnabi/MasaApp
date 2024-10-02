@@ -313,21 +313,25 @@ class ItemInfo extends StatelessWidget {
                                     ? ((controller.productInfo!.discountValue!.toDouble() / double.parse(controller.productInfo!.price!)) * 100)
                                         .roundToDouble()
                                     : controller.productInfo!.discountValue)
-                                : (((double.parse(controller.price!) - double.parse(controller.priceAfterdiscount!)) /
-                                            double.parse(controller.price!)) *
-                                        100)
-                                    .roundToDouble(),
+                                : controller
+                                            .productInfo!
+                                            .specifications![controller.index!]
+                                            .priceAfterDiscount ==
+                                        null
+                                    ? null
+                                    : (((double.parse(controller.price!) - double.parse(controller.priceAfterdiscount!)) / double.parse(controller.price!)) * 100)
+                                        .roundToDouble(),
                             controller.index == null
                                 ? controller.productInfo!.price
                                 : controller.price,
                             controller.productInfo!.freeDeliveryEndDate == null ||
-                                    DateTime.now().isAfter(DateTime.parse(controller
-                                        .productInfo!.freeDeliveryEndDate!))
+                                    DateTime.now().isAfter(DateTime.parse(
+                                        controller
+                                            .productInfo!.freeDeliveryEndDate!))
                                 ? ""
                                 : "التوصيل مجاني ",
                             controller.productInfo!.freeDeliveryEndDate == null ||
-                                    DateTime.now()
-                                        .isAfter(DateTime.parse(controller.productInfo!.freeDeliveryEndDate!))
+                                    DateTime.now().isAfter(DateTime.parse(controller.productInfo!.freeDeliveryEndDate!))
                                 ? ""
                                 : "${controller.productInfo!.freeDeliveryStartDate} , ${controller.productInfo!.freeDeliveryEndDate}",
                             "التوصيل الي ${sharedPreferences!.getString("address")} - ${sharedPreferences!.getString("nameEn")}",

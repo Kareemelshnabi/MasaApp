@@ -135,6 +135,11 @@ class ProfilePage extends StatelessWidget {
                                   }, () {
                                     Get.to(() => const ChooseLunguage());
                                     //launguage
+                                  }, () {
+                                    sharedPreferences!.getBool("visit") == true
+                                        ? onBoardingController
+                                            .message(S.of(context).erroGuest)
+                                        : controller.messageHandleException_2(context);
                                   }),
                                 ),
                                 Positioned(
@@ -408,7 +413,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget bodyOfProfile(value, onPressDark, logOut, onPressProfile,
-      onPressCommunication, onPressInfo, onPressLang) {
+      onPressCommunication, onPressInfo, onPressLang, onPressDelete) {
     return Container(
       width: 100.w,
       height: 72.h,
@@ -447,6 +452,8 @@ class ProfilePage extends StatelessWidget {
               Icons.dark_mode_outlined, onPressDark, value),
           fieldProfile(
               logOut, S.of(Get.context!).logOut, Icons.logout_outlined),
+          fieldProfile(
+              onPressDelete, S.of(Get.context!).deleteAccount, Icons.delete),
         ],
       ),
     );
@@ -481,9 +488,6 @@ class ProfilePage extends StatelessWidget {
                     fontSize: 4.5.w,
                     fontWeight: FontWeight.bold),
               ),
-              // SizedBox(
-              //   height: 1.w,
-              // ),
               Text(
                 email ?? "",
                 style: GoogleFonts.tajawal(

@@ -9,6 +9,8 @@ class OrdersRemoteData {
   storeOrder(token,orderId,orderType,quantity,governorateId,lat,lng) async {
     var response = await api.postData(AppLinks.storeOrder, {
       "authorization": "Bearer $token",
+            'Content-Type': 'application/json; charset=UTF-8',
+
        "Accept": "application/json", "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
     },{
       "orderable_id":orderId,
@@ -25,7 +27,10 @@ class OrdersRemoteData {
  cancel(token,orderId) async {
     var response = await api.updateData("${AppLinks.cancel}$orderId/cancel", {
       "authorization": "Bearer $token",
-       "Accept": "application/json", "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
+       "Accept": "application/json",
+             'Content-Type': 'application/json; charset=UTF-8',
+
+        "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
     },{});
     return response.fold((l) => l, (r) => r);
   }
@@ -33,7 +38,11 @@ class OrdersRemoteData {
  confirm(token,orderId,typeMethod) async {
     var response = await api.updateData("${AppLinks.confirm}$orderId/confirm?payment_method=$typeMethod", {
       "authorization": "Bearer $token",
-       "Accept": "application/json", "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
+       "Accept": "application/json", 
+             'Content-Type': 'application/json; charset=UTF-8',
+
+       
+       "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
     },{});
     return response.fold((l) => l, (r) => r);
   }
@@ -81,4 +90,14 @@ class OrdersRemoteData {
     });
     return response.fold((l) => l, (r) => r);
   }
+
+getMoreOrders(token,link) async {
+    var response = await api.getData(link, {
+      "authorization": "Bearer $token",
+    "Accept": "application/json", 
+    "Accept-Language":sharedPreferences!.getString("local")=="ar"?"ar": "en"
+    });
+    return response.fold((l) => l, (r) => r);
+  }
+
 }

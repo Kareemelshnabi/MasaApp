@@ -86,8 +86,10 @@ class EditProfile extends StatelessWidget {
                                           fit: BoxFit.fill)),
                                 ), () {
                         print("jjjjjjjjjjjjjj");
-                        controller.canEdit();
+                        // controller.canEdit();
 
+                        controller.edit = true;
+                        Get.appUpdate();
                         controller.showMessageUpdateImage(context);
                       }),
                     ),

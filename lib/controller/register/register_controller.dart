@@ -87,6 +87,8 @@ class RegisterController extends GetxController {
                                 .toString();
                             governateController.text =
                                 countryMoodel!.governorates![index].name!;
+                            sharedPreferences!.setString(
+                                "governorate", governateController.text);
 
                             Get.back();
                             update();
@@ -293,7 +295,7 @@ class RegisterController extends GetxController {
                     height: 5.h,
                     child: Center(
                       child: Text(
-                       S.of(context).verifyPhone,
+                        S.of(context).verifyPhone,
                         style: GoogleFonts.tajawal(
                             fontSize: 4.w,
                             color: LightMode.registerText,

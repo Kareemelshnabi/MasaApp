@@ -22,7 +22,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 class ItemsController extends GetxController {
   RegisterRemoteData registerRemoteData = RegisterRemoteData(Get.put(Api()));
-
+  String linkMore = "";
   CountryMoodel? countryMoodel;
   String governorateId = '';
   String governorateName = '';
@@ -175,9 +175,8 @@ class ItemsController extends GetxController {
       storeOrderModel = StoreOrderModel.fromJson(responseBody);
       print("succse store order");
       succsess = true;
-    }else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -185,14 +184,11 @@ class ItemsController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -220,9 +216,8 @@ class ItemsController extends GetxController {
       searchItems = [];
 
       searchItems.addAll(responseBody.map((e) => ProductModel.fromJson(e)));
-    }else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -230,14 +225,11 @@ class ItemsController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -251,12 +243,11 @@ class ItemsController extends GetxController {
     statuesRequest = handlingData(response);
     if (statuesRequest == StatuesRequest.success) {
       List responseBody = response['data']['items'];
-
+      linkMore = response['data']['paginate']['next_page_url'];
       products.addAll(responseBody.map((e) => ProductModel.fromJson(e)));
       print("response :: $products");
-    }else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -264,14 +255,11 @@ class ItemsController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -525,6 +513,40 @@ class ItemsController extends GetxController {
             ),
           );
         }));
+  }
+
+  getMoreItems() async {
+    statuesRequest = StatuesRequest.loading;
+    update();
+    var response = await productsRemoteData.getMoreProducts(
+        sharedPreferences!.getString("token"), linkMore);
+    print(response);
+    statuesRequest = handlingData(response);
+    if (statuesRequest == StatuesRequest.success) {
+      List responseBody = response['data']['items'];
+      dynamic pagination = response['data']['paginate'];
+      linkMore = pagination['next_page_url'];
+      products.addAll(responseBody.map((e) => ProductModel.fromJson(e)));
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(
+          "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverException) {
+      messageHandleException("لم يتم العثور على المورد المطلوب.");
+    } else if (statuesRequest == StatuesRequest.unExpectedException) {
+      messageHandleException("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+    } else if (statuesRequest == StatuesRequest.defaultException) {
+      messageHandleException("فشل إكمال العملية. الرجاء المحاولة مرة أخرى");
+    } else if (statuesRequest == StatuesRequest.serverError) {
+      messageHandleException(
+          "الخادم غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا");
+    } else if (statuesRequest == StatuesRequest.timeoutException) {
+      messageHandleException(
+          "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.");
+    } else if (statuesRequest == StatuesRequest.unauthorizedException) {
+      messageHandleException(
+          "تم الوصول بشكل غير مصرح به. يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.");
+    }
+    update();
   }
 
   @override
