@@ -17,6 +17,7 @@ import 'package:mas_app/data/model/store_order_model.dart';
 import 'package:mas_app/generated/l10n.dart';
 import 'package:mas_app/main.dart';
 import 'package:mas_app/view/screens/register/main_register.dart';
+import 'package:mas_app/view/widget/loading.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -157,7 +158,7 @@ class ItemsController extends GetxController {
 
   storeOrder(orderId, orderType, orderQuantity) async {
     succsess = false;
-    lock = true;
+    //lock = true;
     statuesRequest = StatuesRequest.loading;
     update();
     var response = await ordersRemoteData.storeOrder(
@@ -433,7 +434,7 @@ class ItemsController extends GetxController {
             fontWeight: FontWeight.w500),
         content: Builder(builder: (context) {
           return GetBuilder<ItemsController>(
-            builder: (controller) => Container(
+            builder: (controller) =>statuesRequest==StatuesRequest.loading?loading(25.h): Container(
               margin: EdgeInsets.only(right: 3.w, left: 3.w, bottom: 3.w),
               child: Column(
                 children: [
