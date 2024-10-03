@@ -114,7 +114,7 @@ class ItemsPage extends StatelessWidget {
                                                     } else {
                                                       controller
                                                           .messageAddressDelivery(
-                                                              () async {
+                                                           controller.lock==false?   () async {
                                                         await controller
                                                             .storeOrder(
                                                                 controller
@@ -144,7 +144,7 @@ class ItemsPage extends StatelessWidget {
                                                                         .name
                                                               });
                                                         }
-                                                      });
+                                                      }:(){});
                                                     }
                                                   },
                                                   controller
@@ -211,7 +211,8 @@ class ItemsPage extends StatelessWidget {
                                                   S.of(context).erroGuest);
                                             } else {
                                               controller.messageAddressDelivery(
-                                                  () async {
+                                             controller.lock==false?     () async {
+
                                                 await controller.storeOrder(
                                                     controller
                                                         .products[index].id,
@@ -234,7 +235,7 @@ class ItemsPage extends StatelessWidget {
                                                             .name
                                                       });
                                                 }
-                                              });
+                                              }:(){});
                                             }
                                           },
                                           controller.products[index].price,

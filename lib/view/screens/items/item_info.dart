@@ -103,7 +103,7 @@ class ItemInfo extends StatelessWidget {
                                                 S.of(context).erroGuest);
                                           } else {
                                             controller.messageAddressDelivery(
-                                                () async {
+                                              controller.lock==false?  () async {
                                               await controller.storeOrder(
                                                   controller
                                                       .searchItems[index].id,
@@ -123,7 +123,7 @@ class ItemInfo extends StatelessWidget {
                                                           .storeOrderModel!.name
                                                     });
                                               }
-                                            });
+                                            }:(){});
                                           }
                                         },
                                         controller.searchItems[index].price,
@@ -349,7 +349,7 @@ class ItemInfo extends StatelessWidget {
                             if (sharedPreferences!.getBool("visit") == true) {
                               controller.message(S.of(context).erroGuest);
                             } else {
-                              controller.messageAddressDelivery(() async {
+                              controller.messageAddressDelivery(controller.lock==false?() async {
                                 controller.index == null
                                     ? await controller.storeOrder(
                                         controller.productInfo!.id.toString(),
@@ -372,7 +372,7 @@ class ItemInfo extends StatelessWidget {
                                         controller.storeOrderModel!.name
                                   });
                                 }
-                              });
+                              }:(){});
                             }
                           } else {
                             controller.showMessageWarning();

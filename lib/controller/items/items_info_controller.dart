@@ -29,6 +29,7 @@ class ItemsInfoController extends GetxController {
   bool speechEnabled = false;
   // String wordsSpoken = "";
   double confidenceLevel = 0;
+  bool lock = false;
   void initSpeech() async {
     print("initialized");
     speechEnabled = await speechToText.initialize();
@@ -40,7 +41,7 @@ class ItemsInfoController extends GetxController {
     await speechToText.listen(
       onResult: onSpeechResult,
       // translate to arabic => by default english
-      localeId:  "ar",
+      localeId: "ar",
     );
 
     confidenceLevel = 0;
@@ -109,6 +110,7 @@ class ItemsInfoController extends GetxController {
 
   storeOrder(orderId, orderType, orderQuantity) async {
     succsess = false;
+    lock = true;
     statuesRequest = StatuesRequest.loading;
     update();
     var response = await ordersRemoteData.storeOrder(
@@ -127,10 +129,10 @@ class ItemsInfoController extends GetxController {
 
       storeOrderModel = StoreOrderModel.fromJson(responseBody);
       succsess = true;
+      lock = false;
       print("succse store order");
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -138,14 +140,11 @@ class ItemsInfoController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -175,9 +174,8 @@ class ItemsInfoController extends GetxController {
       searchItems.addAll(responseBody.map((e) => ProductModel.fromJson(e)));
 
       return searchItems;
-    }else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -185,14 +183,11 @@ class ItemsInfoController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }

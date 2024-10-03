@@ -27,7 +27,7 @@ class ItemsController extends GetxController {
   String governorateId = '';
   String governorateName = '';
   SpeechToText speechToText = SpeechToText();
-
+  bool lock = false;
   bool speechEnabled = false;
   // String wordsSpoken = "";
   double confidenceLevel = 0;
@@ -157,6 +157,7 @@ class ItemsController extends GetxController {
 
   storeOrder(orderId, orderType, orderQuantity) async {
     succsess = false;
+    lock = true;
     statuesRequest = StatuesRequest.loading;
     update();
     var response = await ordersRemoteData.storeOrder(
@@ -175,6 +176,7 @@ class ItemsController extends GetxController {
       storeOrderModel = StoreOrderModel.fromJson(responseBody);
       print("succse store order");
       succsess = true;
+      lock = false;
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {

@@ -1,5 +1,5 @@
 class AppLinks {
-  static String serverLink = "https://dashboard.dev.almasia-online.com/app";
+  static String serverLink = "https://dashboard.almasia-online.com/app";
 
   //auth
   static String registerLink = "$serverLink/domains/auth/register";

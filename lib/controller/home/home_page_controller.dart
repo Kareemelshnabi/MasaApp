@@ -28,7 +28,7 @@ class HomePageController extends GetxController {
   CountryMoodel? countryMoodel;
   String governorateId = '';
   String governorateName = '';
-
+  bool lock = false;
   bool speechEnabled = false;
   // String wordsSpoken = "";
   double confidenceLevel = 0;
@@ -87,6 +87,7 @@ class HomePageController extends GetxController {
 
   storeOrder(orderId, orderType, orderQuantity) async {
     succsess = false;
+    lock = true;
     statuesRequest = StatuesRequest.loading;
     update();
     var response = await ordersRemoteData.storeOrder(
@@ -104,9 +105,9 @@ class HomePageController extends GetxController {
 
       storeOrderModel = StoreOrderModel.fromJson(responseBody);
       succsess = true;
+      lock = false;
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -114,14 +115,11 @@ class HomePageController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -224,9 +222,8 @@ class HomePageController extends GetxController {
       searchItems.addAll(responseBody.map((e) => ProductModel.fromJson(e)));
       print("search item >>>>> $searchItems");
       //return searchItems;
-    }else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+    } else if (statuesRequest == StatuesRequest.socketException) {
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -234,14 +231,11 @@ class HomePageController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -271,8 +265,7 @@ class HomePageController extends GetxController {
       }
       //  return services;
     } else if (statuesRequest == StatuesRequest.socketException) {
-      messageHandleException(
-        S.of(Get.context!).noInternetApi);
+      messageHandleException(S.of(Get.context!).noInternetApi);
     } else if (statuesRequest == StatuesRequest.serverException) {
       messageHandleException(S.of(Get.context!).serverException);
     } else if (statuesRequest == StatuesRequest.unExpectedException) {
@@ -280,14 +273,11 @@ class HomePageController extends GetxController {
     } else if (statuesRequest == StatuesRequest.defaultException) {
       messageHandleException(S.of(Get.context!).defultException);
     } else if (statuesRequest == StatuesRequest.serverError) {
-      messageHandleException(
-         S.of(Get.context!).serverError);
+      messageHandleException(S.of(Get.context!).serverError);
     } else if (statuesRequest == StatuesRequest.timeoutException) {
-      messageHandleException(
-         S.of(Get.context!).timeOutException);
+      messageHandleException(S.of(Get.context!).timeOutException);
     } else if (statuesRequest == StatuesRequest.unauthorizedException) {
-      messageHandleException(
-         S.of(Get.context!).errorUnAuthorized);
+      messageHandleException(S.of(Get.context!).errorUnAuthorized);
     }
     update();
   }
@@ -341,7 +331,7 @@ class HomePageController extends GetxController {
       countryMoodel = CountryMoodel.fromJson(responseBody);
     } else if (statuesRequest == StatuesRequest.unprocessableException) {
       messageHandleException(
-       S.of(context).error,
+        S.of(context).error,
       );
     } else if (statuesRequest == StatuesRequest.socketException) {
       messageHandleException(
