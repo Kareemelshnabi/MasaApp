@@ -139,17 +139,23 @@ class ProfilePage extends StatelessWidget {
                                     sharedPreferences!.getBool("visit") == true
                                         ? onBoardingController
                                             .message(S.of(context).erroGuest)
-                                        : controller.messageHandleException_2(context);
+                                        : controller
+                                            .messageHandleException_2(context);
                                   }),
                                 ),
                                 Positioned(
-                                    top: 22.h,
-                                    right: 25.w,
-                                    left: 25.w,
-                                    child: box(() {
+                                  top: 22.h,
+                                  right: 25.w,
+                                  left: 25.w,
+                                  child: box(
+                                    () {
                                       // my orders
-                                      Get.to(() => const MyOrders());
-                                    })),
+                                      Get.to(
+                                        () => const MyOrders(),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ),

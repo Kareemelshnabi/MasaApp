@@ -29,7 +29,7 @@ class Home extends StatelessWidget {
                 border:
                     Border(top: BorderSide(color: LightMode.splash, width: 2))),
             child: BottomAppBar(
-              height: 8.7.h,
+              height: 8.9.h,
               color: sharedPreferences!.getBool("darkMode") == false
                   ? LightMode.registerText
                   : DarkMode.darkModeSplash,

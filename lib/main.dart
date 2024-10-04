@@ -17,14 +17,14 @@ SharedPreferences? sharedPreferences;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();
-
+  // sharedPreferences!.clear();
   await Firebase.initializeApp(
     name: "untiteld-13a78",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
     DevicePreview(
-      enabled: false, // Enable in debug mode only
+      enabled: true, // Enable in debug mode only
       builder: (context) => const MyApp(), // Your app widget
     ),
   );

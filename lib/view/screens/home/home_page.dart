@@ -567,7 +567,7 @@ Widget cardItemSearch(onTapBuy, priceWithoutDiscount, priceWithDiscount,
   return InkWell(
     onTap: onPress,
     child: Container(
-      height: 18.h,
+      height: 20.h,
       width: 100.w,
       margin: EdgeInsets.only(right: 4.w, left: 4.w, bottom: 4.w),
       decoration: BoxDecoration(
@@ -583,14 +583,21 @@ Widget cardItemSearch(onTapBuy, priceWithoutDiscount, priceWithDiscount,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      nameOfItem,
-                      style: GoogleFonts.tajawal(
-                          color: sharedPreferences!.getBool("darkMode") == false
-                              ? LightMode.registerButtonBorder
-                              : DarkMode.whiteDarkColor,
-                          fontSize: 4.w,
-                          fontWeight: FontWeight.bold),
+                    SizedBox(
+                      width: 45.w,
+                      height: 5.h,
+                      child: Text(
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        nameOfItem,
+                        style: GoogleFonts.tajawal(
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
+                            fontSize: 4.w,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     rating == 0
                         ? Row(

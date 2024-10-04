@@ -103,27 +103,40 @@ class ItemInfo extends StatelessWidget {
                                                 S.of(context).erroGuest);
                                           } else {
                                             controller.messageAddressDelivery(
-                                              controller.lock==false?  () async {
-                                              await controller.storeOrder(
-                                                  controller
-                                                      .searchItems[index].id,
-                                                  "product",
-                                                  "1");
+                                                controller.lock == false
+                                                    ? () async {
+                                                        await controller
+                                                            .storeOrder(
+                                                                controller
+                                                                    .searchItems[
+                                                                        index]
+                                                                    .id,
+                                                                "product",
+                                                                "1");
 
-                                              if (controller.succsess == true) {
-                                                Get.to(() => const ChatPage(),
-                                                    arguments: {
-                                                      "chatId": controller
-                                                          .storeOrderModel!.id,
-                                                      "imageUser": controller
-                                                          .storeOrderModel!
-                                                          .client!
-                                                          .image,
-                                                      "nameOfOrder": controller
-                                                          .storeOrderModel!.name
-                                                    });
-                                              }
-                                            }:(){});
+                                                        if (controller
+                                                                .succsess ==
+                                                            true) {
+                                                          Get.to(
+                                                              () =>
+                                                                  const ChatPage(),
+                                                              arguments: {
+                                                                "chatId": controller
+                                                                    .storeOrderModel!
+                                                                    .id,
+                                                                "imageUser":
+                                                                    controller
+                                                                        .storeOrderModel!
+                                                                        .client!
+                                                                        .image,
+                                                                "nameOfOrder":
+                                                                    controller
+                                                                        .storeOrderModel!
+                                                                        .name
+                                                              });
+                                                        }
+                                                      }
+                                                    : () {});
                                           }
                                         },
                                         controller.searchItems[index].price,
@@ -349,30 +362,41 @@ class ItemInfo extends StatelessWidget {
                             if (sharedPreferences!.getBool("visit") == true) {
                               controller.message(S.of(context).erroGuest);
                             } else {
-                              controller.messageAddressDelivery(controller.lock==false?() async {
-                                controller.index == null
-                                    ? await controller.storeOrder(
-                                        controller.productInfo!.id.toString(),
-                                        "product",
-                                        controller.quantity.toString())
-                                    : controller.storeOrder(
-                                        controller
-                                            .productInfo!
-                                            .specifications![controller.index!]
-                                            .id
-                                            .toString(),
-                                        "product_specifications",
-                                        controller.quantity.toString());
-                                if (controller.succsess == true) {
-                                  Get.to(() => const ChatPage(), arguments: {
-                                    "chatId": controller.storeOrderModel!.id,
-                                    "imageUser": controller
-                                        .storeOrderModel!.client!.image,
-                                    "nameOfOrder":
-                                        controller.storeOrderModel!.name
-                                  });
-                                }
-                              }:(){});
+                              controller.messageAddressDelivery(
+                                  controller.lock == false
+                                      ? () async {
+                                          controller.index == null
+                                              ? await controller.storeOrder(
+                                                  controller.productInfo!.id
+                                                      .toString(),
+                                                  "product",
+                                                  controller.quantity
+                                                      .toString())
+                                              : controller.storeOrder(
+                                                  controller
+                                                      .productInfo!
+                                                      .specifications![
+                                                          controller.index!]
+                                                      .id
+                                                      .toString(),
+                                                  "product_specifications",
+                                                  controller.quantity
+                                                      .toString());
+                                          if (controller.succsess == true) {
+                                            Get.to(() => const ChatPage(),
+                                                arguments: {
+                                                  "chatId": controller
+                                                      .storeOrderModel!.id,
+                                                  "imageUser": controller
+                                                      .storeOrderModel!
+                                                      .client!
+                                                      .image,
+                                                  "nameOfOrder": controller
+                                                      .storeOrderModel!.name
+                                                });
+                                          }
+                                        }
+                                      : () {});
                             }
                           } else {
                             controller.showMessageWarning();
@@ -1283,7 +1307,7 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
   return InkWell(
     onTap: onPress,
     child: Container(
-      height: 18.h,
+      height: 20.h,
       width: 100.w,
       margin: EdgeInsets.only(right: 4.w, left: 4.w, bottom: 4.w),
       decoration: BoxDecoration(
@@ -1300,14 +1324,21 @@ Widget cardItem(onTapBuy, priceWithoutDiscount, priceWithDiscount, discription,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      nameOfItem,
-                      style: GoogleFonts.tajawal(
-                          color: sharedPreferences!.getBool("darkMode") == false
-                              ? LightMode.registerButtonBorder
-                              : DarkMode.whiteDarkColor,
-                          fontSize: 4.w,
-                          fontWeight: FontWeight.bold),
+                    SizedBox(
+                      width: 45.w,
+                      height: 5.h,
+                      child: Text(
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        nameOfItem,
+                        style: GoogleFonts.tajawal(
+                            color:
+                                sharedPreferences!.getBool("darkMode") == false
+                                    ? LightMode.registerButtonBorder
+                                    : DarkMode.whiteDarkColor,
+                            fontSize: 4.w,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     rating == 0
                         ? Row(
